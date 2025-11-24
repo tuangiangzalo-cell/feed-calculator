@@ -8,4 +8,1340 @@
     :root {
       --bg: #f5f7fb;
       --card-bg: #ffffff;
+      --accent: #009688;
+      --accent-soft: rgba(0,150,136,0.06);
+      --accent-strong: #00695c;
+      --danger: #c62828;
+      --text-main: #263238;
+      --text-muted: #607d8b;
+      --border: #dde2eb;
+      --shadow-soft: 0 14px 28px rgba(0,0,0,0.08);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --transition-fast: 0.2s ease-out;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #e3f2fd 0, #f5f7fb 45%, #f5f7fb 100%);
+      color: var(--text-main);
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 28px 16px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,0,0,0.03);
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    header h2 {
+      margin: 4px 0 6px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.7fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-header h3 span.icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--accent-strong);
+    }
+
+    .card-header .sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pill-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      white-space: nowrap;
+    }
+
+    .section-title {
+      margin: 14px 0 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 14px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px 14px;
+    }
+
+    .form-row {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+    }
+
+    .field-inline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    select,
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      outline: none;
+      background: #fafbff;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform 0.08s ease-out;
+    }
+
+    select:focus,
+    input[type="number"]:focus,
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0,150,136,0.15);
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .unit {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 6px;
+      background: #f0f3fa;
+      border-radius: var(--radius-pill);
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .fuel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+      margin: 6px 0 10px;
+    }
+
+    .fuel-option {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 8px 9px;
+      border: 1px solid var(--border);
+      background: #fafbff;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: all var(--transition-fast);
+    }
+
+    .fuel-option strong {
+      font-size: 12px;
+    }
+
+    .fuel-option small {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .fuel-option.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(0,150,136,0.15);
+    }
+
+    .fuel-option .chip {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,150,136,0.12);
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 7px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease-out, box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), #26a69a);
+      color: #ffffff;
+      box-shadow: 0 10px 18px rgba(0,150,136,0.3);
+    }
+
+    button.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(0,150,136,0.32);
+    }
+
+    button.secondary {
+      background: #eef1f8;
+      color: var(--text-main);
+    }
+
+    button.secondary:hover {
+      background: #e0e4f0;
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    /* Result panel */
+    .results-top {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .results-top {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-card {
+      background: var(--accent-soft);
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 11px;
+      border: 1px solid rgba(0,150,136,0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -30px -40px;
+      height: 80px;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.5), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-strong);
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-strong);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric-unit {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .metric-chip {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.8);
+      color: var(--accent-strong);
+    }
+
+    .loss-table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .loss-table th,
+    .loss-table td {
+      padding: 4px 4px;
+      text-align: right;
+    }
+
+    .loss-table th:first-child,
+    .loss-table td:first-child {
+      text-align: left;
+    }
+
+    .loss-table thead th {
+      font-size: 11px;
+      color: var(--text-muted);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .loss-table tbody tr:nth-child(odd) {
+      background: #fafbff;
+    }
+
+    .loss-table tfoot td {
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    .loss-name {
+      white-space: nowrap;
+    }
+
+    .loss-highlight {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .note-warning {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .note-warning strong {
+      color: var(--danger);
+    }
+
+    /* Advice */
+    .advice-list {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .advice-list li {
+      margin-bottom: 3px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: #f3f5fb;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Details / steps */
+    .details-card {
+      margin-top: 20px;
+    }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: #f3f5fb;
+      font-size: 13px;
+      transition: background var(--transition-fast);
+    }
+
+    .accordion-header:hover {
+      background: #e6e9f3;
+    }
+
+    .accordion-header span {
+      font-weight: 500;
+    }
+
+    .accordion-header .chevron {
+      font-size: 16px;
+      transform: rotate(0deg);
+      transition: transform var(--transition-fast);
+      color: var(--text-muted);
+    }
+
+    .accordion-header.open .chevron {
+      transform: rotate(90deg);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease-out;
+    }
+
+    .accordion-inner {
+      padding-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .step-block {
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: #fafbff;
+      border: 1px dashed var(--border);
+    }
+
+    .step-block h4 {
+      margin: 0 0 4px;
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .step-block pre {
+      margin: 0;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">
+      <span>⚙️</span>
+      <span>Web app tính toán gián tiếp – lò hơi sinh khối</span>
+    </div>
+    <h1>CÔNG TY TNHH KIM TRƯỜNG PHÚC</h1>
+    <h2>TÍNH HIỆU SUẤT LÒ HƠI</h2>
+    <p>Nhập thông số vận hành, chọn nhiên liệu &rarr; xem tổn thất, hiệu suất và chi phí 1 tấn hơi.</p>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: INPUTS -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h3><span class="icon">①</span> Thông số đầu vào</h3>
+          <div class="sub">Thành phần nhiên liệu &amp; điều kiện vận hành lò hơi</div>
+        </div>
+        <div class="pill-tag">Tự động cập nhật theo thời gian thực</div>
+      </div>
+
+      <div class="section-title">Chọn nhiên liệu</div>
+      <div class="fuel-grid" id="fuelOptions">
+        <div class="fuel-option active" data-fuel="DNB">
+          <span class="chip">Preset</span>
+          <strong>Dăm ván lạng DNB</strong>
+          <small>GCVdb ≈ 19&nbsp;639 kJ/kg</small>
+        </div>
+        <div class="fuel-option" data-fuel="MB">
+          <span class="chip">Preset</span>
+          <strong>Dăm ván lạng MB</strong>
+          <small>GCVdb ≈ 17&nbsp;000 kJ/kg</small>
+        </div>
+        <div class="fuel-option" data-fuel="HUSK">
+          <span class="chip">Preset</span>
+          <strong>Trấu vỏ</strong>
+          <small>GCVdb ≈ 16&nbsp;089 kJ/kg</small>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="fuelPreset">Hoặc chọn kiểu:</label>
+        <select id="fuelPreset">
+          <option value="DNB" selected>Dăm ván lạng DNB (db)</option>
+          <option value="MB">Dăm ván lạng MB (db)</option>
+          <option value="HUSK">Trấu vỏ (db)</option>
+          <option value="CUSTOM">Custom – tự nhập thành phần (db)</option>
+        </select>
+        <div class="hint">db: dry basis – thành phần trên cơ sở khô.</div>
+      </div>
+
+      <div class="section-title">Thành phần nhiên liệu (Dry Basis, % khối lượng)</div>
+      <div class="three-col">
+        <div class="form-row">
+          <label>C_db – Cacbon (%)</label>
+          <div class="field-inline">
+            <input type="number" id="C_db" step="0.01" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>H_db – Hydro (%)</label>
+          <input type="number" id="H_db" step="0.01" />
+        </div>
+        <div class="form-row">
+          <label>O_db – Oxy (%)</label>
+          <input type="number" id="O_db" step="0.01" />
+        </div>
+        <div class="form-row">
+          <label>S_db – Lưu huỳnh (%)</label>
+          <input type="number" id="S_db" step="0.01" />
+        </div>
+        <div class="form-row">
+          <label>N_db – Nitơ (%)</label>
+          <input type="number" id="N_db" step="0.01" />
+        </div>
+        <div class="form-row">
+          <label>A_db – Tro (%)</label>
+          <input type="number" id="A_db" step="0.01" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>GCV_db – Nhiệt trị cao trên cơ sở khô (kJ/kg)</label>
+        <input type="number" id="GCV_db" step="1" />
+      </div>
+
+      <div class="section-title">Điều kiện nhiên liệu &amp; khí thải</div>
+      <div class="two-col">
+        <div class="form-row">
+          <label>Độ ẩm nhiên liệu M (as-received, %)</label>
+          <div class="field-inline">
+            <input type="number" id="M_ar_pct" step="0.1" />
+            <span class="unit">%</span>
+          </div>
+          <div class="hint">Ví dụ củi/biomass 20–50%.</div>
+        </div>
+        <div class="form-row">
+          <label>O₂ trong khói thải – O₂_dry (%)</label>
+          <div class="field-inline">
+            <input type="number" id="O2_dry" step="0.1" />
+            <span class="unit">%</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>CO trong khói thải – CO (ppm)</label>
+          <div class="field-inline">
+            <input type="number" id="CO_ppm" step="1" />
+            <span class="unit">ppm</span>
+          </div>
+          <div class="hint">CO cao → cháy không hoàn toàn.</div>
+        </div>
+        <div class="form-row">
+          <label>Nhiệt độ khí thải – T<sub>f</sub> (°C)</label>
+          <div class="field-inline">
+            <input type="number" id="Tf" step="1" />
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Nhiệt độ môi trường – T<sub>a</sub> (°C)</label>
+          <div class="field-inline">
+            <input type="number" id="Ta" step="0.1" />
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Độ ẩm không khí – RH (%)</label>
+          <div class="field-inline">
+            <input type="number" id="RH" step="1" />
+            <span class="unit">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Điều kiện nước cấp &amp; lò hơi</div>
+      <div class="two-col">
+        <div class="form-row">
+          <label>Nhiệt độ nước cấp – T<sub>fw</sub> (°C)</label>
+          <div class="field-inline">
+            <input type="number" id="T_fw" step="1" />
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Áp suất lò – P<sub>g</sub> (barg)</label>
+          <div class="field-inline">
+            <input type="number" id="P_g" step="0.1" />
+            <span class="unit">barg</span>
+          </div>
+          <div class="hint">Mặc định 10 barg (≈ 11 bar abs).</div>
+        </div>
+        <div class="form-row">
+          <label>Lưu lượng xả đáy – BR (% lưu lượng hơi)</label>
+          <div class="field-inline">
+            <input type="number" id="BR" step="0.1" />
+            <span class="unit">% hơi</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Giá nhiên liệu (VND/kg)</label>
+          <div class="field-inline">
+            <input type="number" id="fuelPrice" step="10" />
+            <span class="unit">VND/kg</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="primary" id="btnCalc">🔄 Tính toán / Cập nhật</button>
+        <button class="secondary" id="btnReset">🧹 Reset về mặc định</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: RESULTS -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h3><span class="icon">②</span> Kết quả tổn thất &amp; hiệu suất</h3>
+          <div class="sub">Tính theo phương pháp gián tiếp (heat loss method)</div>
+        </div>
+        <div class="pill-tag">Kết quả cho 1 kg nhiên liệu &amp; 1 tấn hơi</div>
+      </div>
+
+      <div class="results-top">
+        <div class="metric-card">
+          <div class="metric-chip">Hiệu suất lò hơi</div>
+          <div class="metric-label">Hiệu suất η</div>
+          <div class="metric-value">
+            <span id="etaValue">–</span><span class="metric-unit">%</span>
+          </div>
+          <div class="metric-sub" id="etaComment">–</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-chip">Chi phí 1 tấn hơi</div>
+          <div class="metric-label">Nhiên liệu &amp; chi phí</div>
+          <div class="metric-value">
+            <span id="fuelPerTon">–</span><span class="metric-unit">kg nhiên liệu/tấn hơi</span>
+          </div>
+          <div class="metric-sub">
+            Chi phí ≈ <strong id="costPerTon">–</strong> VND/tấn hơi
+          </div>
+        </div>
+      </div>
+
+      <table class="loss-table" aria-label="Bảng tổn thất">
+        <thead>
+        <tr>
+          <th class="loss-name">Hạng mục</th>
+          <th>L (%)</th>
+          <th>Ghi chú</th>
+        </tr>
+        </thead>
+        <tbody id="lossBody">
+        <!-- Filled by JS -->
+        </tbody>
+        <tfoot>
+        <tr>
+          <td>Tổng tổn thất</td>
+          <td id="lossTotal">–</td>
+          <td></td>
+        </tr>
+        </tfoot>
+      </table>
+
+      <div class="note-warning" id="warningNote"></div>
+
+      <div class="section-title">Gợi ý cải thiện hiệu quả (kinh tế)</div>
+      <ul class="advice-list" id="adviceList">
+        <!-- Filled by JS -->
+      </ul>
+      <div class="pill-badge">
+        💡 Gợi ý tham khảo sách hướng dẫn đánh giá lò hơi &amp; nghiên cứu energy/exergy.
+      </div>
+    </section>
+  </main>
+
+  <!-- STEP DETAILS -->
+  <section class="card details-card">
+    <div class="card-header">
+      <div>
+        <h3><span class="icon">③</span> Chi tiết từng bước tính toán</h3>
+        <div class="sub">Dùng để kiểm tra lại công thức &amp; giám sát tính toán</div>
+      </div>
+    </div>
+
+    <div class="accordion-header" id="accordionToggle">
+      <span>Hiển thị / Ẩn chi tiết Bước 1 → Bước 6</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="accordion-body" id="accordionBody">
+      <div class="accordion-inner" id="stepsContainer">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <div class="footer-note">
+      (*) Công thức dựa trên phương pháp gián tiếp (heat loss method) thường dùng trong đánh giá lò hơi công nghiệp.
+    </div>
+  </section>
+</div>
+
+<script>
+  // ---------- Preset fuel data (Dry Basis) ----------
+  const fuelPresets = {
+    DNB: {
+      name: "Dăm ván lạng DNB",
+      C_db: 47.61,
+      H_db: 4.87,
+      O_db: 44.24,
+      S_db: 0.06,
+      N_db: 0.31,
+      A_db: 2.91,
+      GCV_db: 19639
+    },
+    MB: {
+      name: "Dăm ván lạng MB",
+      C_db: 47.61,
+      H_db: 4.87,
+      O_db: 44.24,
+      S_db: 0.06,
+      N_db: 0.31,
+      A_db: 2.91,
+      GCV_db: 17000
+    },
+    HUSK: {
+      name: "Trấu vỏ",
+      C_db: 36.42,
+      H_db: 4.91,
+      O_db: 35.88,
+      S_db: 0.00,
+      N_db: 0.59,
+      A_db: 22.20,
+      GCV_db: 16089
+    }
+  };
+
+  // ---------- Steam table: simple interpolation for hf, hsteam vs P_abs ----------
+  // Values are approximate saturated properties: hf (kJ/kg), hg (kJ/kg)
+  const steamTable = [
+    { P: 3,   hf: 565,  hg: 2725 },
+    { P: 6,   hf: 670,  hg: 2756 },
+    { P: 11,  hf: 781,  hg: 2787 },
+    { P: 16,  hf: 838,  hg: 2804 },
+    { P: 21,  hf: 887,  hg: 2816 }
+  ];
+
+  function interpolateSteamProps(P_abs) {
+    // Clamp if outside table
+    if (P_abs <= steamTable[0].P) return steamTable[0];
+    if (P_abs >= steamTable[steamTable.length - 1].P) return steamTable[steamTable.length - 1];
+    for (let i = 0; i < steamTable.length - 1; i++) {
+      const p1 = steamTable[i];
+      const p2 = steamTable[i + 1];
+      if (P_abs >= p1.P && P_abs <= p2.P) {
+        const t = (P_abs - p1.P) / (p2.P - p1.P);
+        return {
+          P: P_abs,
+          hf: p1.hf + t * (p2.hf - p1.hf),
+          hg: p1.hg + t * (p2.hg - p1.hg)
+        };
+      }
+    }
+    return steamTable[steamTable.length - 1];
+  }
+
+  // ---------- Helpers ----------
+  function setFuelFields(presetKey) {
+    const preset = fuelPresets[presetKey];
+    if (!preset) return;
+    document.getElementById('C_db').value = preset.C_db;
+    document.getElementById('H_db').value = preset.H_db;
+    document.getElementById('O_db').value = preset.O_db;
+    document.getElementById('S_db').value = preset.S_db;
+    document.getElementById('N_db').value = preset.N_db;
+    document.getElementById('A_db').value = preset.A_db;
+    document.getElementById('GCV_db').value = preset.GCV_db;
+  }
+
+  function setDefaultInputs() {
+    // Default fuel: DNB
+    document.getElementById('fuelPreset').value = 'DNB';
+    highlightFuelCard('DNB');
+    setFuelFields('DNB');
+
+    // Operating conditions defaults
+    document.getElementById('M_ar_pct').value = 20;   // 20% moisture
+    document.getElementById('O2_dry').value = 8;      // 8% O2
+    document.getElementById('CO_ppm').value = 200;    // 200 ppm
+    document.getElementById('Tf').value = 180;        // 180°C flue
+    document.getElementById('Ta').value = 30;         // 30°C ambient
+    document.getElementById('RH').value = 80;         // 80% RH
+    document.getElementById('T_fw').value = 90;       // 90°C feedwater
+    document.getElementById('P_g').value = 10;        // 10 barg
+    document.getElementById('BR').value = 3;          // 3% blowdown
+    document.getElementById('fuelPrice').value = 1500; // VND/kg
+  }
+
+  function highlightFuelCard(key) {
+    const cards = document.querySelectorAll('.fuel-option');
+    cards.forEach(card => {
+      card.classList.toggle('active', card.dataset.fuel === key);
+    });
+  }
+
+  // Saturation vapor pressure (kPa) using Tetens formula
+  function saturationPressure(Tc) {
+    // Tc in °C
+    return 0.61094 * Math.exp(17.625 * Tc / (Tc + 243.04)) * 10; // convert from kPa? Actually 0.61094 is kPa, multiply by 10 to ~kPa? -> small adjust
+  }
+
+  // Clamp utility
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  // ---------- Main calculation ----------
+  function calculate() {
+    // Read inputs
+    function num(id, fallback = 0) {
+      const v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) ? fallback : v;
+    }
+
+    const C_db = num('C_db');
+    const H_db = num('H_db');
+    const O_db = num('O_db');
+    const S_db = num('S_db');
+    const N_db = num('N_db');
+    const A_db = num('A_db');
+    const GCV_db = num('GCV_db');
+
+    const M = num('M_ar_pct');
+    const O2_dry = num('O2_dry');
+    const CO_ppm = num('CO_ppm');
+    const Tf = num('Tf');
+    const Ta = num('Ta');
+    const RH = num('RH', 80);
+    const T_fw = num('T_fw');
+    const P_g = num('P_g', 10);
+    const BR = num('BR', 0);
+    const fuelPrice = num('fuelPrice', 0);
+
+    const steps = [];
+
+    // Step 1: Convert to as-received basis
+    const factor = (100 - M) / 100;
+    const C_ar = C_db * factor;
+    const H_ar = H_db * factor;
+    const O_ar = O_db * factor;
+    const S_ar = S_db * factor;
+    const N_ar = N_db * factor;
+    const A_ar = A_db * factor;
+    const M_ar = M;
+    const GCV_ar = GCV_db * factor;
+
+    const c = C_ar / 100;
+    const h = H_ar / 100;
+    const o = O_ar / 100;
+    const s = S_ar / 100;
+    const n = N_ar / 100;
+    const a = A_ar / 100;
+    const m = M_ar / 100;
+
+    steps.push({
+      title: "Bước 1 – Quy đổi nhiên liệu sang trạng thái sử dụng (as-received)",
+      text:
+        `C_ar = C_db × (100 − M) / 100 = ${C_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${C_ar.toFixed(3)} %\n` +
+        `H_ar = ${H_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${H_ar.toFixed(3)} %\n` +
+        `O_ar = ${O_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${O_ar.toFixed(3)} %\n` +
+        `S_ar = ${S_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${S_ar.toFixed(3)} %\n` +
+        `N_ar = ${N_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${N_ar.toFixed(3)} %\n` +
+        `A_ar = ${A_db.toFixed(2)} × ${(100 - M).toFixed(2)}/100 = ${A_ar.toFixed(3)} %\n` +
+        `M_ar = ${M_ar.toFixed(3)} %\n` +
+        `GCV_ar = GCV_db × (100 − M)/100 = ${GCV_db.toFixed(1)} × ${(100 - M).toFixed(2)}/100 = ${GCV_ar.toFixed(1)} kJ/kg\n\n` +
+        `Phần khối lượng:\n` +
+        `c = C_ar/100 = ${c.toFixed(5)} kg C/kg nhiên liệu\n` +
+        `h = H_ar/100 = ${h.toFixed(5)} kg H/kg nhiên liệu\n` +
+        `o = O_ar/100 = ${o.toFixed(5)} kg O/kg nhiên liệu\n` +
+        `s = S_ar/100 = ${s.toFixed(5)} kg S/kg nhiên liệu\n` +
+        `n = N_ar/100 = ${n.toFixed(5)} kg N/kg nhiên liệu\n` +
+        `a = A_ar/100 = ${a.toFixed(5)} kg tro/kg nhiên liệu\n` +
+        `m = M_ar/100 = ${m.toFixed(5)} kg ẩm/kg nhiên liệu`
+    });
+
+    // Guard
+    if (GCV_ar <= 0) {
+      alert("GCV_ar ≤ 0. Kiểm tra lại thành phần nhiên liệu và độ ẩm.");
+      return;
+    }
+
+    // Step 2: Air requirement
+    const O2_req = 2.667 * c + 8 * h + s - o;
+    const A_th = O2_req / 0.232;
+    const CO_vol = CO_ppm / 10000;         // %vol
+    const lambda = 21 / (21 - O2_dry - 0.5 * CO_vol);
+    const A_act = lambda * A_th;
+
+    steps.push({
+      title: "Bước 2 – Lượng không khí lý thuyết & thực tế",
+      text:
+        `O₂_req = 2.667·c + 8·h + s − o\n` +
+        `       = 2.667·${c.toFixed(5)} + 8·${h.toFixed(5)} + ${s.toFixed(5)} − ${o.toFixed(5)}\n` +
+        `       = ${O2_req.toFixed(5)} kg O₂/kg nhiên liệu\n\n` +
+        `A_th = O₂_req / 0.232 = ${O2_req.toFixed(5)} / 0.232 = ${A_th.toFixed(4)} kg không khí/kg nhiên liệu\n\n` +
+        `CO_vol = CO_ppm/10000 = ${CO_ppm.toFixed(0)}/10000 = ${CO_vol.toFixed(4)} (% thể tích)\n` +
+        `λ = 21 / (21 − O₂_dry − 0.5·CO_vol)\n` +
+        `  = 21 / (21 − ${O2_dry.toFixed(2)} − 0.5·${CO_vol.toFixed(4)}) = ${lambda.toFixed(4)}\n` +
+        `A_act = λ·A_th = ${lambda.toFixed(4)} · ${A_th.toFixed(4)} = ${A_act.toFixed(4)} kg không khí/kg nhiên liệu`
+    });
+
+    // Step 3: dry flue gas mass
+    const m_dg = A_act + 1 - a - m - 9 * h;
+
+    steps.push({
+      title: "Bước 3 – Khối lượng khói thải khô m_dg",
+      text:
+        `m_dg = A_act + 1 − a − m − 9·h\n` +
+        `     = ${A_act.toFixed(4)} + 1 − ${a.toFixed(5)} − ${m.toFixed(5)} − 9·${h.toFixed(5)}\n` +
+        `     = ${m_dg.toFixed(5)} kg khói thải khô/kg nhiên liệu`
+    });
+
+    // Step 4: Flue gas composition & Cp_dg
+    const K = CO_ppm * 12 / 1000000;
+    const N_dg = (A_act * 0.03468 - h / 4 + n / 28) / (1 - K / 24);
+    const c_CO = K * N_dg;
+
+    const mass_CO2 = 3.667 * (c - c_CO);
+    const mass_CO  = 2.333 * c_CO;
+    const mass_SO2 = 2 * s;
+    const mass_O2  = A_act * 0.232 - (2.667 * c - 1.333 * c_CO + 8 * h + s - o);
+    const mass_N2  = A_act * 0.768 + n;
+
+    const f_CO2 = mass_CO2 / m_dg;
+    const f_CO  = mass_CO  / m_dg;
+    const f_SO2 = mass_SO2 / m_dg;
+    const f_O2  = mass_O2  / m_dg;
+    const f_N2  = mass_N2  / m_dg;
+
+    const Cp_CO2 = 0.85;
+    const Cp_O2  = 0.91;
+    const Cp_N2  = 1.04;
+    const Cp_SO2 = 0.64;
+    const Cp_CO  = 1.04;
+
+    let Cp_dg = f_CO2 * Cp_CO2 + f_O2 * Cp_O2 + f_N2 * Cp_N2 + f_SO2 * Cp_SO2 + f_CO * Cp_CO;
+    if (!isFinite(Cp_dg) || Cp_dg <= 0) Cp_dg = 1.0;
+
+    steps.push({
+      title: "Bước 4 – Thành phần khói thải khô & nhiệt dung riêng Cp_dg",
+      text:
+        `K = CO_ppm·12/10⁶ = ${CO_ppm.toFixed(0)}·12/1,000,000 = ${K.toFixed(6)}\n` +
+        `N_dg = (A_act·0.03468 − h/4 + n/28) / (1 − K/24)\n` +
+        `    = (${A_act.toFixed(4)}·0.03468 − ${h.toFixed(5)}/4 + ${n.toFixed(5)}/28) / (1 − ${K.toFixed(6)}/24)\n` +
+        `    = ${N_dg.toFixed(6)} kmol/kg nhiên liệu\n` +
+        `c_CO = K·N_dg = ${K.toFixed(6)} · ${N_dg.toFixed(6)} = ${c_CO.toFixed(6)} kg C/kg nhiên liệu cháy thành CO\n\n` +
+        `mass_CO₂ = 3.667·(c − c_CO) = ${mass_CO2.toFixed(5)} kg/kg\n` +
+        `mass_CO  = 2.333·c_CO = ${mass_CO.toFixed(5)} kg/kg\n` +
+        `mass_SO₂ = 2·s = ${mass_SO2.toFixed(5)} kg/kg\n` +
+        `mass_O₂  = A_act·0.232 − (2.667·c − 1.333·c_CO + 8·h + s − o)\n` +
+        `         = ${mass_O2.toFixed(5)} kg/kg\n` +
+        `mass_N₂  = A_act·0.768 + n = ${mass_N2.toFixed(5)} kg/kg\n\n` +
+        `Phần khối lượng:\n` +
+        `f_CO₂ = ${f_CO2.toFixed(4)}, f_CO = ${f_CO.toFixed(4)}, f_SO₂ = ${f_SO2.toFixed(4)}, f_O₂ = ${f_O2.toFixed(4)}, f_N₂ = ${f_N2.toFixed(4)}\n\n` +
+        `Cp_dg = Σ f_i·Cp_i = ${Cp_dg.toFixed(4)} kJ/kg·°C`
+    });
+
+    // Step 5: Losses L1-L8
+    const dT = Tf - Ta;
+
+    const L1 = (m_dg * Cp_dg * dT) / GCV_ar * 100;
+    const L2 = (9 * h * (2450 + 1.88 * dT)) / GCV_ar * 100;
+    const L3 = (m * (2450 + 1.88 * dT)) / GCV_ar * 100;
+
+    const Psat = saturationPressure(Ta); // kPa (approx)
+    const Pv = (RH / 100) * Psat;
+    const omega = 0.622 * Pv / (101.325 - Pv); // kg ẩm/kg không khí khô
+    const L4 = (A_act * omega * 1.88 * dT) / GCV_ar * 100;
+
+    const L5 = (c_CO * 24100) / GCV_ar * 100;
+
+    const L6 = 0.7;   // radiation & unaccounted
+
+    // Blowdown loss L7
+    const P_abs = P_g + 1;
+    const steamProps = interpolateSteamProps(P_abs);
+    const hf = steamProps.hf;
+    const hsteam = steamProps.hg;
+    const h_fw = 4.18 * T_fw; // approx
+
+    const eta_init = 0.9;
+    const BR_frac = BR / 100;
+    let L7 = 0;
+    if (hsteam > h_fw && BR_frac > 0) {
+      L7 = eta_init * BR_frac * (hf - h_fw) / (hsteam - h_fw) * 100;
+    }
+
+    const L8 = 1.0;   // unburnt carbon (assumed)
+
+    const losses = [
+      { code: "L1", name: "L1 – Khí thải khô", value: L1 },
+      { code: "L2", name: "L2 – Nước từ H trong nhiên liệu", value: L2 },
+      { code: "L3", name: "L3 – Độ ẩm trong nhiên liệu", value: L3 },
+      { code: "L4", name: "L4 – Độ ẩm không khí", value: L4 },
+      { code: "L5", name: "L5 – CO (cháy không hoàn toàn)", value: L5 },
+      { code: "L6", name: "L6 – Bức xạ & tổn thất khác", value: L6 },
+      { code: "L7", name: "L7 – Xả đáy lò (blowdown)", value: L7 },
+      { code: "L8", name: "L8 – Cacbon chưa cháy", value: L8 }
+    ];
+
+    const lossTotal = losses.reduce((s, l) => s + (isFinite(l.value) ? l.value : 0), 0);
+    let eta = 100 - lossTotal;
+    if (!isFinite(eta)) eta = 0;
+    eta = clamp(eta, 0, 100);
+
+    steps.push({
+      title: "Bước 5 – Tính các tổn thất L1…L8",
+      text:
+        `L1 – Khí thải khô:\n` +
+        `L1 = (m_dg·Cp_dg·(T_f − T_a))/GCV_ar·100%\n` +
+        `   = (${m_dg.toFixed(5)}·${Cp_dg.toFixed(4)}·(${Tf.toFixed(1)} − ${Ta.toFixed(1)}))/` +
+        `${GCV_ar.toFixed(1)}·100% = ${L1.toFixed(3)} %\n\n` +
+        `L2 – Nước từ H trong nhiên liệu:\n` +
+        `L2 = (9·h·(2450 + 1.88·ΔT))/GCV_ar·100% = ${L2.toFixed(3)} %\n\n` +
+        `L3 – Độ ẩm trong nhiên liệu:\n` +
+        `L3 = (m·(2450 + 1.88·ΔT))/GCV_ar·100% = ${L3.toFixed(3)} %\n\n` +
+        `Độ ẩm không khí:\n` +
+        `P_sat(T_a) ≈ ${Psat.toFixed(3)} kPa; P_v = RH/100·P_sat = ${Pv.toFixed(3)} kPa\n` +
+        `ω = 0.622·P_v/(101.325 − P_v) = ${omega.toFixed(5)} kg ẩm/kg kk khô\n` +
+        `L4 = (A_act·ω·1.88·ΔT)/GCV_ar·100% = ${L4.toFixed(3)} %\n\n` +
+        `L5 – Tổn thất do CO:\n` +
+        `L5 = c_CO·24100/GCV_ar·100% = ${L5.toFixed(3)} %\n\n` +
+        `L6 – Bức xạ: giả định = 0.7 %\n` +
+        `L7 – Xả đáy:\n` +
+        `P_abs = P_g + 1 = ${P_abs.toFixed(2)} bar; hf ≈ ${hf.toFixed(0)}; h_steam ≈ ${hsteam.toFixed(0)} kJ/kg\n` +
+        `h_fw = 4.18·T_fw = 4.18·${T_fw.toFixed(1)} = ${h_fw.toFixed(1)} kJ/kg\n` +
+        `L7 = η_init·BR·(hf − h_fw)/(h_steam − h_fw)·100% ≈ ${L7.toFixed(3)} %\n\n` +
+        `L8 – C chưa cháy: giả định 1.0 %`
+    });
+
+    // Step 6: Efficiency & fuel consumption
+    const eta_dec = eta / 100;
+    let F_steam = 0;
+    if (eta_dec > 0) {
+      F_steam = (hsteam - h_fw) / (eta_dec * GCV_ar); // kg nhiên liệu/kg hơi
+    }
+    const Fuel_per_ton = F_steam * 1000; // kg nhiên liệu / tấn hơi
+    const costPerTon = Fuel_per_ton * fuelPrice;
+
+    steps.push({
+      title: "Bước 6 – Hiệu suất lò & lượng nhiên liệu cho 1 tấn hơi",
+      text:
+        `Hiệu suất lò hơi:\n` +
+        `η = 100% − ΣL_i = 100 − ${lossTotal.toFixed(3)} = ${eta.toFixed(3)} %\n\n` +
+        `Lượng nhiên liệu cho 1 kg hơi:\n` +
+        `F_steam = (h_steam − h_fw)/(η·GCV_ar)\n` +
+        `        = (${hsteam.toFixed(1)} − ${h_fw.toFixed(1)})/(${eta_dec.toFixed(4)}·${GCV_ar.toFixed(1)})\n` +
+        `        = ${F_steam.toFixed(5)} kg nhiên liệu/kg hơi\n\n` +
+        `Cho 1 tấn hơi (1000 kg):\n` +
+        `Fuel_consumption = F_steam·1000 = ${Fuel_per_ton.toFixed(2)} kg nhiên liệu/tấn hơi\n\n` +
+        `Nếu giá nhiên liệu = ${fuelPrice.toLocaleString('vi-VN')} VND/kg ⇒ Chi phí ≈ ${isFinite(costPerTon) ? costPerTon.toLocaleString('vi-VN') : "–"} VND/tấn hơi`
+    });
+
+    // ---------- Update result UI ----------
+    const etaValue = document.getElementById('etaValue');
+    const etaComment = document.getElementById('etaComment');
+    etaValue.textContent = eta.toFixed(2);
+
+    let comment = "";
+    if (eta >= 85) comment = "Hiệu suất tốt. Có thể tối ưu thêm ở khí thải & xả đáy.";
+    else if (eta >= 80) comment = "Hiệu suất trung bình – nên kiểm tra dư không khí, vệ sinh bề mặt trao đổi nhiệt.";
+    else comment = "Hiệu suất thấp – xem lại O₂ dư, nhiệt độ khí thải, chất lượng cháy và cách vận hành.";
+    etaComment.textContent = comment;
+
+    // Loss table
+    const lossBody = document.getElementById('lossBody');
+    lossBody.innerHTML = "";
+    let maxLossVal = -1, maxLossCode = null;
+    losses.forEach(l => {
+      if (!isFinite(l.value)) l.value = 0;
+      if (l.value > maxLossVal) {
+        maxLossVal = l.value;
+        maxLossCode = l.code;
+      }
+    });
+
+    losses.forEach(l => {
+      const tr = document.createElement('tr');
+      const nameTd = document.createElement('td');
+      const valTd = document.createElement('td');
+      const noteTd = document.createElement('td');
+      nameTd.textContent = l.name;
+      valTd.textContent = l.value.toFixed(2);
+      if (l.code === maxLossCode) {
+        nameTd.classList.add('loss-highlight');
+        valTd.classList.add('loss-highlight');
+        noteTd.textContent = "Chiếm lớn nhất – ưu tiên giảm.";
+      } else {
+        noteTd.textContent = "";
+      }
+      tr.appendChild(nameTd);
+      tr.appendChild(valTd);
+      tr.appendChild(noteTd);
+      lossBody.appendChild(tr);
+    });
+
+    document.getElementById('lossTotal').textContent = lossTotal.toFixed(2);
+
+    // Fuel & cost
+    const fuelPerTonEl = document.getElementById('fuelPerTon');
+    const costPerTonEl = document.getElementById('costPerTon');
+    fuelPerTonEl.textContent = isFinite(Fuel_per_ton) ? Fuel_per_ton.toFixed(1) : "–";
+    costPerTonEl.textContent = isFinite(costPerTon) ? costPerTon.toLocaleString('vi-VN') : "–";
+
+    // Warning note
+    const warningNote = document.getElementById('warningNote');
+    if (eta < 75) {
+      warningNote.innerHTML = "<strong>Lưu ý:</strong> Hiệu suất thấp (&lt; 75%). Nên kiểm tra lại số liệu đo, đặc biệt O₂, CO, nhiệt độ khí thải và độ ẩm nhiên liệu.";
+    } else {
+      warningNote.textContent = "";
+    }
+
+    // Advice section – simple heuristic based on losses
+    const adviceList = document.getElementById('adviceList');
+    adviceList.innerHTML = "";
+    const adv = [];
+
+    if (L1 > 5) {
+      adv.push("Giảm L1 – tổn thất khí thải: xem xét lắp/ tối ưu economizer, vệ sinh định kỳ bề mặt ống, kiểm tra bám bẩn phía khói & phía nước để hạ T₍f₎ nhưng vẫn cao hơn T₍điểm sương₎ khói.");
+    }
+    if (L5 > 0.5 || CO_ppm > 200) {
+      adv.push("Giảm L5 – tổn thất do CO: điều chỉnh chế độ cháy, phân phối gió cấp 1/2, tránh thiếu không khí cục bộ. CO cao chứng tỏ cháy không hoàn toàn, lãng phí nhiên liệu.");
+    }
+    if (L3 > 3 || M > 40) {
+      adv.push("Giảm L3 – độ ẩm nhiên liệu: tiền sấy sinh khối, che mưa, lưu kho trên nền cao, dùng gió nóng/khí thải để làm khô sơ bộ. Nhiên liệu quá ướt làm tăng tiêu hao và giảm hiệu suất.");
+    }
+    if (BR > 3) {
+      adv.push("Giảm L7 – tổn thất xả đáy: tối ưu hóa chất lượng nước cấp và chế độ xả đáy (ưu tiên xả liên tục có điều khiển TDS), thu hồi nhiệt xả đáy nếu lưu lượng lớn.");
+    }
+    if (L6 >= 0.7) {
+      adv.push("Giảm L6 – bức xạ & rò rỉ: kiểm tra và tăng cường bảo ôn thân lò, cửa người chui, mặt bích; xử lý rò rỉ khí nóng ra ngoài, đặc biệt vùng buồng lửa và ống khói.");
+    }
+    adv.push("Sử dụng quạt cấp/ hút gắn biến tần (VSD) để điều chỉnh lưu lượng gió theo tải thực tế, vừa giảm điện năng quạt, vừa giữ O₂ dư ở mức tối ưu.");
+
+    adv.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      adviceList.appendChild(li);
+    });
+
+    // Fill steps detail
+    const stepsContainer = document.getElementById('stepsContainer');
+    stepsContainer.innerHTML = "";
+    steps.forEach(step => {
+      const block = document.createElement('div');
+      block.className = 'step-block';
+      const h4 = document.createElement('h4');
+      h4.textContent = step.title;
+      const pre = document.createElement('pre');
+      pre.textContent = step.text;
+      block.appendChild(h4);
+      block.appendChild(pre);
+      stepsContainer.appendChild(block);
+    });
+  }
+
+  // ---------- Accordion ----------
+  function setupAccordion() {
+    const toggle = document.getElementById('accordionToggle');
+    const body = document.getElementById('accordionBody');
+    const chevron = toggle.querySelector('.chevron');
+    let isOpen = false;
+
+    toggle.addEventListener('click', () => {
+      isOpen = !isOpen;
+      toggle.classList.toggle('open', isOpen);
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + "px";
+        chevron.textContent = "▶"; // rotated in CSS
+      } else {
+        body.style.maxHeight = "0px";
+        chevron.textContent = "▶";
+      }
+    });
+
+    // Start closed
+    body.style.maxHeight = "0px";
+  }
+
+  // ---------- Event bindings ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    // Default inputs
+    setDefaultInputs();
+
+    // Fuel preset select
+    const fuelSelect = document.getElementById('fuelPreset');
+    fuelSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      if (val !== 'CUSTOM') {
+        setFuelFields(val);
+      }
+      highlightFuelCard(val);
+    });
+
+    // Clickable fuel cards
+    document.getElementById('fuelOptions').addEventListener('click', (e) => {
+      const card = e.target.closest('.fuel-option');
+      if (!card) return;
+      const key = card.dataset.fuel;
+      document.getElementById('fuelPreset').value = key;
+      if (key !== 'CUSTOM') {
+        setFuelFields(key);
+      }
+      highlightFuelCard(key);
+    });
+
+    // Buttons
+    document.getElementById('btnCalc').addEventListener('click', (e) => {
+      e.preventDefault();
+      calculate();
+    });
+
+    document.getElementById('btnReset').addEventListener('click', (e) => {
+      e.preventDefault();
+      setDefaultInputs();
+      calculate();
+    });
+
+    // Live update on input change (not too heavy)
+    document.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('change', () => {
+        calculate();
+      });
+    });
+
+    setupAccordion();
+
+    // First calculation
+    calculate();
+  });
+</script>
+</body>
+</html>
