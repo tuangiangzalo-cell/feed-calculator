@@ -2,2643 +2,2096 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>KIM TRUONG PHUC – Biomass Boiler Efficiency</title>
+  <title>Biomass Boiler Efficiency Web App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --primary: #0d6efd;
-      --emerald: #00a98e;
-      --emerald-soft: #e6f7f3;
-      --accent: #ff9800;
-      --bg: #f5f7fb;
-      --card-bg: #ffffff;
-      --danger: #e53935;
-      --warning: #ffb300;
-      --success: #43a047;
-      --text: #1f2933;
-      --muted: #6b7b93;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.18);
-      --radius-xl: 18px;
+      --bg-main: #f3f4f6;
+      --bg-card: #ffffff;
+      --accent: #10b981; /* xanh ngọc lục bảo */
+      --accent-soft: #d1fae5;
+      --accent-strong: #059669;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --radius-lg: 16px;
+      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
     }
 
     * {
       box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #fff8e1 0, #f5f7fb 38%, #e3f2fd 100%);
-      color: var(--text);
+      padding: 0;
+      background: radial-gradient(circle at top left, #ecfeff 0, #f3f4f6 30%, #e5e7eb 100%);
+      color: var(--text-main);
     }
 
-    .app-shell {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    h1, h2, h3 {
+      margin: 0;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
-      background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(230, 247, 243, 0.98));
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    .header-inner {
-      max-width: 1240px;
+    .page {
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 14px 16px;
+      padding: 16px 16px 32px;
+    }
+
+    .app-header {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
-      gap: 10px;
-    }
-
-    .header-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      background: radial-gradient(circle at 20% 20%, #ffeb3b, #ff9800 40%, #00695c 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
-    }
-
-    .logo-badge span {
-      font-size: 18px;
-    }
-
-    .header-text-main {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #004d40;
-    }
-
-    .header-text-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .header-meta {
-      text-align: right;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .header-meta strong {
-      font-size: 12px;
-      color: #004d40;
-    }
-
-    main {
-      flex: 1;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 16px;
-      padding-bottom: 32px;
-    }
-
-    .wave-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      background-image:
-        radial-gradient(90% 110% at 0% 0%, rgba(255, 241, 174, 0.9) 0, transparent 45%),
-        radial-gradient(80% 100% at 100% 0%, rgba(129, 230, 217, 0.75) 0, transparent 55%),
-        radial-gradient(80% 80% at 0% 100%, rgba(129, 212, 250, 0.6) 0, transparent 55%);
-      opacity: 0.65;
-    }
-
-    .app-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
-      gap: 18px;
       align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    @media (max-width: 960px) {
-      .app-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .header-inner {
-        padding-inline: 12px;
-      }
-      main {
-        padding-inline: 12px;
-      }
-      header {
-        position: static;
-      }
-    }
-
-    .panel {
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 24px;
-      padding: 16px 18px 18px;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.28);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .panel::before {
-      content: "";
-      position: absolute;
-      inset: -30%;
-      background-image:
-        linear-gradient(120deg, rgba(255, 255, 255, 0.0), rgba(255, 213, 79, 0.1)),
-        radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.2) 0, transparent 50%),
-        radial-gradient(circle at 100% 0%, rgba(0, 150, 136, 0.14) 0, transparent 55%);
-      mix-blend-mode: soft-light;
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .panel-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .panel-title {
-      font-size: 15px;
+    .app-title {
+      font-size: 1.6rem;
       font-weight: 700;
-      margin: 0 0 4px;
-      color: #003c3c;
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .panel-title span.icon {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #ff9800, #ffc947);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 12px;
-      box-shadow: 0 6px 18px rgba(255, 152, 0, 0.5);
-    }
-
-    .panel-subtitle {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .input-zone {
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(255, 152, 0, 0.6);
-      background: linear-gradient(135deg, rgba(255, 249, 230, 0.95), rgba(255, 255, 255, 0.98));
-      padding: 10px 10px 12px;
-      position: relative;
-      box-shadow: 0 12px 30px rgba(255, 152, 0, 0.25);
-    }
-
-    .input-zone::before {
-      content: "";
-      position: absolute;
-      inset-inline: -30px;
-      top: -30px;
-      height: 50px;
-      background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 193, 7, 0.35) 40%, rgba(255, 255, 255, 0.1) 100%);
-      opacity: 0.9;
-      transform: skewY(-6deg);
-      pointer-events: none;
-    }
-
-    .input-zone-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .input-zone-title {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #c06a00;
-    }
-
-    .input-zone-badge {
-      padding: 2px 10px;
-      border-radius: 999px;
-      background: rgba(0, 121, 107, 0.08);
-      border: 1px solid rgba(0, 150, 136, 0.3);
-      font-size: 11px;
-      color: #00695c;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      gap: 10px;
     }
 
     .pill {
-      font-size: 10px;
-      padding: 2px 8px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
       border-radius: 999px;
-      background: rgba(13, 110, 253, 0.08);
-      color: #0d47a1;
-      border: 1px solid rgba(13, 110, 253, 0.3);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-strong);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
-    .field-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+    .app-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
 
-    @media (max-width: 640px) {
-      .field-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    .columns {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
     }
 
-    .field-group {
+    .col {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      font-size: 11px;
+      gap: 16px;
     }
 
-    .field-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 14px 16px 16px;
+      border: 1px solid rgba(15, 23, 42, 0.03);
     }
 
-    .field-label span.code {
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 11px;
-      color: #004d40;
-    }
-
-    .field-label span.unit {
-      color: #90a4ae;
-      font-weight: 500;
-    }
-
-    input[type="number"],
-    input[type="text"],
-    select {
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 6px 8px;
-      font-size: 12px;
-      outline: none;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      transition: border-color 0.15s, box-shadow 0.15s, transform 0.05s;
-    }
-
-    input[type="number"]:focus,
-    input[type="text"]:focus,
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(13, 110, 253, 0.35);
-      transform: translateY(-0.5px);
-    }
-
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-      margin: 0;
-    }
-
-    .fuel-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 4px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .fuel-row {
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(230, 247, 243, 0.98));
-      padding: 8px 10px 10px;
-      border: 1px solid rgba(0, 150, 136, 0.35);
-      box-shadow: 0 8px 18px rgba(0, 150, 136, 0.18);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .fuel-row::before {
-      content: "";
-      position: absolute;
-      inset-inline: -30%;
-      bottom: -35px;
-      height: 40px;
-      background-image:
-        linear-gradient(90deg, rgba(0, 150, 136, 0.0), rgba(0, 150, 136, 0.22), rgba(0, 150, 136, 0.0));
-      opacity: 0.65;
-      transform: skewY(8deg);
-      pointer-events: none;
-    }
-
-    .fuel-row-header {
+    .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .fuel-row-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #006064;
-    }
-
-    .fuel-chip {
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 105, 92, 0.4);
-      font-size: 10px;
-      background: rgba(0, 105, 92, 0.05);
-      color: #004d40;
-    }
-
-    .fuel-row-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn {
-      border-radius: 999px;
-      border: none;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: transform 0.08s, box-shadow 0.12s, background 0.12s;
-      white-space: nowrap;
-    }
-
-    .btn:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #00695c, #26a69a);
-      color: #ffffff;
-      box-shadow: 0 12px 25px rgba(0, 105, 92, 0.45);
-    }
-
-    .btn-outline {
-      background: rgba(255, 255, 255, 0.92);
-      color: #006064;
-      border: 1px solid rgba(0, 105, 92, 0.4);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-    }
-
-    .btn-danger {
-      background: rgba(239, 83, 80, 0.12);
-      color: #b71c1c;
-      border: 1px solid rgba(239, 83, 80, 0.55);
-      box-shadow: 0 8px 18px rgba(244, 67, 54, 0.25);
-    }
-
-    .btn-xs {
-      padding: 3px 8px;
-      font-size: 10px;
-      font-weight: 600;
-    }
-
-    .fuel-fields-row {
-      display: grid;
-      grid-template-columns: 2fr repeat(3, 1fr);
-      gap: 6px;
-      font-size: 11px;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 640px) {
-      .fuel-fields-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .fuel-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 10px;
-      margin-top: 5px;
-      font-size: 10px;
-      color: #004d40;
-      position: relative;
-      z-index: 1;
-    }
-
-    .fuel-meta span {
-      opacity: 0.9;
-    }
-
-    .fuel-meta strong {
-      font-family: "JetBrains Mono", Consolas, monospace;
-    }
-
-    .fuel-summary {
-      margin-top: 10px;
-      border-radius: 12px;
-      padding: 8px 10px;
-      background: linear-gradient(120deg, rgba(0, 150, 136, 0.12), rgba(129, 199, 132, 0.08));
-      border: 1px dashed rgba(0, 150, 136, 0.6);
-      font-size: 11px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .fuel-summary::before {
-      content: "";
-      position: absolute;
-      inset-inline: -30%;
-      top: -30px;
-      height: 40px;
-      background-image:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.0));
-      opacity: 0.7;
-      transform: skewY(-8deg);
-      pointer-events: none;
-    }
-
-    .fuel-summary-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: #004d40;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 4px;
-    }
-
-    .fuel-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 4px 10px;
-      font-size: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 640px) {
-      .fuel-summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .badge-value {
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 105, 92, 0.35);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .badge-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: #00695c;
-    }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
       margin-bottom: 8px;
     }
 
-    @media (max-width: 640px) {
-      .results-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .result-main-card {
-      border-radius: 18px;
-      padding: 10px 12px 12px;
-      background: linear-gradient(135deg, #004d40, #00a98e);
-      color: #e0f2f1;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 16px 42px rgba(0, 77, 64, 0.6);
-    }
-
-    .result-main-card::before {
-      content: "";
-      position: absolute;
-      inset-inline: -20%;
-      top: -25px;
-      height: 52px;
-      background-image:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.0), rgba(255, 241, 118, 0.7), rgba(255, 255, 255, 0.0));
-      opacity: 0.85;
-      transform: skewY(-10deg);
-      pointer-events: none;
-    }
-
-    .result-main-title {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      opacity: 0.9;
-      margin-bottom: 4px;
-    }
-
-    .result-main-value {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      display: flex;
-      align-items: flex-end;
-      gap: 6px;
-    }
-
-    .result-main-value span.unit {
-      font-size: 13px;
+    .card-title {
+      font-size: 0.98rem;
       font-weight: 600;
-      opacity: 0.8;
-      text-transform: uppercase;
-    }
-
-    .result-main-sub {
-      font-size: 11px;
-      opacity: 0.9;
-      margin-top: 4px;
-    }
-
-    .result-pill-row {
-      margin-top: 6px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      font-size: 10px;
-    }
-
-    .result-pill {
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(4px);
-    }
-
-    .result-card {
-      border-radius: 14px;
-      padding: 8px 10px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(236, 253, 245, 0.98));
-      border: 1px solid rgba(0, 150, 136, 0.35);
-      box-shadow: 0 10px 26px rgba(0, 150, 136, 0.28);
-      font-size: 11px;
-    }
-
-    .result-card-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: #004d40;
-      margin-bottom: 4px;
-      display: flex;
-      justify-content: space-between;
+      align-items: center;
       gap: 8px;
     }
 
-    .loss-grid {
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .card-body {
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .section-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .grid-input-2 {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 4px 8px;
-      font-size: 10px;
-      margin-top: 2px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
     }
 
-    @media (max-width: 640px) {
-      .loss-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .grid-input-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px 8px;
     }
 
-    .loss-item-label {
-      font-weight: 600;
-      color: #006064;
-    }
-
-    .loss-item-value {
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 11px;
-    }
-
-    .loss-badge-high {
-      color: #b71c1c;
-    }
-
-    .loss-badge-medium {
-      color: #e65100;
-    }
-
-    .loss-badge-low {
-      color: #1b5e20;
-    }
-
-    .section-title {
-      margin-top: 8px;
-      margin-bottom: 4px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #003c3c;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-title small {
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--muted);
-    }
-
-    .advice-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 4px;
-      max-height: 290px;
-      overflow: auto;
-      padding-right: 4px;
-    }
-
-    .advice-item {
-      border-radius: 13px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(227, 242, 253, 0.98));
-      border: 1px solid rgba(30, 64, 175, 0.25);
-      padding: 7px 9px;
-      font-size: 11px;
-    }
-
-    .advice-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 4px;
-    }
-
-    .advice-title {
-      font-weight: 700;
-      font-size: 11px;
-      color: #1a237e;
-    }
-
-    .severity-pill {
-      border-radius: 999px;
-      padding: 2px 8px;
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .severity-low {
-      background: rgba(56, 142, 60, 0.08);
-      color: #1b5e20;
-      border: 1px solid rgba(56, 142, 60, 0.35);
-    }
-
-    .severity-medium {
-      background: rgba(255, 179, 0, 0.1);
-      color: #e65100;
-      border: 1px solid rgba(255, 179, 0, 0.55);
-    }
-
-    .severity-high {
-      background: rgba(244, 67, 54, 0.09);
-      color: #b71c1c;
-      border: 1px solid rgba(244, 67, 54, 0.6);
-    }
-
-    .severity-critical {
-      background: linear-gradient(135deg, #b71c1c, #ef5350);
-      color: #fff3e0;
-      border: 1px solid rgba(244, 67, 54, 0.85);
-    }
-
-    .advice-body {
-      font-size: 11px;
-      color: #263238;
+    .form-group {
       display: flex;
       flex-direction: column;
       gap: 3px;
+      font-size: 0.8rem;
     }
 
-    .advice-body strong {
-      font-weight: 700;
-    }
-
-    .advice-body ul {
-      padding-left: 16px;
-      margin: 2px 0 0;
-    }
-
-    .advice-body li {
-      margin: 0;
-      padding: 0;
-    }
-
-    .knowledge-card {
-      border-radius: 13px;
-      background: linear-gradient(135deg, rgba(232, 245, 233, 0.98), rgba(227, 242, 253, 0.98));
-      border: 1px solid rgba(56, 142, 60, 0.4);
-      padding: 7px 9px;
-      font-size: 11px;
-      margin-top: 4px;
-      max-height: 160px;
-      overflow: auto;
-    }
-
-    .knowledge-card h4 {
-      margin: 0 0 4px;
-      font-size: 11px;
-      color: #1b5e20;
-    }
-
-    .knowledge-card ul {
-      padding-left: 16px;
-      margin: 0;
-    }
-
-    .knowledge-card li {
-      margin: 0;
-      padding: 0;
-    }
-
-    .detail-card {
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.98));
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      padding: 8px 10px;
-      font-size: 11px;
-      margin-top: 6px;
-      max-height: 230px;
-      overflow: auto;
-    }
-
-    .detail-card table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-    }
-
-    .detail-card th,
-    .detail-card td {
-      padding: 2px 4px;
-      text-align: left;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    .detail-card th {
-      font-weight: 700;
-      color: #1e293b;
-      background: rgba(226, 232, 240, 0.6);
-      position: sticky;
-      top: 0;
-      backdrop-filter: blur(6px);
-      z-index: 1;
-    }
-
-    .detail-card td.code {
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 11px;
-    }
-
-    .scenario-section {
-      margin-top: 6px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(245, 245, 245, 0.98), rgba(232, 245, 233, 0.98));
-      border: 1px solid rgba(120, 144, 156, 0.4);
-      padding: 7px 9px;
-      font-size: 11px;
-    }
-
-    .scenario-header {
+    .form-group label {
+      font-weight: 500;
+      color: var(--text-main);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 4px;
+    }
+
+    .form-group small {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 0.72rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      padding: 6px 8px;
+      font-size: 0.8rem;
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      background: #f9fafb;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
+      background: #ffffff;
+    }
+
+    .fuel-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .fuel-row {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr 0.8fr 0.9fr auto;
       gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      font-size: 0.72rem;
+      color: #374151;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #e5e7eb;
+      color: #111827;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: white;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.14);
+      color: var(--danger);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px dashed #d1d5db;
+    }
+
+    .btn:hover {
+      transform: translateY(-0.5px);
+      filter: brightness(1.03);
+    }
+
+    .btn:active {
+      transform: translateY(0.5px);
+      filter: brightness(0.97);
+    }
+
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 6px;
+    }
+
+    .metric {
+      flex: 1;
+      min-width: 120px;
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 6px 8px;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .metric-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-size: 0.98rem;
+      font-weight: 600;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric-unit {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .loss-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .loss-group {
+      border-radius: 12px;
+      padding: 8px;
+      background: #f9fafb;
+      border: 1px dashed #e5e7eb;
+    }
+
+    .loss-group-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .loss-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.8rem;
+      padding: 3px 0;
+    }
+
+    .loss-item span:first-child {
+      color: #374151;
+    }
+
+    .loss-item span:last-child {
+      font-weight: 600;
+    }
+
+    .loss-item.bad {
+      color: var(--danger);
+    }
+
+    .loss-item.warn {
+      color: var(--warning);
+    }
+
+    .loss-item.ok {
+      color: var(--accent-strong);
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.72rem;
+    }
+
+    .tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #6b7280;
+    }
+
+    .tag.danger {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(254, 242, 242, 0.9);
+      color: var(--danger);
+    }
+
+    .tag.warning {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(255, 251, 235, 0.9);
+      color: #92400e;
     }
 
     .scenario-cards {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
+      gap: 8px;
+      margin-top: 6px;
     }
 
-    @media (max-width: 840px) {
+    .scenario-card {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 6px 8px;
+      font-size: 0.78rem;
+      background: #f9fafb;
+    }
+
+    .scenario-card h4 {
+      margin: 0 0 4px;
+      font-size: 0.8rem;
+    }
+
+    .scenario-card small {
+      color: var(--text-muted);
+    }
+
+    .scenario-metrics {
+      margin-top: 2px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px 6px;
+    }
+
+    .scenario-metrics div {
+      font-size: 0.75rem;
+    }
+
+    .warnings-list,
+    .advice-list,
+    .knowledge-list,
+    .steps-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 4px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .warnings-list li,
+    .advice-list li,
+    .knowledge-list li,
+    .steps-list li {
+      font-size: 0.8rem;
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .warnings-list li.level-0 {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(240, 253, 250, 0.9);
+    }
+
+    .warnings-list li.level-1 {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(255, 251, 235, 0.9);
+    }
+
+    .warnings-list li.level-2 {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(254, 242, 242, 0.95);
+    }
+
+    .advice-list li.severity-medium {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(255, 251, 235, 0.9);
+    }
+
+    .advice-list li.severity-high {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(254, 242, 242, 0.95);
+    }
+
+    .step-key {
+      font-weight: 600;
+    }
+
+    .step-value {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 1024px) {
+      .columns {
+        flex-direction: column;
+      }
       .scenario-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 520px) {
-      .scenario-cards {
-        grid-template-columns: minmax(0, 1fr);
+    @media (max-width: 720px) {
+      .fuel-row {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: auto;
       }
-    }
-
-    .scenario-card {
-      border-radius: 12px;
-      padding: 6px 7px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(120, 144, 156, 0.5);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .scenario-card-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: #263238;
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    .scenario-card-main {
-      font-size: 18px;
-      font-weight: 800;
-      color: #00695c;
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .scenario-card-main span.unit {
-      font-size: 11px;
-      font-weight: 600;
-      color: #455a64;
-    }
-
-    .scenario-meta {
-      font-size: 10px;
-      color: #607d8b;
-    }
-
-    .scenario-meta strong {
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 11px;
-    }
-
-    .scenario-list-loss {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px 6px;
-      margin-top: 2px;
-      font-size: 9px;
-    }
-
-    .scenario-list-loss span {
-      padding: 1px 6px;
-      border-radius: 999px;
-      background: rgba(226, 232, 240, 0.9);
-    }
-
-    footer {
-      max-width: 1240px;
-      margin: 0 auto 8px;
-      padding-inline: 16px;
-      font-size: 10px;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    footer a {
-      color: #00695c;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .kbd {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 18px;
-      padding: 0 6px;
-      border-radius: 6px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(255, 255, 255, 0.9);
-      font-family: "JetBrains Mono", Consolas, monospace;
-      font-size: 10px;
-      margin-left: 3px;
+      .fuel-row > *:nth-child(3),
+      .fuel-row > *:nth-child(4),
+      .fuel-row > *:nth-child(5) {
+        margin-top: 4px;
+      }
+      .loss-columns {
+        grid-template-columns: 1fr;
+      }
+      .scenario-cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-<div class="wave-bg"></div>
-<div class="app-shell">
-  <header>
-    <div class="header-inner">
-      <div class="header-title">
-        <div class="logo-badge">
-          <span>KTP</span>
-        </div>
-        <div>
-          <div class="header-text-main">
-            KIM TRUONG PHUC Co., LTD – BIOMASS BOILER EFFICIENCY CALCULATION
-          </div>
-          <div class="header-text-sub">
-            Web app tính toán tổn thất L1–L8, hiệu suất, nhiên liệu/tấn hơi & tư vấn vận hành lò hơi Biomass BFB/CFB
-          </div>
-        </div>
+<div class="page">
+  <header class="app-header">
+    <div>
+      <div class="app-title">
+        <span>Biomass Boiler Efficiency Dashboard</span>
+        <span class="pill">BFB / CFB • Heat Balance</span>
       </div>
-      <div class="header-meta">
-        <div><strong>Developed by: Nguyen Tuan Giang</strong></div>
-        <div>Biomass Boiler & Web App Assistant</div>
+      <div class="app-subtitle">
+        Nhập thông số vận hành → Web app tự động tính L1–L8, η, nhiên liệu/tấn hơi, chi phí hơi & gợi ý tối ưu vận hành.
       </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:0.78rem;">
+      <div class="chip">
+        <span>⏎</span>
+        <span>Enter = Tính toán</span>
+      </div>
+      <button id="btnCalculate" class="btn btn-primary">
+        <span>⚙️</span>
+        <span>Tính ngay</span>
+      </button>
     </div>
   </header>
 
-  <main>
-    <div class="app-grid">
-      <!-- LEFT: INPUTS -->
-      <section class="panel">
-        <div class="panel-inner">
-          <h2 class="panel-title">
-            <span class="icon">IN</span> Nhập dữ liệu vận hành
-          </h2>
-          <p class="panel-subtitle">
-            Nhập phối trộn nhiên liệu, điều kiện đo & thông số vận hành. Phím
-            <span class="kbd">Enter</span> hoặc nút <strong>“Tính toán ngay”</strong> sẽ chạy toàn bộ thuật toán.
-          </p>
-
-          <!-- Fuel section -->
-          <div class="input-zone" id="fuel-input-zone">
-            <div class="input-zone-header">
-              <div class="input-zone-title">1. Phối trộn nhiên liệu đốt lò</div>
-              <div class="input-zone-badge">
-                <span>Thư viện từ JSON</span>
-              </div>
-            </div>
-
-            <div class="fuel-list" id="fuelList"></div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; gap:8px; position:relative; z-index:1;">
-              <button type="button" class="btn btn-outline btn-xs" id="addFuelBtn">
-                + Thêm nhiên liệu
-              </button>
-              <span style="font-size:10px; color:#c06a00;">
-                Tổng tỷ lệ khối lượng phải xấp xỉ 100%. Hệ thống sẽ cảnh báo nếu lệch quá lớn.
-              </span>
-            </div>
-
-            <div class="fuel-summary" id="fuelSummary">
-              <div class="fuel-summary-title">
-                <span>Thông số hỗn hợp nhiên liệu (As-received)</span>
-                <span class="badge-label">Tự động cập nhật</span>
-              </div>
-              <div class="fuel-summary-grid" id="fuelSummaryGrid">
-                <!-- Filled by JS -->
-              </div>
-            </div>
+  <main class="columns">
+    <!-- COLUMN 1: Phần 1–3 -->
+    <section class="col">
+      <!-- PHẦN 1: ĐẦU VÀO -->
+      <section class="card" id="section-inputs">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 1 – ĐẦU VÀO NGƯỜI DÙNG</span>
+            <span class="badge">Fuel mix + Operation</span>
           </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">1. Phối trộn nhiên liệu</div>
+          <div class="chip">Người dùng có thể thêm / xóa nhiên liệu để tạo hỗn hợp đốt lò.</div>
 
-          <!-- Operating conditions -->
-          <div style="height:10px;"></div>
-          <div class="input-zone">
-            <div class="input-zone-header">
-              <div class="input-zone-title">2. Thông số đo & điều kiện vận hành</div>
-              <div class="input-zone-badge">
-                <span>Stack / Flue Gas · Steam</span>
-              </div>
-            </div>
-            <div class="field-grid">
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">O₂_dry</span> – Oxy khô dư</span>
-                  <span class="unit">% vol</span>
-                </label>
-                <input type="number" id="inputO2" step="0.1" value="6.0" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">CO</span> – CO trong khói</span>
-                  <span class="unit">ppm</span>
-                </label>
-                <input type="number" id="inputCO" step="10" value="200" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">T_f</span> – Nhiệt độ khói thải</span>
-                  <span class="unit">°C</span>
-                </label>
-                <input type="number" id="inputTf" step="1" value="160" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">T_a</span> – Nhiệt độ môi trường</span>
-                  <span class="unit">°C</span>
-                </label>
-                <input type="number" id="inputTa" step="1" value="30" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">T_fw</span> – Nhiệt độ nước cấp</span>
-                  <span class="unit">°C</span>
-                </label>
-                <input type="number" id="inputTfw" step="1" value="90" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">T_b</span> – Nhiệt độ buồng đốt</span>
-                  <span class="unit">°C</span>
-                </label>
-                <input type="number" id="inputTb" step="1" value="850" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">T_w</span> – Nhiệt độ vách đuôi lò</span>
-                  <span class="unit">°C</span>
-                </label>
-                <input type="number" id="inputTw" step="1" value="90" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">RH</span> – Độ ẩm không khí</span>
-                  <span class="unit">%</span>
-                </label>
-                <input type="number" id="inputRH" step="1" value="80" />
-              </div>
+          <div class="fuel-rows" id="fuelRows"></div>
 
-              <div class="field-group">
-                <label class="field-label">
-                  <span>Công suất thiết kế</span>
-                  <span class="unit">t/h</span>
-                </label>
-                <input type="number" id="inputQDesign" step="0.1" value="20" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span>Công suất hơi thực tế</span>
-                  <span class="unit">t/h</span>
-                </label>
-                <input type="number" id="inputQActual" step="0.1" value="16" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span><span class="code">P_g</span> – Áp suất lò (gauge)</span>
-                  <span class="unit">barg</span>
-                </label>
-                <input type="number" id="inputPg" step="0.5" value="10" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span>TDS nước cấp (ước tính)</span>
-                  <span class="unit">ppm</span>
-                </label>
-                <input type="number" id="inputTDS" step="10" value="2000" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span>L7 – Cháy không hết (mặc định)</span>
-                  <span class="unit">%</span>
-                </label>
-                <input type="number" id="inputL7" step="0.1" value="2.0" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">
-                  <span>L6 – Bức xạ & cơ khí (mặc định)</span>
-                  <span class="unit">% ước lượng</span>
-                </label>
-                <input type="number" id="inputL6" step="0.1" value="0.7" />
-              </div>
-            </div>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:8px;">
-            <button type="button" class="btn btn-primary" id="calculateBtn">
-              ⚙️ Tính toán ngay
+          <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <button id="btnAddFuel" class="btn btn-ghost" type="button">
+              <span>➕</span><span>Thêm nhiên liệu</span>
             </button>
-            <div style="font-size:10px; color:var(--muted); text-align:right;">
-              Phím <span class="kbd">Enter</span> cũng sẽ chạy tính toán.
-              <br />
-              Hệ thống tự động phân tích tổn thất, gợi ý tối ưu vận hành & cho phép lưu tối đa 3 trường hợp để so sánh.
+            <div style="font-size:0.72rem;color:var(--text-muted);">
+              Tổng MF (%) nên ≈ 100%. Hệ thống sẽ tự scale nếu lệch.
+            </div>
+          </div>
+
+          <hr style="margin:10px 0;border:none;border-top:1px dashed #e5e7eb;" />
+
+          <div class="section-hint">2. Thông số vận hành</div>
+          <div class="grid-input-2">
+            <div class="form-group">
+              <label>O₂_dry (% vol khô)</label>
+              <input type="number" step="0.1" id="inpO2" placeholder="4 – 8.5" />
+            </div>
+            <div class="form-group">
+              <label>CO (ppm)</label>
+              <input type="number" step="1" id="inpCO" placeholder="0 – 2000" />
+            </div>
+            <div class="form-group">
+              <label>Tf – Nhiệt độ khói (°C)</label>
+              <input type="number" step="1" id="inpTf" placeholder="150 – 200" />
+            </div>
+            <div class="form-group">
+              <label>Ta – Nhiệt độ môi trường (°C)</label>
+              <input type="number" step="1" id="inpTa" placeholder="25 – 35" />
+            </div>
+            <div class="form-group">
+              <label>T_fw – Nhiệt độ bồn nước cấp (°C)</label>
+              <input type="number" step="1" id="inpTfw" placeholder="60 – 105" />
+            </div>
+            <div class="form-group">
+              <label>T_b – Nhiệt độ buồng đốt (°C)</label>
+              <input type="number" step="1" id="inpTb" placeholder="700 – 900" />
+            </div>
+            <div class="form-group">
+              <label>T_w – Nhiệt độ vách đuôi lò (°C)</label>
+              <input type="number" step="1" id="inpTw" placeholder="80 – 120" />
+            </div>
+            <div class="form-group">
+              <label>RH – Độ ẩm không khí (%)</label>
+              <input type="number" step="1" id="inpRH" placeholder="70 – 95" />
+            </div>
+            <div class="form-group">
+              <label>P_g – Áp suất lò (bar_g)</label>
+              <input type="number" step="0.1" id="inpPg" placeholder="10" />
+            </div>
+            <div class="form-group">
+              <label>Công suất thiết kế (t/h)</label>
+              <input type="number" step="0.1" id="inpDesignCap" placeholder="tấn hơi/giờ" />
+            </div>
+            <div class="form-group">
+              <label>Công suất vận hành (t/h)</label>
+              <input type="number" step="0.1" id="inpActualCap" placeholder="tấn hơi/giờ" />
+            </div>
+            <div class="form-group">
+              <label>TDS nước cấp (ppm)</label>
+              <input type="number" step="1" id="inpTDS" placeholder="≤ 300" />
+            </div>
+            <div class="form-group">
+              <label>BR – Tỉ lệ xả đáy (%)</label>
+              <input type="number" step="0.1" id="inpBR" placeholder="VD 3 – 8" />
+              <small>Nếu bỏ trống → hệ thống gợi ý từ TDS.</small>
+            </div>
+            <div class="form-group">
+              <label>L6 – Tổn thất bức xạ & cơ khí (%)
+                <small>tùy chọn</small>
+              </label>
+              <input type="number" step="0.1" id="inpL6User" placeholder="VD 0.7" />
+            </div>
+            <div class="form-group">
+              <label>L7 – Tổn thất cháy không hết (%)
+                <small>tùy chọn</small>
+              </label>
+              <input type="number" step="0.1" id="inpL7User" placeholder="VD 1.5" />
             </div>
           </div>
         </div>
       </section>
 
-      <!-- RIGHT: RESULTS & ANALYSIS -->
-      <section class="panel">
-        <div class="panel-inner">
-          <h2 class="panel-title">
-            <span class="icon">OUT</span> Kết quả & tư vấn vận hành
-          </h2>
-          <p class="panel-subtitle">
-            Kết quả nổi bật: hiệu suất η, tổn thất L1–L8, nhiên liệu/tấn hơi, chi phí hơi. Bên dưới là phần nhận xét, giải pháp và kiến thức vận hành từ bộ rule.
-          </p>
+      <!-- PHẦN 2: LƯU 3 TRƯỜNG HỢP VẬN HÀNH -->
+      <section class="card" id="section-scenarios">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 2 – KỊCH BẢN VẬN HÀNH</span>
+            <span class="badge">Lưu tối đa 3 case</span>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn" type="button" data-save-scenario="1">Lưu Case 1</button>
+            <button class="btn" type="button" data-save-scenario="2">Lưu Case 2</button>
+            <button class="btn" type="button" data-save-scenario="3">Lưu Case 3</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">
+            Lưu lại thông số & kết quả để so sánh phương án vận hành (η, nhiên liệu/tấn hơi, chi phí).
+          </div>
+          <div class="scenario-cards" id="scenarioCards">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </section>
 
-          <div class="results-grid">
-            <div class="result-main-card" id="efficiencyCard">
-              <div class="result-main-title">Hiệu suất lò hơi η</div>
-              <div class="result-main-value">
-                <span id="efficiencyValue">–</span>
-                <span class="unit">% (trên cơ sở GCV)</span>
-              </div>
-              <div class="result-main-sub" id="efficiencySub">
-                Chờ dữ liệu… Nhấn “Tính toán ngay” sau khi nhập phối trộn nhiên liệu & điều kiện vận hành.
-              </div>
-              <div class="result-pill-row" id="efficiencyPills"></div>
-            </div>
+      <!-- PHẦN 3: CẢNH BÁO -->
+      <section class="card" id="section-warnings">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 3 – CẢNH BÁO AN TOÀN</span>
+            <span class="badge">Tự động đánh giá mức Xanh / Vàng / Đỏ</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">
+            Cảnh báo dựa trên: độ ẩm nhiên liệu, T_b, O₂_dry, T_fw, TDS, tải lò, T_stack (Tf), Tw...
+          </div>
+          <ul class="warnings-list" id="warningsList"></ul>
+        </div>
+      </section>
+    </section>
 
-            <div class="result-card">
-              <div class="result-card-title">
-                <span>Tổn thất L1–L8 (% GCV)</span>
-                <span style="font-size:10px; color:#006064;">Màu thể hiện mức độ</span>
-              </div>
-              <div class="loss-grid" id="lossGrid">
-                <!-- L1..L8 -->
-              </div>
-            </div>
-
-            <div class="result-card">
-              <div class="result-card-title">
-                <span>Nhiên liệu / 1 tấn hơi</span>
-              </div>
-              <div style="display:flex; align-items:flex-end; gap:4px;">
-                <span style="font-size:20px; font-weight:800; color:#00695c;" id="fuelPerTonValue">–</span>
-                <span style="font-size:11px; font-weight:600; color:#607d8b;">kg nhiên liệu thô / tấn hơi</span>
-              </div>
-              <div style="font-size:10px; color:#607d8b; margin-top:3px;">
-                Tính trên cơ sở GCV_ar hỗn hợp và hiệu suất η hiện tại.
-              </div>
-            </div>
-
-            <div class="result-card">
-              <div class="result-card-title">
-                <span>Chi phí hơi</span>
-              </div>
-              <div style="display:flex; align-items:flex-end; gap:4px;">
-                <span style="font-size:20px; font-weight:800; color:#1b5e20;" id="steamCostValue">–</span>
-                <span style="font-size:11px; font-weight:600; color:#607d8b;">VND / tấn hơi</span>
-              </div>
-              <div style="font-size:10px; color:#607d8b; margin-top:3px;">
-                Giá nhiên liệu trung bình theo phối trộn × tiêu hao nhiên liệu.
-              </div>
-            </div>
+    <!-- COLUMN 2: Phần 4–7 -->
+    <section class="col">
+      <!-- PHẦN 4: TỔN THẤT & HIỆU SUẤT -->
+      <section class="card" id="section-losses">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 4 – TỔN THẤT & HIỆU SUẤT</span>
+            <span class="badge">L1 – L8 • η • Fuel / Steam</span>
           </div>
-
-          <div class="section-title">
-            Nhận xét & nguyên nhân theo rule
-            <small>(từ Vanhanh.json)</small>
-          </div>
-          <div class="advice-list" id="adviceList">
-            <!-- Advice items -->
-          </div>
-
-          <div class="section-title">
-            Đề xuất giải pháp trọng tâm
-            <small>(Hot topic vận hành cần chú ý)</small>
-          </div>
-          <div class="knowledge-card" id="hotTopics">
-            Hệ thống sẽ chọn ra 2–3 tổn thất nổi bật nhất (L1–L8) và gợi ý giải pháp tối ưu vận hành tương ứng sau khi tính toán.
-          </div>
-
-          <div class="section-title">
-            Kiến thức lò hơi & tối ưu tổng thể
-            <small>(Trích từ Vanhanh.json)</small>
-          </div>
-          <div class="knowledge-card" id="knowledgeSection">
-            Sau khi tính toán, phần này sẽ hiển thị các khuyến nghị về:
-            <ul>
-              <li>Chất lượng nước cấp & xả đáy.</li>
-              <li>Bảo dưỡng – vệ sinh lò & hệ thống.</li>
-              <li>Điều chỉnh chế độ vận hành để giảm tổn thất tổng thể.</li>
-            </ul>
-          </div>
-
-          <div class="section-title">
-            Bảng tính toán chi tiết
-            <small>(Công thức – các bước 1 → 6)</small>
-          </div>
-          <div class="detail-card">
-            <table>
-              <thead>
-              <tr>
-                <th>Bước</th>
-                <th>Mô tả</th>
-                <th>Biến / Công thức</th>
-                <th>Giá trị hiện tại</th>
-              </tr>
-              </thead>
-              <tbody id="detailTableBody">
-              <!-- Filled by JS, dựa trên congThucJSON + kết quả tính -->
-              </tbody>
-            </table>
-          </div>
-
-          <div class="section-title">
-            Lưu & so sánh 3 trường hợp vận hành
-            <small>(“snapshot” theo từng ca / ngày)</small>
-          </div>
-          <div class="scenario-section">
-            <div class="scenario-header">
-              <div style="font-size:11px; font-weight:600; color:#37474f;">
-                Lưu lại cấu hình hiện tại vào 1 trong 3 thẻ, sau đó so sánh hiệu suất, tổn thất và chi phí.
-              </div>
-              <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                <button type="button" class="btn btn-outline btn-xs" data-slot="0">Lưu vào Thẻ A</button>
-                <button type="button" class="btn btn-outline btn-xs" data-slot="1">Lưu vào Thẻ B</button>
-                <button type="button" class="btn btn-outline btn-xs" data-slot="2">Lưu vào Thẻ C</button>
+        </div>
+        <div class="card-body">
+          <div class="results-header">
+            <div class="metric">
+              <div class="metric-label">Hiệu suất lò (η)</div>
+              <div class="metric-value">
+                <span id="valEta">–</span>
+                <span class="metric-unit">%</span>
               </div>
             </div>
-            <div class="scenario-cards" id="scenarioCards">
-              <!-- Scenario cards -->
+            <div class="metric">
+              <div class="metric-label">Nhiên liệu tiêu hao / 1 tấn hơi</div>
+              <div class="metric-value">
+                <span id="valFuelPerTon">–</span>
+                <span class="metric-unit">kg/tấn hơi</span>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Chi phí hơi (ước tính)</div>
+              <div class="metric-value">
+                <span id="valSteamCost">–</span>
+                <span class="metric-unit">VND/tấn hơi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tags-row">
+            <span class="tag">L1: Khói thải khô</span>
+            <span class="tag">L2: Ẩm do H₂</span>
+            <span class="tag">L3: Ẩm sẵn trong nhiên liệu</span>
+            <span class="tag">L4: Ẩm không khí</span>
+            <span class="tag">L5: CO chưa cháy hết</span>
+            <span class="tag">L6: Bức xạ & cơ khí</span>
+            <span class="tag">L7: Cháy không hết (carbon)</span>
+            <span class="tag">L8: Khác / Dự phòng (xả đáy, nước ngưng...)</span>
+          </div>
+
+          <div class="loss-columns">
+            <div class="loss-group" id="lossGroupControllable">
+              <div class="loss-group-title">Nhóm tổn thất CÓ THỂ kiểm soát tốt</div>
+              <div id="lossListControllable"></div>
+            </div>
+            <div class="loss-group" id="lossGroupLess">
+              <div class="loss-group-title">Nhóm tổn thất KHÓ / ÍT có thể cải thiện</div>
+              <div id="lossListLess"></div>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      <!-- PHẦN 5: GIẢI PHÁP -->
+      <section class="card" id="section-advice">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 5 – GIẢI PHÁP TỐI ƯU VẬN HÀNH</span>
+            <span class="badge">Rule-based từ Vanhanh.json</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">
+            Hệ thống map từng tổn thất / thông số bất lợi sang nhóm lỗi – nguyên nhân – khuyến nghị.
+          </div>
+          <ul class="advice-list" id="adviceList"></ul>
+        </div>
+      </section>
+
+      <!-- PHẦN 6: KIẾN THỨC LÒ HƠI -->
+      <section class="card" id="section-knowledge">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 6 – KIẾN THỨC LÒ HƠI</span>
+            <span class="badge">Gợi ý theo tình trạng hiện tại</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">
+            Gợi nhắc các khuyến nghị chung về chất lượng nước, xả đáy, bảo trì, và tổn thất đang chiếm tỉ lệ cao.
+          </div>
+          <ul class="knowledge-list" id="knowledgeList"></ul>
+        </div>
+      </section>
+
+      <!-- PHẦN 7: KIỂM TRA TÍNH TOÁN -->
+      <section class="card" id="section-steps">
+        <div class="card-header">
+          <div class="card-title">
+            <span>PHẦN 7 – KIỂM TRA TÍNH TOÁN</span>
+            <span class="badge">Step 1 → Step 6</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section-hint">
+            Hiển thị tóm tắt các bước tính theo Cachtinh.json (As-received → Air → Flue Gas → L1–L8 → η).
+          </div>
+          <ul class="steps-list" id="stepsList"></ul>
+        </div>
+      </section>
+    </section>
   </main>
-
-  <footer>
-    <div>
-      ⓘ Gợi ý sử dụng: nhập dữ liệu thực tế theo từng ca vận hành, lưu 2–3 phương án (ví dụ thay đổi độ ẩm nhiên liệu, chế độ gió)
-      để so sánh nhanh hiệu suất & chi phí.
-    </div>
-    <div>
-      Phím tắt: <span class="kbd">Enter</span> – chạy tính. · Web app demo, có thể tinh chỉnh ngưỡng rule & công thức theo lò thực tế.
-    </div>
-  </footer>
 </div>
 
 <script>
-  /* ==============================
-   * 1. EMBEDDED JSON DATA
-   * ============================== */
+/* ==========================================================
+   1. JSON DỮ LIỆU – EMBED TRỰC TIẾP
+   ========================================================== */
 
-  const nhienLieuJSON = {
-    "fuels": [
-      {
-        "name": "Dăm ván lạng DNB",
-        "composition_dry_basis": {
-          "Ash": 2.91,
-          "S": 0.06,
-          "C": 47.61,
-          "H": 4.87,
-          "N": 0.31,
-          "O": 44.24
-        },
-        "GCV_db_kcal_per_kg": 4700
-      },
-      {
-        "name": "Dăm ván lạng MB",
-        "composition_dry_basis": {
-          "Ash": 2.91,
-          "S": 0.06,
-          "C": 47.61,
-          "H": 4.87,
-          "N": 0.31,
-          "O": 44.24
-        },
-        "GCV_db_kcal_per_kg": 4063
-      },
-      {
-        "name": "Trấu vỏ",
-        "composition_dry_basis": {
-          "Ash": 22.20,
-          "C": 36.42,
-          "H": 4.91,
-          "O": 35.88,
-          "N": 0.59
-        },
-        "GCV_db_kcal_per_kg": 3845
-      }
-    ]
-  };
-
-  const congThucJSON = {
-    "title": "Biomass Boiler Efficiency Calculation Specification",
-    "units": {
-      "temperature": "°C",
-      "energy": "kcal/kg",
-      "pressure": "bar",
-      "percentage": "%"
+/* -------- 1.1 Nhienlieu.json (ví dụ, có thể mở rộng) -------- */
+const nhienLieuJSON = {
+  "fuels": [
+    {
+      "fuel_name": "Dăm ván lạng DNB",
+      "C_db": 47.61,
+      "H_db": 4.87,
+      "O_db": 44.24,
+      "S_db": 0.06,
+      "N_db": 0.31,
+      "A_db": 2.91,
+      "GCV_db": 19678,
+      "default_M": 40
     },
-    "steps": [
-      {
-        "step": 1,
-        "name": "As-received Conversion",
-        "formulas": {
-          "C_ar": "C_db * (100 - M) / 100",
-          "H_ar": "H_db * (100 - M) / 100",
-          "O_ar": "O_db * (100 - M) / 100",
-          "S_ar": "S_db * (100 - M) / 100",
-          "N_ar": "N_db * (100 - M) / 100",
-          "A_ar": "A_db * (100 - M) / 100",
-          "M_ar": "M",
-          "GCV_ar": "GCV_db * (100 - M) / 100",
-          "c": "C_ar / 100",
-          "h": "H_ar / 100",
-          "o": "O_ar / 100",
-          "s": "S_ar / 100",
-          "n": "N_ar / 100",
-          "a": "A_ar / 100",
-          "m": "M_ar / 100"
-        }
-      },
-      {
-        "step": 2,
-        "name": "Theoretical & Actual Air",
-        "formulas": {
-          "O2_req": "2.667 * c + 8 * h + s - o",
-          "A_th": "O2_req / 0.232",
-          "CO_vol": "CO_ppm / 10000",
-          "lambda": "21 / (21 - O2_dry - 0.5 * CO_vol)",
-          "A_act": "lambda * A_th"
-        }
-      },
-      {
-        "step": 3,
-        "name": "Dry Flue Gas",
-        "formulas": {
-          "m_dg": "A_act + 1 - a - m - 9 * h"
-        }
-      },
-      {
-        "step": 4,
-        "name": "Flue Gas Composition & Cp",
-        "formulas": {
-          "mass_CO2": "3.667 * (c - c_CO)",
-          "mass_CO": "2.333 * c_CO",
-          "mass_SO2": "2 * s",
-          "mass_O2": "A_act * 0.232 - (2.667*c - 1.333*c_CO + 8*h + s - o)",
-          "mass_N2": "A_act * 0.768 + n",
-          "K": "CO_ppm * 12 / 1000000",
-          "N_dg": "(A_act * 0.03468 - h/4 + n/28) / (1 - K/24)",
-          "c_CO": "K * N_dg",
-          "f_CO2": "mass_CO2 / m_dg",
-          "f_CO": "mass_CO / m_dg",
-          "f_SO2": "mass_SO2 / m_dg",
-          "f_O2": "mass_O2 / m_dg",
-          "f_N2": "mass_N2 / m_dg",
-          "Cp_CO2": "0.203",
-          "Cp_O2": "0.217",
-          "Cp_N2": "0.248",
-          "Cp_SO2": "0.153",
-          "Cp_CO": "0.248",
-          "Cp_dg": "f_CO2*Cp_CO2 + f_O2*Cp_O2 + f_N2*Cp_N2 + f_SO2*Cp_SO2 + f_CO*Cp_CO"
-        }
-      },
-      {
-        "step": 5,
-        "name": "Heat Losses",
-        "formulas": {
-          "L1": "(m_dg * Cp_dg * (Tf - Ta)) / GCV_ar * 100",
-          "L2": "(9 * h * (585 + 0.45 * (Tf - Ta))) / GCV_ar * 100",
-          "L3": "(m * (585 + 0.45 * (Tf - Ta))) / GCV_ar * 100",
-          "P_v": "(RH/100) * P_sat",
-          "omega": "0.622 * P_v / (101.325 - P_v)",
-          "L4": "(A_act * omega * 0.45 * (Tf - Ta)) / GCV_ar * 100",
-          "L5": "(c_CO * 5756) / GCV_ar * 100",
-          "L6": "0.7",
-          "L7": "eta_init * BR * (h_f - h_fw) / (h_steam - h_fw) * 100",
-          "L8": "2"
-        }
-      },
-      {
-        "step": 6,
-        "name": "Efficiency & Fuel Consumption",
-        "formulas": {
-          "eta": "100 - (L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8)",
-          "F_steam": "(h_steam - h_fw) / (eta * GCV_ar)",
-          "Fuel_consumption": "F_steam * 1000"
+    {
+      "fuel_name": "Dăm ván lạng MB",
+      "C_db": 47.61,
+      "H_db": 4.87,
+      "O_db": 44.24,
+      "S_db": 0.06,
+      "N_db": 0.31,
+      "A_db": 2.91,
+      "GCV_db": 17011,
+      "default_M": 40
+    },
+    {
+      "fuel_name": "Trấu vỏ",
+      "C_db": 36.42,
+      "H_db": 4.91,
+      "O_db": 35.88,
+      "S_db": 0.0,
+      "N_db": 0.59,
+      "A_db": 22.20,
+      "GCV_db": 16098,
+      "default_M": 18
+    }
+  ]
+};
+
+/* -------- 1.2 Cachtinh.json – Đặc tả tính toán -------- */
+const congThucJSON = {
+  "title": "Biomass Boiler Efficiency Calculation Specification",
+  "units": {
+    "temperature": "°C",
+    "energy": "kJ/kg",
+    "pressure": "bar",
+    "percentage": "%",
+    "concentration": "ppm",
+    "mass_flow": "kg/kg_fuel",
+    "humidity_ratio": "kg_water/kg_dry_air"
+  },
+  "inputs": {
+    "fuels": {
+      "description": "Người dùng chọn 1 hoặc nhiều nhiên liệu, trộn thành hỗn hợp đốt lò.",
+      "actions": ["add_fuel", "remove_fuel"],
+      "per_fuel_fields": {
+        "name": {
+          "label": "Tên nhiên liệu",
+          "type": "string",
+          "source": "Nhienlieu.json",
+          "key_in_library": "fuel_name"
+        },
+        "moisture_pct": {
+          "label": "Độ ẩm",
+          "type": "number",
+          "unit": "%",
+          "maps_to": "M_ar"
+        },
+        "mass_fraction_pct": {
+          "label": "Phần trăm khối lượng trong hỗn hợp",
+          "type": "number",
+          "unit": "%",
+          "description": "Dùng để tính trung bình gia quyền các thông số nhiên liệu."
+        },
+        "price_vnd_per_kg": {
+          "label": "Giá nhiên liệu",
+          "type": "number",
+          "unit": "VND/kg"
         }
       }
+    },
+    "operation": {
+      "description": "User nhập thông số đo và điều kiện vận hành lò.",
+      "fields": {
+        "O2_dry": { "label": "O2 khô trong khói", "type": "number", "unit": "%" },
+        "CO_ppm": { "label": "CO trong khói", "type": "number", "unit": "ppm" },
+        "Tf": { "label": "Nhiệt độ khói thải", "type": "number", "unit": "°C" },
+        "Ta": { "label": "Nhiệt độ môi trường", "type": "number", "unit": "°C" },
+        "T_fw": {
+          "label": "Nhiệt độ nước cấp (bồn nước cấp)",
+          "type": "number",
+          "unit": "°C"
+        },
+        "T_b": { "label": "Nhiệt độ buồng đốt", "type": "number", "unit": "°C" },
+        "T_w": {
+          "label": "Nhiệt độ vách đuôi lò (chưa bảo ôn)",
+          "type": "number",
+          "unit": "°C"
+        },
+        "RH": { "label": "Độ ẩm không khí", "type": "number", "unit": "%", "default": 80 },
+        "design_capacity": {
+          "label": "Công suất thiết kế",
+          "type": "number",
+          "unit": "tấn hơi/giờ"
+        },
+        "actual_capacity": {
+          "label": "Công suất hơi thực tế",
+          "type": "number",
+          "unit": "tấn hơi/giờ"
+        },
+        "P_g": {
+          "label": "Áp suất lò (gauge)",
+          "type": "number",
+          "unit": "bar_g",
+          "default": 10
+        },
+        "TDS": {
+          "label": "TDS nước cấp",
+          "type": "number",
+          "unit": "ppm"
+        },
+        "BR": {
+          "label": "Tỉ lệ xả đáy",
+          "type": "number",
+          "unit": "%",
+          "description": "Tỉ lệ xả đáy tính từ TDS nước cấp."
+        },
+        "L6_user": {
+          "label": "Tổn thất bức xạ/bảo ôn (tùy chọn)",
+          "type": "number",
+          "unit": "%",
+          "default": 0.7
+        },
+        "L7_user": {
+          "label": "Tổn thất cháy không hết (tùy chọn)",
+          "type": "number",
+          "unit": "%",
+          "default": 1.5
+        }
+      }
+    }
+  }
+};
+
+/* -------- 1.3 Vanhanh.json – Losses & general warnings -------- */
+const vanHanhJSON = {
+  "schema_version": "1.0",
+  "description": "Tài liệu tổng hợp vận hành lò hơi biomass (BFB/CFB) – tóm tắt L1–L8 và các cảnh báo cần thiết.",
+  "language": "vi",
+  "losses": [
+    {
+      "loss_id": "L1",
+      "loss_name": "TỔN THẤT KHÓI THẢI KHÔ (Dry Flue Gas Loss)",
+      "sections": {
+        "factors": [
+          "Nhiệt độ khói lò càng cao thì tổn thất càng lớn; nếu giảm quá thấp dễ ngưng tụ axit (H₂SO₄, HCl, HF) gây ăn mòn đuôi lò.",
+          "Oxi dư (O₂_dry) cao làm tăng khối lượng khói thải, tăng tổn thất; O₂ quá thấp gây cháy không hoàn toàn, sinh CO, giảm hiệu suất.",
+          "Độ sạch bề mặt truyền nhiệt: muội bám trên ống sinh hơi, bộ hâm, bộ sấy làm giảm trao đổi nhiệt, khiến nhiệt độ khói tăng dần."
+        ],
+        "optimal_parameters": [
+          "O₂_dry: 4% – 8.5% (tối ưu cho hầu hết nhiên liệu sinh khối).",
+          "Nhiệt độ khí thải sau bộ hâm nước (economizer): khoảng 145–155°C.",
+          "Nhiệt độ vách kim loại phần đuôi lò (Tw): Tw > 80°C để tránh ngưng tụ H₂SO₄."
+        ],
+        "symptoms": [
+          "Nhiệt độ khí thải tăng dần theo thời gian trong cùng điều kiện tải và nhiên liệu.",
+          "Giá trị O₂ dư cao kéo dài, thường xuyên > 9%.",
+          "Hiệu suất tổng thể lò hơi giảm."
+        ],
+        "operational_actions": [
+          "Kiểm soát O₂ hợp lý: nếu O₂ < 4% thì tăng quạt cấp gió; nếu O₂ > 8.5% thì giảm lưu lượng gió.",
+          "Giảm nhiệt độ khí thải bằng cách tối ưu bộ hâm nước (economizer) và/hoặc bộ sấy không khí (air-preheater).",
+          "Vệ sinh định kỳ bề mặt truyền nhiệt.",
+          "Cải thiện chất lượng nhiên liệu: giảm độ ẩm, kiểm soát kích thước đồng đều."
+        ]
+      }
+    },
+    {
+      "loss_id": "L2",
+      "loss_name": "TỔN THẤT DO HƠI ẨM HÌNH THÀNH TỪ H₂ TRONG NHIÊN LIỆU",
+      "sections": {
+        "factors": [
+          "Hàm lượng hydro (H_db) trong nhiên liệu càng cao thì lượng hơi nước sinh ra trong quá trình cháy càng lớn.",
+          "Hơi nước mang theo một phần nhiệt ra khỏi buồng đốt, làm tăng tổn thất L2."
+        ],
+        "operational_actions": [
+          "Đây là tổn thất mang tính đặc trưng của thành phần nhiên liệu biomass, khó can thiệp nhiều bằng vận hành.",
+          "Khi có thể lựa chọn, ưu tiên nhiên liệu có thành phần phù hợp và độ ẩm không quá cao."
+        ]
+      }
+    },
+    {
+      "loss_id": "L3",
+      "loss_name": "TỔN THẤT DO HƠI ẨM CÓ SẴN TRONG NHIÊN LIỆU (W – Moisture)",
+      "sections": {
+        "factors": [
+          "Độ ẩm trong nhiên liệu càng cao thì càng phải dùng nhiệt để hóa hơi lượng nước này, làm giảm nhiệt cháy hữu ích.",
+          "GCV của nhiên liệu giảm mạnh khi độ ẩm tăng, buồng đốt khó đạt ~850°C.",
+          "Độ ẩm cao làm tăng tạo muội, giảm tốc độ cháy, dễ gây cháy không kiệt."
+        ],
+        "optimal_parameters": [
+          "Độ ẩm sinh khối < 45% là tốt nhất cho lò BFB."
+        ],
+        "symptoms": [
+          "Nhiệt độ buồng đốt thấp, thường < 700°C.",
+          "Áp suất hơi yếu, không ổn định.",
+          "Khói trắng nhiều, thể hiện nhiều hơi nước."
+        ],
+        "operational_actions": [
+          "Phối trộn nhiên liệu khô hơn với nhiên liệu ẩm cao để giảm ẩm trung bình.",
+          "Điều chỉnh chính sách thu mua: ưu tiên nhiên liệu có W < 45%.",
+          "Ưu tiên tăng nhiệt gió cấp 1 để hỗ trợ cháy."
+        ]
+      }
+    },
+    {
+      "loss_id": "L4",
+      "loss_name": "TỔN THẤT DO HƠI ẨM TRONG KHÔNG KHÍ (Air Moisture Loss)",
+      "sections": {
+        "factors": [
+          "Không khí có độ ẩm cao làm tăng lượng hơi nước đi vào lò qua gió cấp."
+        ],
+        "operational_actions": [
+          "Đây là điều kiện khách quan do thời tiết, khó điều chỉnh trực tiếp bằng vận hành.",
+          "Tăng cường kiểm tra cách nhiệt, bề mặt kim loại lạnh để tránh ngưng tụ và ăn mòn."
+        ]
+      }
+    },
+    {
+      "loss_id": "L5",
+      "loss_name": "TỔN THẤT DO CO CHƯA CHÁY HẾT",
+      "sections": {
+        "factors": [
+          "O₂ dư quá thấp (< 4%) dẫn đến thiếu oxy cho cháy hoàn toàn.",
+          "Nhiệt độ buồng đốt thấp làm phản ứng cháy không triệt để.",
+          "Kích thước nhiên liệu quá lớn hoặc phân bố kích thước không hợp lý gây cháy không đều.",
+          "Phân phối gió cấp 1 – cấp 2 chưa hợp lý."
+        ],
+        "optimal_parameters": [
+          "O₂ dư: 4–8.5%.",
+          "Nhiệt độ buồng đốt: khoảng 850°C."
+        ],
+        "symptoms": [
+          "Nồng độ CO trong khói thải tăng.",
+          "Khói màu nâu hoặc xám đậm, có mùi khét."
+        ],
+        "operational_actions": [
+          "Tăng quạt gió khi O₂ < 4%.",
+          "Tăng nhiệt độ buồng đốt bằng phối trộn nhiên liệu, ưu tiên nhiên liệu ẩm thấp.",
+          "Điều chỉnh lại phân phối gió cấp 1 và cấp 2 hợp lý."
+        ]
+      }
+    },
+    {
+      "loss_id": "L6",
+      "loss_name": "TỔN THẤT BỨC XẠ & CƠ KHÍ",
+      "sections": {
+        "factors": [
+          "Bảo ôn kém làm nhiệt thoát ra qua tường lò, vỏ lò, bề mặt ống.",
+          "Rò rỉ khí, rò rỉ gió phụ qua các khe hở, cửa lò, mặt bích."
+        ],
+        "optimal_parameters": [
+          "Bảo ôn đạt tiêu chuẩn, không rỗ, nứt, bong tróc.",
+          "Không để Tw < 80°C ở ống đuôi vì dễ ăn mòn."
+        ],
+        "symptoms": [
+          "Tường lò nóng rát khi chạm tay.",
+          "Tiêu thụ nhiên liệu tăng bất thường khi tải không đổi."
+        ],
+        "operational_actions": [
+          "Tăng cường bảo ôn toàn bộ bề mặt lò, ống.",
+          "Kiểm tra rò gió, rò khói; siết chặt mặt bích, bít các khe hở không cần thiết."
+        ]
+      }
+    },
+    {
+      "loss_id": "L7",
+      "loss_name": "TỔN THẤT CHÁY KHÔNG HẾT (CARBON CHƯA CHÁY)",
+      "sections": {
+        "factors": [
+          "Nhiên liệu quá to hoặc không đồng đều làm khó cháy kiệt.",
+          "Điều chỉnh quạt hút quá cao làm tro cháy bị hút ra khi chưa cháy hết.",
+          "Nhiệt độ buồng đốt không đủ do nhiên liệu ẩm cao."
+        ],
+        "optimal_parameters": [
+          "Nhiệt độ buồng đốt: 700–950°C, tốt nhất khoảng 850°C."
+        ],
+        "symptoms": [
+          "Tro xỉ có nhiều mảnh đen (carbon chưa cháy).",
+          "Khói xám, đen, nhiều hạt muội."
+        ],
+        "operational_actions": [
+          "Phối trộn nhiên liệu hợp lý, tránh quá nhiều hạt nhiên liệu quá to hoặc quá ẩm.",
+          "Tăng nhiệt độ buồng đốt, tối ưu phân phối gió.",
+          "Điều chỉnh quạt hút ở mức hợp lý."
+        ]
+      }
+    },
+    {
+      "loss_id": "L8",
+      "loss_name": "TỔN THẤT KHÁC / DỰ PHÒNG",
+      "sections": {
+        "factors": [
+          "Xả đáy quá mức làm thất thoát nhiều nước nóng và nhiệt.",
+          "Không thu hồi nước ngưng từ hệ thống sử dụng hơi.",
+          "Vận hành lò dưới tải quá thấp (< 20%) trong thời gian dài."
+        ],
+        "optimal_parameters": [
+          "Blowdown theo TDS thực tế, giữ TDS nước lò < 3500 ppm.",
+          "Thu hồi tối đa nước ngưng."
+        ],
+        "operational_actions": [
+          "Kiểm soát TDS, tăng cường xả đáy hợp lý, tránh xả quá ít hoặc quá nhiều.",
+          "Lắp bộ thu hồi nhiệt xả đáy.",
+          "Thu hồi nước ngưng triệt để.",
+          "Tránh chạy tải < 20%."
+        ]
+      }
+    }
+  ],
+  "general_warnings": [
+    {
+      "warning_id": "W1",
+      "title": "Chất lượng nước cấp",
+      "parameters": [
+        "Độ cứng nước cấp < 3 ppm.",
+        "TDS nước cấp < 300–500 ppm.",
+        "pH nước cấp: 6.5–9."
+      ],
+      "notes": "Nước cấp sạch giúp hạn chế cáu cặn, giảm ăn mòn, cải thiện truyền nhiệt và giảm tổn thất."
+    },
+    {
+      "warning_id": "W2",
+      "title": "Quy trình xả đáy",
+      "parameters": [
+        "Đo TDS mỗi ca để điều chỉnh chế độ xả đáy.",
+        "Giữ TDS nước lò < 3500 ppm.",
+        "Sử dụng bể giãn nở và thu hồi nhiệt xả đáy."
+      ],
+      "notes": "Xả đáy hợp lý giúp duy trì chất lượng nước lò và hơi, đồng thời giảm tổn thất L8."
+    },
+    {
+      "warning_id": "W3",
+      "title": "Bảo trì & vệ sinh định kỳ",
+      "parameters": [
+        "Thổi muội khi nhiệt độ khói thải tăng so với baseline.",
+        "Kiểm tra rò gió, rò hơi, rò khói định kỳ.",
+        "Hiệu chuẩn cảm biến nhiệt độ, O₂, áp suất, lưu lượng."
+      ],
+      "notes": "Bảo trì và vệ sinh định kỳ giúp duy trì hiệu suất lò, hạn chế tổn thất do bám muội, cáu cặn, rò rỉ và sai số đo lường."
+    }
+  ]
+};
+
+/* -------- 1.4 Canhbao.json – Ngưỡng cảnh báo (rút gọn) -------- */
+const canhBaoJSON = {
+  "fuel_moisture": {
+    "param": "W",
+    "levels": [
+      { "level": 0, "max": 35, "label": "Bình thường", "color": "green",
+        "message": "Độ ẩm nhiên liệu rất tốt (≤ 35%). Cháy khỏe, dễ giữ T_b ~ 850°C." },
+      { "level": 1, "min": 35, "max": 55, "label": "Cảnh báo", "color": "yellow",
+        "message": "Độ ẩm nhiên liệu cao, buồng đốt dễ tụt nhiệt độ, tiêu hao nhiên liệu tăng." },
+      { "level": 2, "min": 55, "label": "Nguy hiểm", "color": "red",
+        "message": "W > 55%. Rất khó giữ nhiệt độ buồng đốt; nguy cơ cháy không kiệt, CO cao, hiệu suất giảm mạnh." }
     ]
-  };
-
-  const vanHanhJSON = {
-    "schema_version": "1.0",
-    "description": "Bộ dữ liệu tổn thất lò hơi biomass (BFB) L1–L8 dùng cho web app tư vấn vận hành.",
-    "losses": [
-      {
-        "loss_id": "L1",
-        "loss_name": "TỔN THẤT KHÓI THẢI KHÔ (Dry Flue Gas Loss)",
-        "factors": [
-          "Nhiệt độ khí lò (Stack Temperature): Nhiệt độ khói càng cao thì tổn thất càng lớn, vì mang theo nhiều nhiệt ra ống khói. Tuy nhiên, không thể giảm nhiệt độ khói quá thấp vì dễ xảy ra ngưng tụ các axit như H₂SO₄, HCl, HF trên bề mặt kim loại vùng đuôi lò, gây ăn mòn nghiêm trọng.",
-          "Oxi dư (O₂_dry): Khi O₂ dư cao sẽ làm tăng khối lượng khói thải, kéo theo tăng tổn thất nhiệt qua khói thải. Ngược lại, nếu O₂ quá thấp sẽ dẫn đến cháy không hoàn toàn, sinh CO, làm giảm hiệu suất và gây mất an toàn vận hành.",
-          "Độ sạch bề mặt truyền nhiệt: Muội bám trên bề mặt ống sinh hơi, bộ hâm nước, bộ sấy không khí làm giảm hiệu quả trao đổi nhiệt, khiến nhiệt độ khói tăng lên theo thời gian, từ đó làm tăng tổn thất L1.",
-          "Chất lượng vật liệu bed và tính ổn định tầng sôi: Bed không đều, đóng cục (agglomeration), phân bố không đồng nhất sẽ làm giảm hiệu quả trao đổi nhiệt trong buồng đốt và buồng đối lưu, dẫn đến tăng nhiệt độ khói thải."
-        ],
-        "optimal_parameters": [
-          "O₂_dry: khoảng 4% – 8.5% được xem là tối ưu cho hầu hết các loại nhiên liệu sinh khối.",
-          "O₂_dry cho nhiên liệu mịn như trấu, bột trà… nên duy trì khoảng ~5.0% để cân bằng giữa cháy kiệt và hạn chế tổn thất do khói thải.",
-          "Nhiệt độ khí thải sau bộ hâm nước (economizer) nên duy trì khoảng ~145–155°C để vừa tận dụng tốt nhiệt, vừa đảm bảo giới hạn an toàn chống ăn mòn do điểm sương axit.",
-          "Nhiệt độ vách kim loại phần đuôi lò (Tw) nên duy trì: Tw > 80°C để tránh ngưng tụ H₂SO₄; khi Tw khoảng ~70°C đã bắt đầu có nguy cơ ngưng tụ HCl/HF, gây ăn mòn nghiêm trọng nếu kéo dài."
-        ],
-        "symptoms": [
-          "Nhiệt độ khí thải tăng dần theo thời gian so với giá trị ban đầu (baseline) trong cùng điều kiện tải và nhiên liệu, thường do bám muội hoặc do cấp quá nhiều gió.",
-          "Giá trị O₂ dư cao kéo dài, thường xuyên > 9% mà không có lý do chính đáng về an toàn hay yêu cầu vận hành.",
-          "Hiệu suất tổng thể lò hơi giảm so với mức thông thường dù tải và chất lượng nhiên liệu không thay đổi nhiều.",
-          "Áp suất hơi dao động, không ổn định trong khi nhiệt độ khói vẫn duy trì ở mức cao, là dấu hiệu của quá trình cháy không đều trong buồng đốt.",
-          "Khu vực đuôi lò, ống khói, bộ hâm nước có cảm giác nóng bất thường khi kiểm tra (cảm nhận hoặc đo nhiệt độ bề mặt), cho thấy truyền nhiệt kém và tổn thất L1 lớn."
-        ],
-        "operational_actions": [
-          "Kiểm soát O₂ ở mức hợp lý: nếu O₂ < 4% thì cần tăng quạt cấp gió (Primary/Secondary) để đảm bảo cháy kiệt và giảm sinh CO; nếu O₂ > 8.5% thì cần giảm lưu lượng gió cấp để tăng hiệu suất và giảm tổn thất L1, nhưng vẫn phải đảm bảo an toàn cháy.",
-          "Giảm nhiệt độ khí thải bằng các giải pháp tận dụng nhiệt: lắp đặt hoặc tối ưu hóa bộ hâm nước (economizer) và/hoặc bộ sấy không khí (air-preheater) để thu hồi nhiệt từ khói thải cho nước cấp và không khí cấp vào lò.",
-          "Thực hiện vệ sinh định kỳ bề mặt truyền nhiệt: làm sạch muội bám trên ống sinh hơi, bộ hâm, bộ sấy; theo dõi chênh lệch nhiệt độ khói thải trước và sau khi thổi muội để xây dựng ngưỡng cảnh báo cần vệ sinh.",
-          "Cải thiện chất lượng nhiên liệu: giảm độ ẩm và đảm bảo kích thước hạt nhiên liệu đồng đều hơn để tăng nhiệt độ buồng đốt, giúp khói thải ra có nhiệt độ phù hợp nhưng không quá cao, giảm tổn thất L1.",
-          "Cải thiện cấu hình buồng đốt và chế độ cấp gió khi lò vận hành ở tải thấp (<20%): có thể thu hẹp buồng đốt, điều chỉnh phân phối gió và chế độ vận hành để hạn chế O₂ dư quá cao.",
-          "Hạn chế cáu cặn trong hệ thống nước – hơi: xử lý nước tốt để hạn chế cáu cặn trên bề mặt ống, tăng hiệu quả truyền nhiệt và giảm nhiệt độ khói; khi cáu cặn đã quá dày, cần tiến hành tẩy lò đúng quy trình."
-        ]
-      },
-      {
-        "loss_id": "L2",
-        "loss_name": "TỔN THẤT DO HƠI ẨM HÌNH THÀNH TỪ H₂ TRONG NHIÊN LIỆU",
-        "factors": [
-          "Hàm lượng hydro (H_db) trong nhiên liệu càng cao thì trong quá trình cháy sẽ sinh ra lượng hơi nước càng lớn. Hơi nước này mang theo một phần nhiệt ra khỏi buồng đốt, góp phần tăng tổn thất L2.",
-          "Nhiệt độ khí lò cao và độ dư gió lớn làm tăng khả năng bay hơi và mang theo hơi nước ra ngoài, từ đó làm tăng tổn thất do hơi ẩm sinh ra từ hydro trong nhiên liệu."
-        ],
-        "optimal_parameters": [],
-        "symptoms": [],
-        "operational_actions": [
-          "Đây là dạng tổn thất mang tính đặc trưng của thành phần nhiên liệu biomass, liên quan chủ yếu đến tỷ lệ hydro trong nhiên liệu nên khó can thiệp triệt để bằng vận hành.",
-          "Tập trung vệ sinh, bảo dưỡng tốt phần đuôi lò, ống khói, bộ hâm nước, bộ sấy không khí… để hạn chế ảnh hưởng của hơi nước và các hợp chất ăn mòn sinh ra từ hydro trong nhiên liệu.",
-          "Khi có thể lựa chọn, ưu tiên các loại nhiên liệu có thành phần phù hợp (H_db hợp lý, độ ẩm không quá cao) để giảm tổng tổn thất liên quan đến hơi nước."
-        ]
-      },
-      {
-        "loss_id": "L3",
-        "loss_name": "TỔN THẤT DO HƠI ẨM CÓ SẴN TRONG NHIÊN LIỆU (W – Moisture)",
-        "factors": [
-          "Độ ẩm trong nhiên liệu càng cao thì càng phải sử dụng nhiều nhiệt để hóa hơi lượng nước này trước khi nhiên liệu đạt tới nhiệt độ cháy, làm giảm nhiệt cháy hữu ích cung cấp cho quá trình sinh hơi.",
-          "Giá trị GCV (giá trị nhiệt trị) của nhiên liệu giảm mạnh khi độ ẩm tăng, khiến buồng đốt khó đạt nhiệt độ mục tiêu khoảng 850°C, nhất là với lò tầng sôi BFB.",
-          "Độ ẩm cao làm tăng lượng muội, giảm tốc độ cháy, dễ gây cháy không kiệt và làm giảm ổn định quá trình cháy trong buồng đốt."
-        ],
-        "optimal_parameters": [
-          "Độ ẩm sinh khối (W) nên nhỏ hơn 45% được xem là tốt nhất cho vận hành lò BFB, vừa đảm bảo cháy ổn định, vừa không làm giảm hiệu suất quá nhiều.",
-          "Kích thước nhiên liệu nên đồng đều để quá trình cháy diễn ra đều hơn trong tầng sôi, hạn chế vùng cháy yếu hoặc cháy không kiệt do sự khác biệt quá lớn về kích thước hạt."
-        ],
-        "symptoms": [
-          "Nhiệt độ buồng đốt thấp, thường < 700°C trong điều kiện tải bình thường, cho thấy nhiều nhiệt bị tiêu hao để làm bay hơi nước trong nhiên liệu.",
-          "Áp suất hơi yếu, không ổn định, khó duy trì áp suất đặt dù đã tăng cấp nhiên liệu và gió.",
-          "Khói trắng nhiều, thể hiện lượng hơi nước lớn trong khói thải do ẩm trong nhiên liệu cao.",
-          "Giảm tốc độ cháy, phải cấp nhiên liệu nhiều hơn để giữ cùng một mức tải hơi, báo hiệu hiệu suất cháy giảm do độ ẩm cao."
-        ],
-        "operational_actions": [
-          "Phối trộn nhiên liệu khô hơn với nhiên liệu ẩm cao để giảm độ ẩm trung bình của hỗn hợp, cải thiện điều kiện cháy và giảm tổn thất L3.",
-          "Điều chỉnh chính sách thu mua nhiên liệu: ưu tiên các nguồn nhiên liệu có độ ẩm W < 45% để nâng cao hiệu suất lò về lâu dài.",
-          "Cải tiến và ưu tiên sử dụng bộ sấy không khí để tăng nhiệt độ gió cấp 1, giúp nhiên liệu dễ bắt cháy hơn và cải thiện quá trình cháy trong tầng sôi.",
-          "Phối trộn nhiên liệu kích thước lớn với loại nhỏ sao cho hợp lý, giúp hỗ trợ cháy đều, tránh tình trạng nhiên liệu quá to và quá ẩm gây cháy không kiệt."
-        ]
-      },
-      {
-        "loss_id": "L4",
-        "loss_name": "TỔN THẤT DO HƠI ẨM TRONG KHÔNG KHÍ (Air Moisture Loss)",
-        "factors": [
-          "Độ ẩm trong không khí cao, đặc biệt vào mùa mưa hoặc trong điều kiện môi trường có nhiều hơi nước ngoài trời, làm tăng lượng hơi nước đi vào lò qua không khí cấp.",
-          "Không khí ẩm khi được gia nhiệt sẽ mang theo nhiều hơi nước hơn ra ống khói, làm tăng một phần tổn thất nhiệt do phải làm nóng và hóa hơi lượng nước này."
-        ],
-        "optimal_parameters": [],
-        "symptoms": [],
-        "operational_actions": [
-          "Đây là điều kiện khách quan do thời tiết và môi trường xung quanh lò hơi, hầu như không thể điều chỉnh trực tiếp bằng vận hành thông thường.",
-          "Cần chú ý bảo dưỡng định kỳ các thiết bị ở phần đuôi lò (bộ hâm nước, bộ sấy không khí, ống khói, ống trao đổi nhiệt…) để hạn chế ảnh hưởng ăn mòn do kết hợp giữa độ ẩm cao và các khí axit trong khói thải.",
-          "Trong những giai đoạn độ ẩm không khí quá cao, nên tăng cường kiểm tra tình trạng cách nhiệt, bề mặt kim loại lạnh để tránh ngưng tụ và ăn mòn cục bộ."
-        ]
-      },
-      {
-        "loss_id": "L5",
-        "loss_name": "TỔN THẤT DO CO CHƯA CHÁY HẾT",
-        "factors": [
-          "Giá trị O₂ dư quá thấp (thường < 4%) dẫn tới thiếu ôxy cho quá trình cháy hoàn toàn, làm tăng nồng độ CO trong khói thải.",
-          "Nhiệt độ buồng đốt thấp khiến phản ứng cháy diễn ra không triệt để, tạo nhiều CO và muội than.",
-          "Kích thước nhiên liệu quá lớn hoặc phân bố kích thước không hợp lý làm cháy không đều, có vùng cháy yếu, gây tăng CO.",
-          "Phân phối gió cấp 1 (tầng sôi) và gió cấp 2 (gió trên) chưa hợp lý, dẫn tới vùng thiếu gió hoặc thừa gió cục bộ, làm tăng CO và giảm hiệu suất."
-        ],
-        "optimal_parameters": [
-          "Giữ O₂ dư trong khoảng 4–8.5% để cân bằng giữa cháy kiệt và hạn chế tổn thất do khói thải, đồng thời hạn chế sinh CO.",
-          "Nhiệt độ buồng đốt nên duy trì khoảng ~850°C để đảm bảo cháy hoàn toàn và ổn định, đặc biệt đối với lò BFB đốt sinh khối."
-        ],
-        "symptoms": [
-          "Nồng độ CO trong khói thải tăng cao so với giá trị mục tiêu hoặc vượt ngưỡng cho phép, là dấu hiệu trực tiếp của cháy không hoàn toàn.",
-          "Khói có màu nâu hoặc xám đậm, đôi khi kèm theo mùi khét, thể hiện sự tồn tại của CO và các hạt muội.",
-          "Áp suất hơi dao động, không ổn định do quá trình cháy không đều, lúc dư gió lúc thiếu gió, gây ảnh hưởng đến tải hơi."
-        ],
-        "operational_actions": [
-          "Tăng quạt gió cấp (đặc biệt là gió cấp 1) khi O₂ < 4% để đảm bảo đủ ôxy cho quá trình cháy, giảm sinh CO và nâng cao hiệu suất.",
-          "Tăng nhiệt độ buồng đốt bằng cách phối trộn nhiên liệu hợp lý: ưu tiên nhiên liệu có chất lượng tốt hơn, độ ẩm thấp hơn, kích thước phù hợp để cải thiện điều kiện cháy.",
-          "Khi lò vận hành ở công suất tải thấp, có thể cân nhắc thu hẹp buồng đốt hoặc điều chỉnh cấu hình vận hành để giảm vùng chết và cải thiện phân phối gió.",
-          "Điều chỉnh lại phân phối gió cấp 1 và cấp 2 cho hợp lý: đảm bảo tầng sôi được cấp đủ gió để cháy nền tốt, đồng thời gió cấp 2 hỗ trợ hoàn thiện cháy ở vùng phía trên buồng đốt."
-        ]
-      },
-      {
-        "loss_id": "L6",
-        "loss_name": "TỔN THẤT BỨC XẠ & CƠ KHÍ",
-        "factors": [
-          "Hệ thống bảo ôn, cách nhiệt kém làm nhiệt thoát ra ngoài qua tường lò, bề mặt ống và các vị trí hở, gây tổn thất bức xạ đáng kể.",
-          "Rò rỉ khí và rò rỉ gió phụ qua các khe hở, cửa lò, đường ống, mặt bích… làm thất thoát nhiệt, ảnh hưởng đến cân bằng nhiệt của hệ thống.",
-          "Vật liệu bed bị đóng cục, phân bố không đều hoặc vận tốc gió không đồng đều trong buồng đốt làm giảm hiệu quả truyền nhiệt giữa bed, nhiên liệu và ống trao đổi nhiệt."
-        ],
-        "optimal_parameters": [
-          "Lớp bảo ôn và cách nhiệt phải được thi công đúng tiêu chuẩn, đầy đủ chiều dày, không bị hư hỏng, rỗng, nứt hoặc bong tróc, nhằm hạn chế tối đa tổn thất bức xạ.",
-          "Không để nhiệt độ bề mặt ống đuôi (Tw) < 80°C tại các vị trí có nguy cơ ngưng tụ axit, để giảm ăn mòn; đồng thời phải kiểm soát thiết kế vận hành để tránh quá lạnh ở bề mặt kim loại vùng đuôi lò."
-        ],
-        "symptoms": [
-          "Tường lò, vỏ lò hoặc các vị trí bên ngoài lò có cảm giác nóng rát khi chạm tay hoặc đo nhiệt độ, thể hiện tổn thất bức xạ và đối lưu ra môi trường xung quanh khá lớn.",
-          "Tiêu thụ nhiên liệu tăng bất thường trong khi tải hơi giữ ở mức không đổi, cho thấy hiệu suất tổng thể giảm do tổn thất bức xạ và cơ khí tăng.",
-          "Có thể quan sát thấy rò gió, rò khói tại các khe hở, cửa lò, mặt bích, hoặc nghe tiếng gió rít, làm mất cân bằng dòng khí trong hệ thống."
-        ],
-        "operational_actions": [
-          "Tăng cường và hoàn thiện hệ thống bảo ôn cho toàn bộ bề mặt lò, ống, đường ống hơi, đường ống khói và các thiết bị trao đổi nhiệt để giảm thất thoát nhiệt ra môi trường.",
-          "Kiểm tra và khắc phục triệt để các vị trí rò gió, rò khói: siết chặt mặt bích, thay gioăng, điều chỉnh và bảo dưỡng cửa lò, bít lại các khe hở không cần thiết.",
-          "Đảm bảo bed hoạt động ổn định: kiểm soát vận tốc gió tầng sôi, tránh bed đóng cục hoặc phân bố không đều, duy trì chế độ phân tán nhiên liệu phù hợp để tối ưu truyền nhiệt.",
-          "Thiết lập quy trình kiểm tra định kỳ bằng đo nhiệt độ bề mặt tường lò và vỏ thiết bị để phát hiện sớm các vùng tổn thất bức xạ bất thường."
-        ]
-      },
-      {
-        "loss_id": "L7",
-        "loss_name": "TỔN THẤT CHÁY KHÔNG HẾT (CARBON CHƯA CHÁY)",
-        "factors": [
-          "Kích thước nhiên liệu quá lớn hoặc không đồng đều làm cho nhiên liệu khó cháy kiệt, tạo ra nhiều hạt carbon chưa cháy trong tro xỉ.",
-          "Điều chỉnh quạt hút (ID fan) quá cao làm tốc độ dòng khí qua buồng đốt và đuôi lò tăng mạnh, hút tro xỉ còn chứa nhiều carbon ra ngoài trước khi cháy hết.",
-          "Nhiệt độ buồng đốt không đủ cao, đặc biệt khi độ ẩm nhiên liệu cao hoặc phân phối gió chưa hợp lý, dẫn đến cháy không kiệt và làm tăng carbon trong tro."
-        ],
-        "optimal_parameters": [
-          "Nhiệt độ buồng đốt nên duy trì trong khoảng 700–950°C, trong đó khoảng 850°C được xem là tốt nhất cho cháy kiệt và ổn định đối với lò BFB.",
-          "Nhiên liệu nên có kích thước đồng nhất, phù hợp với thiết kế của lò và tầng sôi, tránh chênh lệch kích thước quá lớn giữa các hạt."
-        ],
-        "symptoms": [
-          "Tro xỉ có nhiều mảnh đen, hạt than lớn (carbon chưa cháy), chứng tỏ nhiên liệu không cháy kiệt; tro cháy kiệt đúng chuẩn thường có màu trắng xám đều.",
-          "Khói có màu xám hoặc đen, thể hiện còn nhiều hạt muội và carbon trong dòng khói thải.",
-          "Hiệu suất lò thấp, tiêu hao nhiên liệu cao trong khi O₂ dư vẫn nằm trong khoảng chuẩn, cho thấy tổn thất do carbon chưa cháy (L7) đang tăng."
-        ],
-        "operational_actions": [
-          "Phối trộn nhiên liệu hợp lý, đảm bảo kích thước phù hợp và đồng đều hơn, tránh sử dụng quá nhiều hạt nhiên liệu quá to hoặc quá ẩm trong cùng một thời điểm.",
-          "Tăng nhiệt độ buồng đốt bằng cách cải thiện chất lượng nhiên liệu, tối ưu phân phối gió và nếu cần có thể cải tiến lại cấu trúc buồng đốt để tăng thời gian lưu và cường độ cháy.",
-          "Điều chỉnh quạt hút (ID fan) ở mức hợp lý để không hút tro xỉ còn chứa nhiều carbon ra ngoài quá sớm; cân bằng với quạt cấp gió để đảm bảo áp suất và lưu lượng khí phù hợp.",
-          "Theo dõi chất lượng tro định kỳ (màu sắc, tỷ lệ hạt đen) như một chỉ báo thực tế cho mức độ cháy kiệt và tổn thất L7."
-        ]
-      },
-      {
-        "loss_id": "L8",
-        "loss_name": "TỔN THẤT KHÁC / DỰ PHÒNG",
-        "factors": [
-          "Xả đáy (blowdown) quá mức so với nhu cầu thực tế làm thất thoát một lượng lớn nước nóng và nhiệt ra ngoài, gây tăng tiêu thụ nhiên liệu.",
-          "Không thu hồi nước ngưng (condensate) từ các đường ống, thiết bị trao đổi nhiệt và hệ thống sử dụng hơi làm mất đi lượng nước đã được xử lý và gia nhiệt, tăng lượng nước lạnh phải cấp mới.",
-          "Vận hành lò dưới tải quá thấp (thường < 20%) trong thời gian dài làm giảm hiệu suất tổng thể, tăng tỷ lệ tổn thất cố định trên một đơn vị hơi sản xuất."
-        ],
-        "optimal_parameters": [
-          "Thực hiện xả đáy theo giá trị TDS thực tế, duy trì TDS nước lò < 3500 ppm để vừa đảm bảo chất lượng hơi, vừa không xả đáy quá mức gây lãng phí nhiệt.",
-          "Thu hồi nước ngưng tối đa, mục tiêu hướng đến thu hồi 100% nước ngưng có thể thu hồi được, nhằm tiết kiệm năng lượng và hóa chất xử lý nước.",
-          "Điều chỉnh chế độ vận hành và công suất để hạn chế chạy lò ở tải < 20% trong thời gian dài, xem xét giải pháp kỹ thuật hoặc tổ chức vận hành phù hợp với nhu cầu tải thực tế."
-        ],
-        "symptoms": [
-          "TDS nước cấp hoặc nước lò đo được quá cao, buộc phải xả đáy nhiều, nếu không kiểm soát tốt sẽ vừa gây tổn thất nhiệt, vừa ảnh hưởng chất lượng hơi.",
-          "Hơi bão hòa có độ ẩm lớn, chất lượng hơi kém, có thể gây búa nước hoặc làm giảm hiệu suất của các thiết bị sử dụng hơi.",
-          "Mức nước trong bao hơi dao động bất thường, khó kiểm soát, có thể liên quan đến chế độ xả đáy, chất lượng nước và cách điều khiển.",
-          "Ghi nhận tiêu hao nhiên liệu và nước cấp cao bất thường khi tải hơi không tăng tương ứng, là dấu hiệu các tổn thất khác (L8) đang cao."
-        ],
-        "operational_actions": [
-          "Kiểm soát chặt chẽ TDS nước lò và nước cấp, thiết lập chế độ xả đáy hợp lý dựa trên kết quả đo TDS mỗi ca; tránh xả đáy quá mức gây tổn thất nhiệt lớn.",
-          "Lắp đặt và vận hành hiệu quả bộ thu hồi nhiệt xả đáy (flash tank, heat exchanger) để tận dụng nhiệt từ nước xả đáy cho nước cấp hoặc các mục đích gia nhiệt khác.",
-          "Thiết kế và vận hành hệ thống thu hồi nước ngưng triệt để, giảm tối đa lượng nước ngưng thất thoát ra ngoài môi trường.",
-          "Tránh vận hành lò ở tải < 20% trong thời gian dài; nếu nhu cầu hơi thường xuyên thấp, cần cân nhắc các giải pháp như điều chỉnh công suất thiết kế, thay đổi cách tổ chức sản xuất hoặc cải tiến hệ thống để phù hợp với công suất thấp."
-        ]
-      }
-    ],
-    "global_optimization": {
-      "water_quality": {
-        "description": "Chất lượng nước cấp có vai trò then chốt trong việc hạn chế cáu cặn, ăn mòn và giảm tổn thất, đặc biệt là L1 và các tổn thất liên quan đến truyền nhiệt.",
-        "parameters": [
-          "Độ cứng (Hardness) nước cấp nên < 3 ppm để hạn chế tạo cáu cặn trên bề mặt ống.",
-          "TDS (tổng chất rắn hòa tan) của nước cấp nên < 500 ppm để giảm nguy cơ cáu cặn và ăn mòn.",
-          "pH nước cấp nên duy trì trong khoảng 6.5–9 để vừa hạn chế ăn mòn, vừa không tạo điều kiện cho cáu cặn phát triển mạnh.",
-          "Nước cấp càng sạch, được xử lý tốt sẽ càng hạn chế cáu cặn, từ đó cải thiện truyền nhiệt và gián tiếp giảm tổn thất L1."
-        ]
-      },
-      "blowdown_procedure": {
-        "description": "Quy trình xả đáy hợp lý giúp kiểm soát TDS, duy trì chất lượng nước lò và hơi, đồng thời giảm tổn thất nhiệt do xả đáy quá mức.",
-        "steps": [
-          "Đo TDS nước lò và nước cấp đều đặn mỗi ca vận hành để nắm rõ xu hướng tích tụ muối và tạp chất.",
-          "Điều chỉnh chế độ xả đáy dựa trên giá trị TDS thực tế, tránh xả đáy quá ít gây tích tụ tạp chất, cũng như quá nhiều gây tổn thất nhiệt.",
-          "Sử dụng bể giãn nở (flash tank) kết hợp thu hồi nhiệt từ nước xả đáy để gia nhiệt nước cấp hoặc các dòng nước sử dụng khác.",
-          "Ghi chép, theo dõi lịch sử TDS và lưu lượng xả đáy để tối ưu hóa dần quy trình, giảm tổn thất L8."
-        ]
-      },
-      "maintenance_and_cleaning": {
-        "description": "Bảo trì và vệ sinh định kỳ giúp duy trì hiệu suất lò ở mức cao, hạn chế tổn thất do bám muội, cáu cặn, rò rỉ và sai số đo lường.",
-        "actions": [
-          "Thực hiện thổi muội khi nhiệt độ khói thải tăng so với giá trị baseline trong cùng điều kiện tải và nhiên liệu, nhằm khôi phục hiệu quả trao đổi nhiệt.",
-          "Kiểm tra thường xuyên các vị trí có nguy cơ rò gió, rò hơi, rò khói và khắc phục kịp thời để tránh tổn thất nhiệt và mất cân bằng dòng khí.",
-          "Hiệu chuẩn định kỳ các thiết bị đo như cảm biến nhiệt độ, cảm biến O₂, đồng hồ áp suất, lưu lượng kế… để đảm bảo số liệu chính xác phục vụ vận hành tối ưu.",
-          "Lập kế hoạch bảo dưỡng định kỳ cho toàn bộ hệ thống: lò hơi, bộ hâm, bộ sấy, quạt, bơm, van, hệ thống xử lý nước, nhằm duy trì hiệu suất và độ tin cậy lâu dài."
-        ]
-      }
-    }
-  };
-
-  /* ==============================
-   * 2. UTILS
-   * ============================== */
-
-  function clampNumber(value, fallback = 0) {
-    const v = Number(value);
-    return Number.isFinite(v) ? v : fallback;
+  },
+  "furnace_temp": {
+    "param": "T_b",
+    "levels": [
+      { "level": 2, "max": 550, "label": "Nguy hiểm (thấp)", "color": "red",
+        "message": "T_b < 550°C: cháy rất kém, CO cao, khó đáp ứng tải." },
+      { "level": 1, "min": 550, "max": 700, "label": "Cảnh báo (thiếu nhiệt)", "color": "yellow",
+        "message": "550°C ≤ T_b < 700°C: cháy kém, dễ sinh CO, áp suất hơi dao động." },
+      { "level": 0, "min": 700, "max": 950, "label": "Bình thường", "color": "green",
+        "message": "700–950°C: vùng làm việc tốt, ưu tiên ~850°C." },
+      { "level": 1, "min": 950, "label": "Cảnh báo (quá nóng)", "color": "yellow",
+        "message": "T_b > 950°C: nguy cơ kết khối/xỉ, bám muội mạnh, cần xem lại phân phối gió & tải." }
+    ]
+  },
+  "O2_dry": {
+    "param": "O2_dry",
+    "levels": [
+      { "level": 2, "max": 3, "label": "Nguy hiểm (thiếu gió)", "color": "red",
+        "message": "O₂_dry < 3%: rất dễ sinh CO cao, cháy không hoàn toàn." },
+      { "level": 1, "min": 3, "max": 4, "label": "Cảnh báo thiếu gió", "color": "yellow",
+        "message": "3–4%: bắt đầu nguy cơ thiếu gió, có thể xuất hiện CO." },
+      { "level": 0, "min": 4, "max": 8.5, "label": "Bình thường", "color": "green",
+        "message": "4–8.5%: dải O₂ tối ưu cho sinh khối." },
+      { "level": 1, "min": 8.5, "max": 9, "label": "Cảnh báo dư gió", "color": "yellow",
+        "message": "8.5–9%: khói thải tăng, tổn thất L1 tăng." },
+      { "level": 2, "min": 9, "label": "Nguy hiểm (dư gió)", "color": "red",
+        "message": "O₂_dry > 9%: tổn thất khói thải rất lớn, hiệu suất tụt rõ rệt." }
+    ]
+  },
+  "T_fw": {
+    "param": "T_fw",
+    "levels": [
+      { "level": 2, "max": 60, "label": "Nguy hiểm (nước cấp lạnh)", "color": "red",
+        "message": "T_fw < 60°C: nước cấp rất lạnh, sốc nhiệt, nguy cơ nứt nhiệt." },
+      { "level": 1, "min": 60, "max": 80, "label": "Cảnh báo", "color": "yellow",
+        "message": "60–80°C: nước cấp hơi lạnh, phải đốt nhiều nhiên liệu hơn." },
+      { "level": 0, "min": 80, "max": 105, "label": "Bình thường", "color": "green",
+        "message": "80–105°C: dải khuyến nghị, hỗ trợ khử khí tốt." },
+      { "level": 1, "min": 105, "max": 115, "label": "Cảnh báo (quá nóng)", "color": "yellow",
+        "message": "105–115°C: nguy cơ xâm thực bơm nước cấp." },
+      { "level": 2, "min": 115, "label": "Nguy hiểm", "color": "red",
+        "message": "T_fw > 115°C: đa số bơm không còn phù hợp, rất dễ hỏng bơm." }
+    ]
+  },
+  "T_stack": {
+    "param": "T_stack",
+    "levels": [
+      { "level": 2, "max": 100, "label": "Nguy hiểm (ăn mòn)", "color": "red",
+        "message": "T_stack < 100°C (đặc biệt khi W cao): nguy cơ ngưng tụ axit, ăn mòn mạnh phần đuôi lò." },
+      { "level": 1, "min": 120, "max": 145, "label": "Cảnh báo (thấp)", "color": "yellow",
+        "message": "120–145°C: cần theo dõi nguy cơ ngưng tụ khi độ ẩm môi trường cao." },
+      { "level": 0, "min": 145, "max": 155, "label": "Bình thường", "color": "green",
+        "message": "145–155°C: vùng tối ưu giữa hiệu suất và chống ăn mòn." },
+      { "level": 1, "min": 155, "max": 180, "label": "Cảnh báo (cao)", "color": "yellow",
+        "message": "155–180°C: bắt đầu lãng phí nhiệt, thường do bám muội/cáu cặn." },
+      { "level": 2, "min": 180, "label": "Nguy hiểm (rất cao)", "color": "red",
+        "message": "T_stack > 180°C: tổn thất rất lớn, nguy cơ cháy túi vải lọc bụi." }
+    ]
+  },
+  "T_w": {
+    "param": "T_w",
+    "levels": [
+      { "level": 2, "max": 70, "label": "Nguy hiểm", "color": "red",
+        "message": "Tw < 70°C: nguy cơ ăn mòn mạnh, thủng ống, rò rỉ." },
+      { "level": 1, "min": 70, "max": 80, "label": "Cảnh báo", "color": "yellow",
+        "message": "70–80°C: bắt đầu nguy cơ ngưng tụ axit trên bề mặt kim loại." },
+      { "level": 0, "min": 80, "max": 120, "label": "Bình thường", "color": "green",
+        "message": "80–120°C: vùng an toàn cho ống đuôi lò." }
+    ]
+  },
+  "load": {
+    "param": "Load",
+    "levels": [
+      { "level": 1, "max": 20, "label": "Nguy hiểm (tải rất thấp)", "color": "red",
+        "message": "Load < 20%: vận hành dưới tải quá thấp, tổn thất lớn, khó giữ T_b và O₂." },
+      { "level": 1, "min": 20, "max": 35, "label": "Cảnh báo (tải thấp)", "color": "yellow",
+        "message": "20–35%: hiệu suất bắt đầu giảm, O₂ thường cao hơn." },
+      { "level": 0, "min": 35, "max": 85, "label": "Bình thường", "color": "green",
+        "message": "35–85%: dải tải hiệu quả, dễ tối ưu O₂ và nhiệt khói." },
+      { "level": 1, "min": 85, "label": "Cảnh báo (tải cao)", "color": "yellow",
+        "message": "Load > 85%: tổn thất L1 tăng rõ rệt, rủi ro sự cố nâng cao (đặc biệt nếu >100%)." }
+    ]
+  },
+  "TDS_boiler": {
+    "param": "TDS_boiler",
+    "levels": [
+      { "level": 0, "max": 2500, "label": "Bình thường", "color": "green",
+        "message": "TDS nước lò ≤ 2500 ppm: ít nguy cơ sôi bọt, cuốn nước theo hơi." },
+      { "level": 1, "min": 2500, "max": 3500, "label": "Cảnh báo", "color": "yellow",
+        "message": "2500–3500 ppm: bắt đầu nguy cơ sôi bọt, cuốn nước; cần tăng xả đáy." },
+      { "level": 2, "min": 3500, "label": "Nguy hiểm", "color": "red",
+        "message": "TDS nước lò > 3500 ppm: dễ kéo nước vào hơi, cáu cặn tăng nhanh." }
+    ]
   }
+};
 
-  function round(value, digits = 2) {
-    const factor = Math.pow(10, digits);
-    return Math.round(value * factor) / factor;
-  }
+/* ==========================================================
+   2. HÀM TIỆN ÍCH & ĐỌC INPUT
+   ========================================================== */
 
-  // Saturation pressure of water (approx.) – Tetens formula
-  function saturationPressure_kPa(T_C) {
-    const es_hPa = 6.1078 * Math.pow(10, (7.5 * T_C) / (237.3 + T_C));
-    return es_hPa / 10.0; // kPa
-  }
+function getFuelByName(name) {
+  return nhienLieuJSON.fuels.find(f => f.fuel_name === name);
+}
 
-  function formatNumber(value, digits = 2) {
-    if (!Number.isFinite(value)) return "–";
-    return round(value, digits).toLocaleString("vi-VN");
-  }
+function parseNumber(value, fallback = 0) {
+  const v = parseFloat(value);
+  return Number.isFinite(v) ? v : fallback;
+}
 
-  /* ==============================
-   * 3. FUEL MIXING LOGIC
-   * ============================== */
+function approxPsat_kPa(T) {
+  // Công thức Magnus cho áp suất bão hòa nước (°C → kPa)
+  const e = 0.61094 * Math.exp((17.625 * T) / (T + 243.04));
+  return e * 10; // 1 hPa ~ 0.1 kPa; dùng hệ số gần đúng, mục đích vận hành
+}
 
-  function convertAsReceived(fuelDry, moisturePercent, GCV_db) {
-    const M = clampNumber(moisturePercent, 0);
-    const C_db = fuelDry.C || 0;
-    const H_db = fuelDry.H || 0;
-    const O_db = fuelDry.O || 0;
-    const S_db = fuelDry.S || 0;
-    const N_db = fuelDry.N || 0;
-    const A_db = fuelDry.Ash || 0;
+function approxSteamProps(Pg_bar) {
+  // Ước lượng đơn giản: Tsat ≈ 100 + 3*Pg
+  const Tsat = 100 + 3 * Pg_bar;
+  const h_f = 4.18 * Tsat;       // ~kJ/kg nước sôi
+  const h_steam = 2746 + 5 * (Pg_bar - 10); // kJ/kg, xấp xỉ quanh 10 bar
+  return { Tsat, h_f, h_steam };
+}
 
-    const C_ar = C_db * (100 - M) / 100;
-    const H_ar = H_db * (100 - M) / 100;
-    const O_ar = O_db * (100 - M) / 100;
-    const S_ar = S_db * (100 - M) / 100;
-    const N_ar = N_db * (100 - M) / 100;
-    const A_ar = A_db * (100 - M) / 100;
-    const M_ar = M;
-    const GCV_ar = GCV_db * (100 - M) / 100;
+function getFuelRowsData() {
+  const rows = Array.from(document.querySelectorAll(".fuel-row"));
+  let fuels = [];
+  for (const row of rows) {
+    const fuelName = row.querySelector(".fuel-name").value;
+    if (!fuelName) continue;
+    const fuel = getFuelByName(fuelName);
+    if (!fuel) continue;
+    const moisture = parseNumber(row.querySelector(".fuel-moisture").value, fuel.default_M ?? 40);
+    const mf = parseNumber(row.querySelector(".fuel-mf").value, 0);
+    const price = parseNumber(row.querySelector(".fuel-price").value, 0);
 
-    const c = C_ar / 100;
-    const h = H_ar / 100;
-    const o = O_ar / 100;
-    const s = S_ar / 100;
-    const n = N_ar / 100;
-    const a = A_ar / 100;
-    const m = M_ar / 100;
-
-    return {
-      C_ar, H_ar, O_ar, S_ar, N_ar, A_ar, M_ar,
-      GCV_ar,
-      c, h, o, s, n, a, m
-    };
-  }
-
-  function computeFuelMixture(fuelRows) {
-    let totalShare = 0;
-    fuelRows.forEach(r => totalShare += r.massShare);
-
-    if (totalShare <= 0) {
-      return {
-        valid: false,
-        warning: "Chưa nhập tỷ lệ khối lượng nhiên liệu.",
-        GCV_ar: 0,
-        C_ar: 0, H_ar: 0, O_ar: 0, S_ar: 0, N_ar: 0, A_ar: 0, M_ar: 0,
-        c: 0, h: 0, o: 0, s: 0, n: 0, a: 0, m: 0,
-        avgPrice: 0,
-        totalShare: 0
-      };
-    }
-
-    let norm = totalShare;
-    if (norm === 0) norm = 1;
-
-    let mix = {
-      GCV_ar: 0,
-      C_ar: 0, H_ar: 0, O_ar: 0, S_ar: 0, N_ar: 0, A_ar: 0, M_ar: 0,
-      avgPrice: 0
-    };
-
-    fuelRows.forEach(row => {
-      const w = row.massShare / norm;
-      const ar = row.ar;
-      mix.GCV_ar += w * ar.GCV_ar;
-      mix.C_ar += w * ar.C_ar;
-      mix.H_ar += w * ar.H_ar;
-      mix.O_ar += w * ar.O_ar;
-      mix.S_ar += w * ar.S_ar;
-      mix.N_ar += w * ar.N_ar;
-      mix.A_ar += w * ar.A_ar;
-      mix.M_ar += w * ar.M_ar;
-      mix.avgPrice += w * row.price;
+    fuels.push({
+      fuel,
+      M_ar: moisture,
+      mass_fraction_pct: mf,
+      price_vnd_per_kg: price
     });
+  }
+  return fuels;
+}
 
-    const c = mix.C_ar / 100;
-    const h = mix.H_ar / 100;
-    const o = mix.O_ar / 100;
-    const s = mix.S_ar / 100;
-    const n = mix.N_ar / 100;
-    const a = mix.A_ar / 100;
-    const m = mix.M_ar / 100;
+function getOperationInputs() {
+  const O2_dry = parseNumber(document.getElementById("inpO2").value);
+  const CO_ppm = parseNumber(document.getElementById("inpCO").value);
+  const Tf = parseNumber(document.getElementById("inpTf").value);
+  const Ta = parseNumber(document.getElementById("inpTa").value);
+  const T_fw = parseNumber(document.getElementById("inpTfw").value);
+  const T_b = parseNumber(document.getElementById("inpTb").value);
+  const T_w = parseNumber(document.getElementById("inpTw").value);
+  const RH = parseNumber(document.getElementById("inpRH").value || "80", 80);
+  const P_g = parseNumber(document.getElementById("inpPg").value || "10", 10);
+  const design_capacity = parseNumber(document.getElementById("inpDesignCap").value);
+  const actual_capacity = parseNumber(document.getElementById("inpActualCap").value);
+  const TDS_fw = parseNumber(document.getElementById("inpTDS").value);
+  let BR = document.getElementById("inpBR").value;
+  let BR_val = parseNumber(BR);
+  if (!BR && TDS_fw > 0) {
+    // Gợi ý BR ~ phụ thuộc TDS nước cấp (σ đơn giản)
+    BR_val = Math.max(1, Math.min(10, (TDS_fw / 300) * 3));
+  }
+  const L6_user = document.getElementById("inpL6User").value;
+  const L7_user = document.getElementById("inpL7User").value;
 
-    return {
-      valid: true,
-      warning: (Math.abs(totalShare - 100) > 5)
-        ? "Tổng tỷ lệ khối lượng khác 100% > 5%. Nên hiệu chỉnh lại."
-        : "",
-      GCV_ar: mix.GCV_ar,
-      C_ar: mix.C_ar,
-      H_ar: mix.H_ar,
-      O_ar: mix.O_ar,
-      S_ar: mix.S_ar,
-      N_ar: mix.N_ar,
-      A_ar: mix.A_ar,
-      M_ar: mix.M_ar,
-      c, h, o, s, n, a, m,
-      avgPrice: mix.avgPrice,
-      totalShare: totalShare
-    };
+  return {
+    O2_dry,
+    CO_ppm,
+    Tf,
+    Ta,
+    T_fw,
+    T_b,
+    T_w,
+    RH,
+    P_g,
+    design_capacity,
+    actual_capacity,
+    TDS_fw,
+    BR: BR_val,
+    L6_user: L6_user ? parseNumber(L6_user) : null,
+    L7_user: L7_user ? parseNumber(L7_user) : null
+  };
+}
+
+/* ==========================================================
+   3. CHUỖI TÍNH TOÁN CHÍNH
+   ========================================================== */
+
+// Bước 1 – As-received & hỗn hợp nhiên liệu
+function convertAsReceived(selectedFuels) {
+  if (!selectedFuels.length) {
+    return null;
+  }
+  // Scale mass_fraction_pct về tổng 1.0 kg
+  let sumMF = selectedFuels.reduce((s, f) => s + f.mass_fraction_pct, 0);
+  if (sumMF <= 0) sumMF = 100;
+  const factor = 1 / sumMF;
+
+  let totalMass = 0;
+  let mass_C = 0, mass_H = 0, mass_O = 0, mass_S = 0, mass_N = 0, mass_A = 0;
+  let massWater = 0;
+  let sumGCVdry = 0;
+  let sumPrice = 0;
+
+  for (const sf of selectedFuels) {
+    const m_mix = sf.mass_fraction_pct * factor; // kg trên 1 kg hỗn hợp
+    const M = sf.M_ar; // %
+    const m_dry = m_mix * (1 - M / 100);
+    const m_w = m_mix - m_dry;
+
+    const { C_db, H_db, O_db, S_db, N_db, A_db, GCV_db } = sf.fuel;
+    mass_C += m_dry * (C_db / 100);
+    mass_H += m_dry * (H_db / 100);
+    mass_O += m_dry * (O_db / 100);
+    mass_S += m_dry * (S_db / 100);
+    mass_N += m_dry * (N_db / 100);
+    mass_A += m_dry * (A_db / 100);
+    massWater += m_w;
+    sumGCVdry += m_dry * GCV_db;
+    sumPrice += m_mix * sf.price_vnd_per_kg;
+    totalMass += m_mix;
   }
 
-  /* ==============================
-   * 4. AIR, FLUE GAS & LOSSES
-   * ============================== */
+  // Tổng mass ≈ 1 kg
+  const C_ar = (mass_C / totalMass) * 100;
+  const H_ar = (mass_H / totalMass) * 100;
+  const O_ar = (mass_O / totalMass) * 100;
+  const S_ar = (mass_S / totalMass) * 100;
+  const N_ar = (mass_N / totalMass) * 100;
+  const A_ar = (mass_A / totalMass) * 100;
+  const M_ar = (massWater / totalMass) * 100;
+  const GCV_ar = sumGCVdry / totalMass;
+  const price_avg = sumPrice / totalMass;
 
-  function calculateAir(mix, inputs) {
-    const { c, h, s, o } = mix;
-    const O2_dry = clampNumber(inputs.O2_dry, 6);
-    const CO_ppm = clampNumber(inputs.CO_ppm, 0);
+  const c = C_ar / 100;
+  const h = H_ar / 100;
+  const o = O_ar / 100;
+  const s = S_ar / 100;
+  const n = N_ar / 100;
+  const a = A_ar / 100;
+  const m = M_ar / 100;
 
-    const O2_req = 2.667 * c + 8 * h + s - o;
-    const A_th = O2_req / 0.232;
-    const CO_vol = CO_ppm / 10000;
-    const lambda = 21 / (21 - O2_dry - 0.5 * CO_vol);
-    const A_act = lambda * A_th;
+  return {
+    C_ar, H_ar, O_ar, S_ar, N_ar, A_ar, M_ar,
+    GCV_ar,
+    price_avg,
+    c, h, o, s, n, a, m
+  };
+}
 
-    return { O2_req, A_th, CO_vol, lambda, A_act };
-  }
+// Bước 2 – Air: O₂_req, A_th, λ, A_act
+function calculateAir(mix, op) {
+  const { c, h, o, s } = mix;
+  const { O2_dry, CO_ppm } = op;
+  const O2_req = 2.667 * c + 8 * h + s - o;  // kg O2/kg nhiên liệu
+  const A_th = O2_req / 0.232;               // kg không khí lý thuyết/kg nhiên liệu
+  const CO_vol = CO_ppm / 10000;            // %vol
+  const lambda = 21 / (21 - O2_dry - 0.5 * CO_vol);
+  const A_act = lambda * A_th;
+  return { O2_req, A_th, lambda, A_act, CO_vol };
+}
 
-  function calculateFlueGas(mix, air, inputs) {
-    const { c, h, o, s, n, a, m } = mix;
-    const { A_act } = air;
-    const CO_ppm = clampNumber(inputs.CO_ppm, 0);
+// Bước 3–4 – Flue gas & Cp
+function calculateFlueGas(mix, op, air) {
+  const { c, h, s, n, a, m } = mix;
+  const { CO_ppm } = op;
+  const { A_act } = air;
 
-    const m_dg = A_act + 1 - a - m - 9 * h;
+  const m_dg = A_act + 1 - a - m - 9 * h; // kg khí khô/kg nhiên liệu
+  const K = CO_ppm * 12 / 1000000;
+  const N_dg = (A_act * 0.03468 - h / 4 + n / 28) / (1 - K / 24);
+  const c_CO = K * N_dg;
 
-    const K = CO_ppm * 12 / 1000000;
-    const N_dg = (A_act * 0.03468 - h / 4 + n / 28) / (1 - K / 24);
-    const c_CO = K * N_dg;
+  const mass_CO2 = 3.667 * (c - c_CO);
+  const mass_CO = 2.333 * c_CO;
+  const mass_SO2 = 2 * s;
+  const mass_O2 = A_act * 0.232 - (2.667 * c - 1.333 * c_CO + 8 * h + s - mix.o);
+  const mass_N2 = A_act * 0.768 + n;
 
-    const mass_CO2 = 3.667 * (c - c_CO);
-    const mass_CO = 2.333 * c_CO;
-    const mass_SO2 = 2 * s;
-    const mass_O2 = A_act * 0.232 - (2.667 * c - 1.333 * c_CO + 8 * h + s - o);
-    const mass_N2 = A_act * 0.768 + n;
+  const f_CO2 = mass_CO2 / m_dg;
+  const f_CO = mass_CO / m_dg;
+  const f_SO2 = mass_SO2 / m_dg;
+  const f_O2 = mass_O2 / m_dg;
+  const f_N2 = mass_N2 / m_dg;
 
-    const f_CO2 = mass_CO2 / m_dg;
-    const f_CO = mass_CO / m_dg;
-    const f_SO2 = mass_SO2 / m_dg;
-    const f_O2 = mass_O2 / m_dg;
-    const f_N2 = mass_N2 / m_dg;
+  const Cp_CO2 = 0.203;
+  const Cp_O2 = 0.217;
+  const Cp_N2 = 0.248;
+  const Cp_SO2 = 0.153;
+  const Cp_CO = 0.248;
 
-    const Cp_CO2 = 0.203;
-    const Cp_O2 = 0.217;
-    const Cp_N2 = 0.248;
-    const Cp_SO2 = 0.153;
-    const Cp_CO = 0.248;
+  const Cp_dg =
+      f_CO2 * Cp_CO2 +
+      f_O2 * Cp_O2 +
+      f_N2 * Cp_N2 +
+      f_SO2 * Cp_SO2 +
+      f_CO * Cp_CO;
 
-    const Cp_dg = f_CO2 * Cp_CO2 + f_O2 * Cp_O2 + f_N2 * Cp_N2 + f_SO2 * Cp_SO2 + f_CO * Cp_CO;
+  return {
+    m_dg,
+    c_CO,
+    N_dg,
+    Cp_dg,
+    fractions: { f_CO2, f_CO, f_SO2, f_O2, f_N2 }
+  };
+}
 
-    return {
-      m_dg,
-      K,
-      N_dg,
-      c_CO,
-      mass_CO2,
-      mass_CO,
-      mass_SO2,
-      mass_O2,
-      mass_N2,
-      f_CO2,
-      f_CO,
-      f_SO2,
-      f_O2,
-      f_N2,
-      Cp_dg
-    };
-  }
+// Bước 5 – Tổn thất L1–L8 (mapping lại theo spec mới)
+function calculateLosses(mix, op, air, fg) {
+  const { GCV_ar, m, h } = mix;
+  const { Tf, Ta, RH, P_g, T_fw, BR, L6_user, L7_user } = op;
+  const { A_act } = air;
+  const { m_dg, c_CO, Cp_dg } = fg;
 
-  function calculateLosses(mix, air, flue, inputs) {
-    const GCV_ar = mix.GCV_ar || 1;
-    const { c, h, m } = mix;
-    const { A_act } = air;
-    const { m_dg, Cp_dg, c_CO } = flue;
+  const P_abs = P_g + 1;
+  const { Tsat, h_f, h_steam } = approxSteamProps(P_g);
+  const h_fw = 4.18 * T_fw;
 
-    const Tf = clampNumber(inputs.Tf, 160);
-    const Ta = clampNumber(inputs.Ta, 30);
-    const RH = clampNumber(inputs.RH, 80);
-    const L6_user = clampNumber(inputs.L6_user, 0.7);
-    const L7_user = clampNumber(inputs.L7_user, 2.0);
+  // Tổn thất cơ sở từ đặc tả cũ
+  const L_CO = (c_CO * 24100) / GCV_ar * 100;                         // CO
+  const L_dry = (m_dg * Cp_dg * (Tf - Ta)) / GCV_ar * 100;            // khói khô
+  const L_fuel_moist = (m * (2450 + 1.88 * (Tf - Ta))) / GCV_ar * 100; // ẩm trong nhiên liệu
+  const L_H_moist = (9 * h * (2450 + 1.88 * (Tf - Ta))) / GCV_ar * 100; // hơi ẩm do H₂
+  const P_v = (RH / 100) * approxPsat_kPa(Ta);
+  const omega = 0.622 * P_v / (101.325 - P_v);
+  const L_air_moist = (A_act * omega * 1.88 * (Tf - Ta)) / GCV_ar * 100; // ẩm không khí
 
-    const L1 = (m_dg * Cp_dg * (Tf - Ta)) / GCV_ar * 100;
-    const L2 = (9 * h * (585 + 0.45 * (Tf - Ta))) / GCV_ar * 100;
-    const L3 = (m * (585 + 0.45 * (Tf - Ta))) / GCV_ar * 100;
+  // Blowdown (tổn thất khác / dự phòng)
+  const eta_init = 0.9;
+  const L_blowdown = eta_init * (BR / 100) * (h_f - h_fw) / (h_steam - h_fw) * 100;
 
-    const P_sat = saturationPressure_kPa(Ta);
-    const P_v = (RH / 100) * P_sat;
-    const omega = 0.622 * P_v / (101.325 - P_v);
-    const L4 = (A_act * omega * 0.45 * (Tf - Ta)) / GCV_ar * 100;
+  // L6, L7 do user nhập (bức xạ & carbon chưa cháy)
+  const L6 = L6_user != null ? L6_user : 0.7;
+  const L7 = L7_user != null ? L7_user : 1.5;
 
-    const L5 = (c_CO * 5756) / GCV_ar * 100;
+  // Mapping cuối theo định nghĩa mới:
+  // L1: khói thải khô
+  // L2: hơi ẩm từ H₂
+  // L3: ẩm sẵn trong nhiên liệu
+  // L4: ẩm không khí
+  // L5: CO chưa cháy hết
+  // L6: bức xạ & cơ khí (user)
+  // L7: cháy không hết (carbon) (user)
+  // L8: khác / dự phòng (xả đáy, nước ngưng...)
+  const L1 = L_dry;
+  const L2 = L_H_moist;
+  const L3 = L_fuel_moist;
+  const L4 = L_air_moist;
+  const L5 = L_CO;
+  const L8 = L_blowdown;
 
-    const L6 = L6_user;
-    const L7 = L7_user;
-    const L8 = 2; // dự phòng khác
-
-    const sumLoss = L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8;
-    const eta = 100 - sumLoss;
-
-    return {
-      L1, L2, L3, L4, L5, L6, L7, L8,
-      sumLoss,
-      eta,
-      P_sat,
-      P_v,
+  return {
+    L1, L2, L3, L4, L5, L6, L7, L8,
+    details: {
+      L_CO,
+      L_dry,
+      L_fuel_moist,
+      L_H_moist,
+      L_air_moist,
+      L_blowdown,
+      P_abs,
+      Tsat,
+      h_f,
+      h_steam,
+      h_fw,
       omega
-    };
-  }
-
-  // Mô hình đơn giản cho Q hơi: 660.000 kcal/tấn hơi ở ~10 barg
-  const HEAT_PER_TON_STEAM_KCAL = 660000;
-
-  function calculateFuelAndCost(mix, losses) {
-    const GCV_ar = mix.GCV_ar || 1;
-    const eta = losses.eta;
-
-    if (!Number.isFinite(eta) || eta <= 0) {
-      return {
-        fuelPerTon: NaN,
-        steamCost: NaN
-      };
     }
+  };
+}
 
-    const fuelPerTon = HEAT_PER_TON_STEAM_KCAL / (GCV_ar * (eta / 100));
-    const steamCost = fuelPerTon * (mix.avgPrice || 0);
+// Bước 6 – Hiệu suất & tiêu hao nhiên liệu
+function calculateEfficiency(mix, op, losses) {
+  const { GCV_ar, price_avg } = mix;
+  const { T_fw, P_g } = op;
+  const { L1, L2, L3, L4, L5, L6, L7, L8 } = losses;
 
-    return { fuelPerTon, steamCost };
+  const sumLoss = L1 + L2 + L3 + L4 + L5 + L6 + L7 + L8;
+  const eta = 100 - sumLoss;
+
+  const { h_f, h_steam } = approxSteamProps(P_g);
+  const h_fw = 4.18 * T_fw;
+  const q_useful = h_steam - h_fw; // kJ/kg hơi
+
+  // Nhiên liệu / 1 tấn hơi (kg/tấn hơi)
+  // Năng lượng cần cho 1 kg hơi = q_useful; 1 kg nhiên liệu cung cấp ≈ eta/100 * GCV_ar
+  const fuel_per_kg_steam = q_useful / (eta / 100 * GCV_ar);
+  const fuel_per_ton_steam = fuel_per_kg_steam * 1000;
+
+  const steam_cost = fuel_per_ton_steam * price_avg;
+
+  return {
+    eta,
+    fuel_per_ton_steam,
+    steam_cost,
+    q_useful
+  };
+}
+
+/* ==========================================================
+   4. RULE-BASED ADVICE & KNOWLEDGE
+   ========================================================== */
+
+function classifyLossValue(value) {
+  if (!Number.isFinite(value)) return "neutral";
+  if (value >= 8) return "bad";
+  if (value >= 3) return "warn";
+  return "ok";
+}
+
+function buildRuleBasedAdvice(mix, op, losses, efficiency) {
+  const advices = [];
+  const { eta } = efficiency;
+  const { L1, L2, L3, L4, L5, L6, L7, L8 } = losses;
+  const { O2_dry, T_b, T_w, Tf, RH, T_fw, design_capacity, actual_capacity, TDS_fw } = op;
+
+  const load = design_capacity > 0 ? (actual_capacity / design_capacity) * 100 : null;
+
+  function pushAdvice(lossId, severity, condition, extraNote) {
+    const loss = vanHanhJSON.losses.find(l => l.loss_id === lossId);
+    if (!loss) return;
+    advices.push({
+      loss_id: lossId,
+      title: loss.loss_name,
+      severity,
+      condition,
+      summary: loss.sections.factors?.[0] || "",
+      actions: loss.sections.operational_actions || [],
+      extraNote
+    });
   }
 
-  /* ==============================
-   * 5. RULE-BASED ADVICE
-   * ============================== */
-
-  function classifySeverity(lossId, value) {
-    if (!Number.isFinite(value)) return "low";
-
-    let thresholds;
-    switch (lossId) {
-      case "L1":
-        thresholds = [4, 7, 10];
-        break;
-      case "L2":
-      case "L3":
-        thresholds = [2, 4, 6];
-        break;
-      case "L4":
-        thresholds = [0.5, 1.0, 1.5];
-        break;
-      case "L5":
-        thresholds = [0.3, 0.8, 1.5];
-        break;
-      case "L6":
-      case "L7":
-      case "L8":
-        thresholds = [0.5, 1.5, 3.0];
-        break;
-      default:
-        thresholds = [2, 4, 6];
-    }
-
-    if (value >= thresholds[2]) return "critical";
-    if (value >= thresholds[1]) return "high";
-    if (value >= thresholds[0]) return "medium";
-    return "low";
+  // L1 cao
+  if (L1 > 8 || (Tf > 180) || (O2_dry > 8.5)) {
+    let note = [];
+    if (Tf > 180) note.push("T_stack (Tf) > 180°C");
+    if (O2_dry > 8.5) note.push(`O₂_dry = ${O2_dry.toFixed(1)}% > 8.5%`);
+    pushAdvice("L1", L1 > 12 ? "high" : "medium", "Tổn thất khói thải khô cao", note.join("; "));
   }
 
-  function buildRuleBasedAdvice(inputs, losses, efficiency) {
-    const lossEntries = [
-      { id: "L1", value: losses.L1 },
-      { id: "L2", value: losses.L2 },
-      { id: "L3", value: losses.L3 },
-      { id: "L4", value: losses.L4 },
-      { id: "L5", value: losses.L5 },
-      { id: "L6", value: losses.L6 },
-      { id: "L7", value: losses.L7 },
-      { id: "L8", value: losses.L8 }
-    ];
+  // L3 cao, W lớn
+  if (L3 > 5 || mix.M_ar > 45) {
+    pushAdvice("L3", L3 > 8 ? "high" : "medium", "Độ ẩm nhiên liệu cao, L3 lớn",
+      `Độ ẩm hỗn hợp W ≈ ${mix.M_ar.toFixed(1)}%.`);
+  }
 
-    const advices = [];
+  // L5 – CO, nếu CO_ppm lớn
+  if (L5 > 1 || op.CO_ppm > 400) {
+    pushAdvice("L5", L5 > 3 ? "high" : "medium", "CO cao, cháy không hoàn toàn",
+      `CO đo được ≈ ${op.CO_ppm.toFixed(0)} ppm.`);
+  }
 
-    lossEntries.forEach(entry => {
-      const rule = vanHanhJSON.losses.find(l => l.loss_id === entry.id);
-      if (!rule) return;
+  // L7 – tro xỉ chưa cháy
+  if (L7 > 1.5) {
+    pushAdvice("L7", L7 > 3 ? "high" : "medium", "Tổn thất cháy không hết (tro nhiều carbon).");
+  }
 
-      const severity = classifySeverity(entry.id, entry.value);
-      if (severity === "low") return;
+  // L8 – blowdown & nước ngưng
+  if (L8 > 1 || TDS_fw > 300) {
+    pushAdvice("L8", L8 > 3 ? "high" : "medium",
+      "Xả đáy / thu hồi nước ngưng chưa tối ưu.",
+      `TDS nước cấp ≈ ${TDS_fw.toFixed(0)} ppm.`);
+  }
 
+  // Load quá thấp hoặc quá cao
+  if (load != null) {
+    if (load < 35 || load > 85) {
+      const severity = (load < 20 || load > 100) ? "high" : "medium";
       advices.push({
-        id: entry.id,
-        name: rule.loss_name,
+        loss_id: "LOAD",
+        title: "Chế độ tải lò",
         severity,
-        value: entry.value,
-        factors: rule.factors || [],
-        symptoms: rule.symptoms || [],
-        actions: rule.operational_actions || [],
-        optimal: rule.optimal_parameters || []
+        condition: `Tải lò ≈ ${load.toFixed(1)}% công suất thiết kế.`,
+        summary: "Chạy quá thấp hoặc quá cao so với dải tối ưu 35–85% sẽ làm hiệu suất giảm.",
+        actions: [
+          "Cân nhắc điều chỉnh kế hoạch sản xuất để lò làm việc trong vùng tải 35–85%.",
+          "Nếu thường xuyên phải chạy rất thấp (<20%), cần xem xét cải tiến buồng đốt cho phù hợp tải nhỏ."
+        ]
+      });
+    }
+  }
+
+  // Hiệu suất tổng thể thấp
+  if (eta < 78) {
+    advices.push({
+      loss_id: "ETA",
+      title: "Hiệu suất tổng thể",
+      severity: "high",
+      condition: `Hiệu suất η ≈ ${eta.toFixed(1)}% (thấp hơn mong muốn 80–88%).`,
+      summary: "Tổng tổn thất L1–L8 đang ở mức cao, cần rà soát đồng bộ nhiên liệu – không khí – nước – bảo ôn.",
+      actions: [
+        "Giảm L1 bằng cách tối ưu O₂_dry, vệ sinh bề mặt truyền nhiệt, kiểm soát bám muội.",
+        "Giảm L3 bằng chính sách nhiên liệu (ưu tiên W ≤ 45%), phối trộn nhiên liệu khô hơn.",
+        "Giảm L5, L7 bằng tối ưu phân phối gió, nhiệt độ buồng đốt, kích thước nhiên liệu.",
+        "Kiểm tra lại hệ thống thu hồi nước ngưng, xả đáy theo TDS thực tế để giảm L8."
+      ]
+    });
+  }
+
+  return advices;
+}
+
+function displayKnowledgeSection(mix, op, losses, efficiency) {
+  const items = [];
+
+  // Khuyến nghị chung về nước, xả đáy, bảo trì
+  vanHanhJSON.general_warnings.forEach(w => {
+    items.push({
+      title: w.title,
+      content: (w.parameters || []).join(" • ") + (w.notes ? " – " + w.notes : "")
+    });
+  });
+
+  // Thêm một số kiến thức theo tổn thất nổi trội
+  const entries = [
+    { id: "L1", value: losses.L1 },
+    { id: "L3", value: losses.L3 },
+    { id: "L5", value: losses.L5 },
+    { id: "L7", value: losses.L7 },
+    { id: "L8", value: losses.L8 }
+  ];
+  entries
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 2)
+    .forEach(e => {
+      const loss = vanHanhJSON.losses.find(l => l.loss_id === e.id);
+      if (!loss) return;
+      items.push({
+        title: loss.loss_name,
+        content: (loss.sections.factors || []).join(" • ")
       });
     });
 
-    advices.sort((a, b) => {
-      const order = { critical: 3, high: 2, medium: 1, low: 0 };
-      return order[b.severity] - order[a.severity] || b.value - a.value;
-    });
+  return items;
+}
 
-    return advices;
+/* ==========================================================
+   5. CẢNH BÁO THEO CANHBAO.JSON
+   ========================================================== */
+
+function evalThreshold(thr, value) {
+  if (!Number.isFinite(value)) return null;
+  const min = (thr.min !== undefined) ? thr.min : -Infinity;
+  const max = (thr.max !== undefined) ? thr.max : Infinity;
+  if (value >= min && value <= max) return thr;
+  return null;
+}
+
+function buildWarnings(mix, op) {
+  const warnings = [];
+  const avgW = mix ? mix.M_ar : null;
+  const { T_b, O2_dry, T_fw, Tf, T_w, design_capacity, actual_capacity, TDS_fw } = op;
+
+  const load = design_capacity > 0 ? (actual_capacity / design_capacity) * 100 : null;
+
+  function checkBlock(key, value, label) {
+    const block = canhBaoJSON[key];
+    if (!block || !Number.isFinite(value)) return;
+    for (const lvl of block.levels) {
+      const hit = evalThreshold(lvl, value);
+      if (hit) {
+        warnings.push({
+          key,
+          paramLabel: label,
+          value,
+          level: hit.level,
+          label: hit.label,
+          message: hit.message
+        });
+        break;
+      }
+    }
   }
 
-  function displayKnowledgeSection(targetEl, losses) {
-    const global = vanHanhJSON.global_optimization || {};
-    const water = global.water_quality || {};
-    const blowdown = global.blowdown_procedure || {};
-    const maintenance = global.maintenance_and_cleaning || {};
+  if (avgW != null) checkBlock("fuel_moisture", avgW, "Độ ẩm nhiên liệu W");
+  if (T_b) checkBlock("furnace_temp", T_b, "Nhiệt độ buồng đốt T_b");
+  if (O2_dry) checkBlock("O2_dry", O2_dry, "O₂_dry");
+  if (T_fw) checkBlock("T_fw", T_fw, "Nhiệt độ nước cấp T_fw");
+  if (Tf) checkBlock("T_stack", Tf, "Nhiệt độ khói Tf");
+  if (T_w) checkBlock("T_w", T_w, "Nhiệt độ vách đuôi lò T_w");
+  if (load != null) checkBlock("load", load, "Tải lò (%)");
 
-    let html = "";
-
-    if (water.description) {
-      html += `<h4>1. Chất lượng nước cấp & kiểm soát TDS</h4>`;
-      html += `<p>${water.description}</p>`;
-      if (Array.isArray(water.parameters)) {
-        html += `<ul>`;
-        water.parameters.forEach(p => {
-          html += `<li>${p}</li>`;
-        });
-        html += `</ul>`;
-      }
+  // TDS nước cấp > 300 ppm – cảnh báo
+  if (TDS_fw > 0) {
+    if (TDS_fw <= 300) {
+      warnings.push({
+        key: "TDS_fw",
+        paramLabel: "TDS nước cấp",
+        value: TDS_fw,
+        level: 0,
+        label: "Bình thường",
+        message: "TDS nước cấp ≤ 300 ppm – chất lượng nước đạt khuyến nghị."
+      });
+    } else {
+      warnings.push({
+        key: "TDS_fw",
+        paramLabel: "TDS nước cấp",
+        value: TDS_fw,
+        level: 2,
+        label: "Nguy hiểm",
+        message: "TDS nước cấp > 300 ppm – cần kiểm tra hệ xử lý nước / RO / softener."
+      });
     }
-
-    if (blowdown.description) {
-      html += `<h4>2. Quy trình xả đáy & thu hồi nhiệt</h4>`;
-      html += `<p>${blowdown.description}</p>`;
-      if (Array.isArray(blowdown.steps)) {
-        html += `<ul>`;
-        blowdown.steps.forEach(p => {
-          html += `<li>${p}</li>`;
-        });
-        html += `</ul>`;
-      }
-    }
-
-    if (maintenance.description) {
-      html += `<h4>3. Bảo dưỡng, vệ sinh & hiệu chuẩn thiết bị</h4>`;
-      html += `<p>${maintenance.description}</p>`;
-      if (Array.isArray(maintenance.actions)) {
-        html += `<ul>`;
-        maintenance.actions.forEach(p => {
-          html += `<li>${p}</li>`;
-        });
-        html += `</ul>`;
-      }
-    }
-
-    if (!html) {
-      html = "Chưa có dữ liệu kiến thức toàn cục.";
-    }
-
-    targetEl.innerHTML = html;
   }
 
-  function buildHotTopicsHTML(advices) {
-    if (!advices || advices.length === 0) {
-      return "Chưa có tổn thất nào vượt ngưỡng đáng báo động. Vui lòng chạy tính toán hoặc kiểm tra lại dữ liệu.";
+  return warnings;
+}
+
+/* ==========================================================
+   6. RENDER UI
+   ========================================================== */
+
+function createFuelRow(initialIndex = 0) {
+  const row = document.createElement("div");
+  row.className = "fuel-row";
+
+  const select = document.createElement("select");
+  select.className = "fuel-name";
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "— Chọn nhiên liệu —";
+  select.appendChild(opt0);
+  nhienLieuJSON.fuels.forEach((f, idx) => {
+    const opt = document.createElement("option");
+    opt.value = f.fuel_name;
+    opt.textContent = f.fuel_name;
+    select.appendChild(opt);
+    if (idx === initialIndex) select.value = f.fuel_name;
+  });
+
+  const moistureInput = document.createElement("input");
+  moistureInput.type = "number";
+  moistureInput.step = "0.1";
+  moistureInput.placeholder = "Mar (%)";
+  moistureInput.className = "fuel-moisture";
+
+  const mfInput = document.createElement("input");
+  mfInput.type = "number";
+  mfInput.step = "0.1";
+  mfInput.placeholder = "MF (%)";
+  mfInput.className = "fuel-mf";
+
+  const priceInput = document.createElement("input");
+  priceInput.type = "number";
+  priceInput.step = "1";
+  priceInput.placeholder = "Giá (VND/kg)";
+  priceInput.className = "fuel-price";
+
+  const btnRemove = document.createElement("button");
+  btnRemove.type = "button";
+  btnRemove.className = "btn btn-danger";
+  btnRemove.innerHTML = "✖";
+  btnRemove.addEventListener("click", () => {
+    row.remove();
+  });
+
+  // auto set default M & MF
+  select.addEventListener("change", () => {
+    const fuel = getFuelByName(select.value);
+    if (fuel) {
+      if (!moistureInput.value) moistureInput.value = fuel.default_M ?? 40;
+      if (!mfInput.value) mfInput.value = 100;
     }
-    const top = advices.slice(0, 3);
-    let html = "";
-    top.forEach((a, idx) => {
-      html += `<p><strong>${idx + 1}. ${a.id} – ${a.name}</strong><br/>`;
-      html += `Giá trị hiện tại: <strong>${formatNumber(a.value, 2)} %</strong> – mức độ <strong>${a.severity.toUpperCase()}</strong>.</p>`;
-      if (a.factors && a.factors.length) {
-        html += `<p><em>Các yếu tố chính:</em></p><ul>`;
-        a.factors.slice(0, 2).forEach(f => { html += `<li>${f}</li>`; });
-        html += `</ul>`;
-      }
-      if (a.actions && a.actions.length) {
-        html += `<p><em>Gợi ý giải pháp ưu tiên:</em></p><ul>`;
-        a.actions.slice(0, 3).forEach(r => { html += `<li>${r}</li>`; });
-        html += `</ul>`;
-      }
-    });
-    return html;
-  }
+  });
 
-  /* ==============================
-   * 6. UI BINDINGS
-   * ============================== */
+  row.appendChild(select);
+  row.appendChild(moistureInput);
+  row.appendChild(mfInput);
+  row.appendChild(priceInput);
+  row.appendChild(btnRemove);
 
-  const fuelListEl = document.getElementById("fuelList");
-  const fuelSummaryGridEl = document.getElementById("fuelSummaryGrid");
-  const efficiencyValueEl = document.getElementById("efficiencyValue");
-  const efficiencySubEl = document.getElementById("efficiencySub");
-  const efficiencyPillsEl = document.getElementById("efficiencyPills");
-  const lossGridEl = document.getElementById("lossGrid");
-  const fuelPerTonValueEl = document.getElementById("fuelPerTonValue");
-  const steamCostValueEl = document.getElementById("steamCostValue");
-  const adviceListEl = document.getElementById("adviceList");
-  const hotTopicsEl = document.getElementById("hotTopics");
-  const knowledgeSectionEl = document.getElementById("knowledgeSection");
-  const detailTableBodyEl = document.getElementById("detailTableBody");
-  const scenarioCardsEl = document.getElementById("scenarioCards");
+  return row;
+}
 
-  const inputO2 = document.getElementById("inputO2");
-  const inputCO = document.getElementById("inputCO");
-  const inputTf = document.getElementById("inputTf");
-  const inputTa = document.getElementById("inputTa");
-  const inputTfw = document.getElementById("inputTfw");
-  const inputTb = document.getElementById("inputTb");
-  const inputTw = document.getElementById("inputTw");
-  const inputRH = document.getElementById("inputRH");
-  const inputQDesign = document.getElementById("inputQDesign");
-  const inputQActual = document.getElementById("inputQActual");
-  const inputPg = document.getElementById("inputPg");
-  const inputTDS = document.getElementById("inputTDS");
-  const inputL7 = document.getElementById("inputL7");
-  const inputL6 = document.getElementById("inputL6");
+function renderLosses(losses) {
+  const controllableIds = ["L1", "L3", "L5", "L7", "L8"];
+  const lessIds = ["L2", "L4", "L6"];
 
-  const calculateBtn = document.getElementById("calculateBtn");
-  const addFuelBtn = document.getElementById("addFuelBtn");
-
-  const scenarioButtons = document.querySelectorAll(".scenario-section .btn-outline.btn-xs");
-
-  const state = {
-    fuelRows: [],
-    lastResult: null,
-    scenarios: [null, null, null]
+  const mapLoss = {
+    L1: "Khói thải khô",
+    L2: "Ẩm do H₂ trong nhiên liệu",
+    L3: "Ẩm sẵn trong nhiên liệu",
+    L4: "Ẩm không khí",
+    L5: "CO chưa cháy hết",
+    L6: "Bức xạ & cơ khí",
+    L7: "Cháy không hết (carbon trong tro)",
+    L8: "Khác / Dự phòng (xả đáy, nước ngưng...)"
   };
 
-  function createFuelRow(index, defaultFuelName) {
+  const ctl = document.getElementById("lossListControllable");
+  const less = document.getElementById("lossListLess");
+  ctl.innerHTML = "";
+  less.innerHTML = "";
+
+  const makeLossItem = (id) => {
+    const val = losses[id];
+    const cls = classifyLossValue(val);
     const div = document.createElement("div");
-    div.className = "fuel-row";
-    div.dataset.index = index;
+    div.className = "loss-item " + (cls === "bad" ? "bad" : cls === "warn" ? "warn" : "ok");
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = id + " – " + mapLoss[id];
+    const valueSpan = document.createElement("span");
+    valueSpan.textContent = Number.isFinite(val) ? val.toFixed(2) + " %" : "–";
+    div.appendChild(nameSpan);
+    div.appendChild(valueSpan);
+    return div;
+  };
 
-    const fuelOptions = nhienLieuJSON.fuels.map(f => `<option value="${f.name}">${f.name}</option>`).join("");
+  controllableIds.forEach(id => ctl.appendChild(makeLossItem(id)));
+  lessIds.forEach(id => less.appendChild(makeLossItem(id)));
+}
 
-    div.innerHTML = `
-      <div class="fuel-row-header">
-        <div class="fuel-row-title">
-          <span class="fuel-chip">Fuel #${index + 1}</span>
-          <span>Chọn từ thư viện & nhập độ ẩm, tỷ lệ, giá</span>
-        </div>
-        <div class="fuel-row-actions">
-          <button type="button" class="btn btn-danger btn-xs fuel-remove-btn">X</button>
-        </div>
-      </div>
-      <div class="fuel-fields-row">
-        <div class="field-group">
-          <label class="field-label">
-            <span>Tên nhiên liệu</span>
-          </label>
-          <select class="fuel-name-select">
-            ${fuelOptions}
-          </select>
-        </div>
-        <div class="field-group">
-          <label class="field-label">
-            <span>Độ ẩm</span>
-            <span class="unit">% khối lượng</span>
-          </label>
-          <input type="number" class="fuel-moisture-input" step="0.5" value="40" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">
-            <span>Tỷ lệ khối lượng</span>
-            <span class="unit">% hỗn hợp</span>
-          </label>
-          <input type="number" class="fuel-share-input" step="1" value="${index === 0 ? 100 : 0}" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">
-            <span>Giá nhiên liệu</span>
-            <span class="unit">VND / kg</span>
-          </label>
-          <input type="number" class="fuel-price-input" step="50" value="1500" />
-        </div>
-      </div>
-      <div class="fuel-meta">
-        <span>GCV_db: <strong class="fuel-meta-gcvdb">–</strong> kcal/kg</span>
-        <span>GCV_ar: <strong class="fuel-meta-gcvar">–</strong> kcal/kg</span>
-        <span>C_ar: <strong class="fuel-meta-car">–</strong> %</span>
-        <span>H_ar: <strong class="fuel-meta-har">–</strong> %</span>
-        <span>O_ar: <strong class="fuel-meta-oar">–</strong> %</span>
-        <span>A_ar: <strong class="fuel-meta-aar">–</strong> %</span>
-        <span>W: <strong class="fuel-meta-mar">–</strong> %</span>
-      </div>
-    `;
+function renderWarnings(warnings) {
+  const ul = document.getElementById("warningsList");
+  ul.innerHTML = "";
+  warnings.forEach(w => {
+    const li = document.createElement("li");
+    li.className = "level-" + w.level;
+    li.innerHTML =
+      `<strong>${w.paramLabel}</strong>: ${w.value != null ? w.value.toFixed(1) : "–"} ` +
+      `→ <em>${w.label}</em>. ${w.message}`;
+    ul.appendChild(li);
+  });
+}
 
-    const selectEl = div.querySelector(".fuel-name-select");
-    if (defaultFuelName) {
-      selectEl.value = defaultFuelName;
+function renderAdvice(adviceList) {
+  const ul = document.getElementById("adviceList");
+  ul.innerHTML = "";
+  if (!adviceList.length) {
+    const li = document.createElement("li");
+    li.textContent = "Chưa có cảnh báo lớn. Các thông số đang ở mức tương đối tốt.";
+    ul.appendChild(li);
+    return;
+  }
+  adviceList.forEach(a => {
+    const li = document.createElement("li");
+    li.className = "severity-" + a.severity;
+    const title = document.createElement("div");
+    title.style.fontWeight = "600";
+    title.textContent = `${a.title} (${a.loss_id}) – ${a.condition}`;
+    const summary = document.createElement("div");
+    summary.style.fontSize = "0.78rem";
+    summary.style.marginTop = "2px";
+    summary.textContent = a.summary;
+    li.appendChild(title);
+    li.appendChild(summary);
+    if (a.extraNote) {
+      const note = document.createElement("div");
+      note.style.fontSize = "0.76rem";
+      note.style.marginTop = "2px";
+      note.style.color = "#6b7280";
+      note.textContent = "Ghi chú: " + a.extraNote;
+      li.appendChild(note);
     }
-
-    const updateRow = () => {
-      const fuelName = selectEl.value;
-      const fuelDef = nhienLieuJSON.fuels.find(f => f.name === fuelName) || nhienLieuJSON.fuels[0];
-      const moisture = clampNumber(div.querySelector(".fuel-moisture-input").value, 0);
-      const share = clampNumber(div.querySelector(".fuel-share-input").value, 0);
-      const price = clampNumber(div.querySelector(".fuel-price-input").value, 0);
-      const ar = convertAsReceived(fuelDef.composition_dry_basis, moisture, fuelDef.GCV_db_kcal_per_kg);
-
-      div.querySelector(".fuel-meta-gcvdb").textContent = formatNumber(fuelDef.GCV_db_kcal_per_kg, 0);
-      div.querySelector(".fuel-meta-gcvar").textContent = formatNumber(ar.GCV_ar, 0);
-      div.querySelector(".fuel-meta-car").textContent = formatNumber(ar.C_ar, 2);
-      div.querySelector(".fuel-meta-har").textContent = formatNumber(ar.H_ar, 2);
-      div.querySelector(".fuel-meta-oar").textContent = formatNumber(ar.O_ar, 2);
-      div.querySelector(".fuel-meta-aar").textContent = formatNumber(ar.A_ar, 2);
-      div.querySelector(".fuel-meta-mar").textContent = formatNumber(ar.M_ar, 2);
-
-      const rowObj = {
-        index,
-        fuelName,
-        moisture,
-        massShare: share,
-        price,
-        ar
-      };
-
-      state.fuelRows[index] = rowObj;
-      refreshFuelSummary();
-    };
-
-    div.querySelector(".fuel-name-select").addEventListener("change", updateRow);
-    div.querySelector(".fuel-moisture-input").addEventListener("input", updateRow);
-    div.querySelector(".fuel-share-input").addEventListener("input", updateRow);
-    div.querySelector(".fuel-price-input").addEventListener("input", updateRow);
-
-    div.querySelector(".fuel-remove-btn").addEventListener("click", () => {
-      fuelListEl.removeChild(div);
-      state.fuelRows.splice(index, 1);
-      // Reindex rows
-      Array.from(fuelListEl.children).forEach((rowEl, i) => {
-        rowEl.dataset.index = i;
-        const chip = rowEl.querySelector(".fuel-chip");
-        if (chip) chip.textContent = `Fuel #${i + 1}`;
+    if (a.actions && a.actions.length) {
+      const ul2 = document.createElement("ul");
+      ul2.style.margin = "4px 0 0 16px";
+      ul2.style.paddingLeft = "0";
+      a.actions.forEach(act => {
+        const li2 = document.createElement("li");
+        li2.style.fontSize = "0.78rem";
+        li2.textContent = "• " + act;
+        ul2.appendChild(li2);
       });
-      refreshFuelSummary();
-    });
-
-    fuelListEl.appendChild(div);
-    updateRow();
-  }
-
-  function refreshFuelSummary() {
-    const mix = computeFuelMixture(state.fuelRows);
-    fuelSummaryGridEl.innerHTML = `
-      <div>
-        <div class="badge-label">GCV_ar</div>
-        <div class="badge-value">${formatNumber(mix.GCV_ar, 0)} <span style="font-size:9px;">kcal/kg</span></div>
-      </div>
-      <div>
-        <div class="badge-label">C_ar</div>
-        <div class="badge-value">${formatNumber(mix.C_ar, 2)} <span style="font-size:9px;">%</span></div>
-      </div>
-      <div>
-        <div class="badge-label">H_ar</div>
-        <div class="badge-value">${formatNumber(mix.H_ar, 2)} <span style="font-size:9px;">%</span></div>
-      </div>
-      <div>
-        <div class="badge-label">O_ar</div>
-        <div class="badge-value">${formatNumber(mix.O_ar, 2)} <span style="font-size:9px;">%</span></div>
-      </div>
-      <div>
-        <div class="badge-label">Ash_ar</div>
-        <div class="badge-value">${formatNumber(mix.A_ar, 2)} <span style="font-size:9px;">%</span></div>
-      </div>
-      <div>
-        <div class="badge-label">Moisture</div>
-        <div class="badge-value">${formatNumber(mix.M_ar, 2)} <span style="font-size:9px;">%</span></div>
-      </div>
-      <div>
-        <div class="badge-label">Giá TB</div>
-        <div class="badge-value">${formatNumber(mix.avgPrice, 0)} <span style="font-size:9px;">VND/kg</span></div>
-      </div>
-      <div>
-        <div class="badge-label">Σ Tỷ lệ</div>
-        <div class="badge-value">${formatNumber(mix.totalShare, 1)} <span style="font-size:9px;">%</span></div>
-      </div>
-    `;
-
-    const warningEl = document.getElementById("fuelSummaryWarning");
-    if (mix.warning && warningEl) {
-      warningEl.textContent = mix.warning;
+      li.appendChild(ul2);
     }
-  }
+    ul.appendChild(li);
+  });
+}
 
-  /* ==============================
-   * 7. CALC SEQUENCE & RENDER
-   * ============================== */
+function renderKnowledge(knowledgeItems) {
+  const ul = document.getElementById("knowledgeList");
+  ul.innerHTML = "";
+  knowledgeItems.forEach(k => {
+    const li = document.createElement("li");
+    const title = document.createElement("div");
+    title.style.fontWeight = "600";
+    title.textContent = k.title;
+    const body = document.createElement("div");
+    body.style.fontSize = "0.78rem";
+    body.style.marginTop = "2px";
+    body.textContent = k.content;
+    li.appendChild(title);
+    li.appendChild(body);
+    ul.appendChild(li);
+  });
+}
 
-  function collectInputs() {
-    return {
-      O2_dry: clampNumber(inputO2.value, 6),
-      CO_ppm: clampNumber(inputCO.value, 0),
-      Tf: clampNumber(inputTf.value, 160),
-      Ta: clampNumber(inputTa.value, 30),
-      T_fw: clampNumber(inputTfw.value, 90),
-      T_b: clampNumber(inputTb.value, 850),
-      T_w: clampNumber(inputTw.value, 90),
-      RH: clampNumber(inputRH.value, 80),
-      Q_design: clampNumber(inputQDesign.value, 0),
-      Q_actual: clampNumber(inputQActual.value, 0),
-      P_g: clampNumber(inputPg.value, 10),
-      TDS: clampNumber(inputTDS.value, 0),
-      L7_user: clampNumber(inputL7.value, 2),
-      L6_user: clampNumber(inputL6.value, 0.7)
-    };
-  }
+function renderStepsSummary(mix, op, air, fg, losses, efficiency) {
+  const list = document.getElementById("stepsList");
+  list.innerHTML = "";
 
-  function renderLossGrid(losses) {
-    const labels = [
-      "L1 – Khói khô",
-      "L2 – Hơi ẩm từ H₂",
-      "L3 – Ẩm trong nhiên liệu",
-      "L4 – Ẩm không khí",
-      "L5 – CO chưa cháy",
-      "L6 – Bức xạ & cơ khí",
-      "L7 – C chưa cháy",
-      "L8 – Khác / dự phòng"
-    ];
-    const lossValues = [
-      losses.L1, losses.L2, losses.L3, losses.L4,
-      losses.L5, losses.L6, losses.L7, losses.L8
-    ];
-    const ids = ["L1","L2","L3","L4","L5","L6","L7","L8"];
+  const push = (label, obj) => {
+    const li = document.createElement("li");
+    const title = document.createElement("div");
+    title.className = "step-key";
+    title.textContent = label;
+    const pre = document.createElement("div");
+    pre.className = "step-value";
+    pre.textContent = JSON.stringify(obj, (k, v) => (typeof v === "number" ? parseFloat(v.toFixed(4)) : v));
+    li.appendChild(title);
+    li.appendChild(pre);
+    list.appendChild(li);
+  };
 
-    let html = "";
-    lossValues.forEach((v, i) => {
-      const id = ids[i];
-      const severity = classifySeverity(id, v);
-      const cls =
-        severity === "critical" ? "loss-badge-high"
-          : severity === "high" ? "loss-badge-high"
-            : severity === "medium" ? "loss-badge-medium"
-              : "loss-badge-low";
-      html += `
-        <div>
-          <div class="loss-item-label">${labels[i]}</div>
-          <div class="loss-item-value ${cls}">${formatNumber(v, 2)}</div>
-        </div>
-      `;
-    });
-    lossGridEl.innerHTML = html;
-  }
+  push("Bước 1 – Hỗn hợp nhiên liệu (As-received)", {
+    C_ar: mix.C_ar, H_ar: mix.H_ar, O_ar: mix.O_ar,
+    S_ar: mix.S_ar, N_ar: mix.N_ar, A_ar: mix.A_ar,
+    M_ar: mix.M_ar, GCV_ar: mix.GCV_ar
+  });
+  push("Bước 2 – Không khí lý thuyết & thực tế", air);
+  push("Bước 3–4 – Khối lượng & Cp khí khô", {
+    m_dg: fg.m_dg,
+    c_CO: fg.c_CO,
+    Cp_dg: fg.Cp_dg
+  });
+  push("Bước 5 – Tổn thất chi tiết", losses.details);
+  push("Bước 6 – Hiệu suất & tiêu hao", {
+    eta: efficiency.eta,
+    fuel_per_ton_steam: efficiency.fuel_per_ton_steam,
+    steam_cost: efficiency.steam_cost
+  });
+}
 
-  function renderEfficiencyCard(mix, losses, inputs) {
-    const eta = losses.eta;
-    efficiencyValueEl.textContent = Number.isFinite(eta) ? formatNumber(eta, 2) : "–";
+/* ==========================================================
+   7. KỊCH BẢN VẬN HÀNH (3 CASE)
+   ========================================================== */
 
-    const loadRatio = (inputs.Q_design > 0) ? inputs.Q_actual / inputs.Q_design : NaN;
-    let loadText = "";
-    if (Number.isFinite(loadRatio)) {
-      if (loadRatio < 0.2) loadText = "Lò đang chạy ở tải rất thấp (< 20%), hiệu suất tổng thể có thể giảm mạnh.";
-      else if (loadRatio < 0.5) loadText = "Lò chạy ở tải thấp, nên xem xét gom tải hoặc điều chỉnh chế độ để tăng hiệu suất.";
-      else if (loadRatio < 0.9) loadText = "Lò chạy ở tải trung bình, phù hợp cho đa số trường hợp vận hành.";
-      else loadText = "Lò gần tải định mức, cần chú ý kiểm soát tổn thất L1–L5 để không vượt giới hạn.";
-    }
+const scenarios = {
+  "1": null,
+  "2": null,
+  "3": null
+};
 
-    let etaText = "";
-    if (!Number.isFinite(eta)) {
-      etaText = "Chưa đủ dữ liệu để tính hiệu suất. Vui lòng nhập phối trộn nhiên liệu và thông số vận hành.";
-    } else if (eta < 70) {
-      etaText = "Hiệu suất thấp. Nên kiểm tra lại dữ liệu đo, hiệu chuẩn cảm biến, cũng như tình trạng muội bám và ẩm nhiên liệu.";
-    } else if (eta < 80) {
-      etaText = "Hiệu suất trung bình. Có thể tối ưu thêm bằng cách giảm O₂ dư, cải thiện chất lượng nhiên liệu và vệ sinh bề mặt truyền nhiệt.";
+function saveScenario(slot, mix, op, losses, efficiency) {
+  scenarios[slot] = {
+    time: new Date(),
+    mix,
+    op,
+    losses,
+    efficiency
+  };
+  renderScenarios();
+}
+
+function renderScenarios() {
+  const container = document.getElementById("scenarioCards");
+  container.innerHTML = "";
+  ["1", "2", "3"].forEach(slot => {
+    const sc = scenarios[slot];
+    const card = document.createElement("div");
+    card.className = "scenario-card";
+    const title = document.createElement("h4");
+    title.textContent = "Case " + slot;
+    card.appendChild(title);
+    if (!sc) {
+      const small = document.createElement("small");
+      small.textContent = "Chưa lưu kịch bản. Chạy tính toán rồi bấm 'Lưu Case " + slot + "'.";
+      card.appendChild(small);
     } else {
-      etaText = "Hiệu suất ở mức tương đối tốt. Tuy vậy vẫn nên theo dõi xu hướng dài hạn của L1–L3 để duy trì ổn định.";
-    }
+      const ts = sc.time.toLocaleTimeString();
+      const eta = sc.efficiency.eta.toFixed(1);
+      const fuel = sc.efficiency.fuel_per_ton_steam.toFixed(1);
+      const cost = sc.efficiency.steam_cost.toFixed(0);
+      const small = document.createElement("small");
+      small.textContent = "Lưu lúc " + ts;
+      card.appendChild(small);
 
-    efficiencySubEl.textContent = (loadText ? loadText + " " : "") + etaText;
-
-    const pills = [];
-    if (mix.warning) pills.push({ text: mix.warning, type: "warn" });
-    if (Number.isFinite(loadRatio)) {
-      pills.push({
-        text: "Tải hiện tại: " + formatNumber(loadRatio * 100, 1) + "% thiết kế",
-        type: "info"
-      });
+      const metrics = document.createElement("div");
+      metrics.className = "scenario-metrics";
+      metrics.innerHTML =
+        `<div>η: <strong>${eta}%</strong></div>` +
+        `<div>Fuel/t: <strong>${fuel}</strong></div>` +
+        `<div>Chi phí/t: <strong>${cost}</strong></div>` +
+        `<div>W mix: <strong>${sc.mix.M_ar.toFixed(1)}%</strong></div>`;
+      card.appendChild(metrics);
     }
-    if (Number.isFinite(mix.GCV_ar)) {
-      pills.push({
-        text: "GCV_ar hỗn hợp: " + formatNumber(mix.GCV_ar, 0) + " kcal/kg",
-        type: "info"
-      });
-    }
+    container.appendChild(card);
+  });
+}
 
-    efficiencyPillsEl.innerHTML = pills.map(p => {
-      const style =
-        p.type === "warn"
-          ? "background:rgba(255, 167, 38,0.25); border-color:rgba(255,160,0,0.7); color:#e65100;"
-          : "background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.5); color:#e0f2f1;";
-      return `<span class="result-pill" style="${style}">${p.text}</span>`;
-    }).join("");
+/* ==========================================================
+   8. LUỒNG TÍNH TOÁN CHÍNH
+   ========================================================== */
+
+function calculateAll() {
+  const selectedFuels = getFuelRowsData();
+  const op = getOperationInputs();
+
+  if (!selectedFuels.length) {
+    alert("Vui lòng chọn ít nhất 1 nhiên liệu và nhập MF, Mar.");
+    return;
   }
 
-  function renderDetailTable(mix, air, flue, losses, extra) {
-    const rows = [];
-
-    rows.push({
-      step: "1",
-      name: "Quy đổi nhiên liệu sang trạng thái sử dụng (As-received)",
-      var: "C_ar, H_ar, O_ar, S_ar, N_ar, A_ar, M_ar, GCV_ar",
-      value: `C_ar=${formatNumber(mix.C_ar,2)}%; H_ar=${formatNumber(mix.H_ar,2)}%; O_ar=${formatNumber(mix.O_ar,2)}%; Ash=${formatNumber(mix.A_ar,2)}%; W=${formatNumber(mix.M_ar,2)}%; GCV_ar=${formatNumber(mix.GCV_ar,0)} kcal/kg`
-    });
-
-    rows.push({
-      step: "2",
-      name: "Không khí lý thuyết & thực tế (A_th, A_act)",
-      var: "O2_req, A_th, λ, A_act",
-      value: `O2_req=${formatNumber(air.O2_req,3)} kg O₂/kg; A_th=${formatNumber(air.A_th,3)} kg không khí/kg; λ=${formatNumber(air.lambda,3)}; A_act=${formatNumber(air.A_act,3)} kg/kg nhiên liệu`
-    });
-
-    rows.push({
-      step: "3",
-      name: "Khói thải khô",
-      var: "m_dg",
-      value: `m_dg=${formatNumber(flue.m_dg,3)} kg khói khô / kg nhiên liệu`
-    });
-
-    rows.push({
-      step: "4",
-      name: "Thành phần khói & nhiệt dung riêng Cp_dg",
-      var: "f_CO₂, f_O₂, f_N₂, f_SO₂, f_CO, Cp_dg",
-      value: `CO₂=${formatNumber(flue.f_CO2*100,2)}%; O₂=${formatNumber(flue.f_O2*100,2)}%; N₂=${formatNumber(flue.f_N2*100,2)}%; Cp_dg=${formatNumber(flue.Cp_dg,3)} kcal/kg.K`
-    });
-
-    rows.push({
-      step: "5",
-      name: "Tổn thất nhiệt L1–L8",
-      var: "L1..L8, ΣL",
-      value: `L1=${formatNumber(losses.L1,2)}%; L2=${formatNumber(losses.L2,2)}%; L3=${formatNumber(losses.L3,2)}%; L4=${formatNumber(losses.L4,2)}%; L5=${formatNumber(losses.L5,2)}%; L6=${formatNumber(losses.L6,2)}%; L7=${formatNumber(losses.L7,2)}%; L8=${formatNumber(losses.L8,2)}%; ΣL=${formatNumber(losses.sumLoss,2)}%`
-    });
-
-    rows.push({
-      step: "6",
-      name: "Hiệu suất & nhiên liệu tiêu hao",
-      var: "η, Fuel_per_ton, Chi phí hơi",
-      value: `η=${formatNumber(losses.eta,2)}%; Fuel_per_ton=${formatNumber(extra.fuelPerTon,2)} kg/tấn hơi; Chi phí=${formatNumber(extra.steamCost,0)} VND/tấn hơi`
-    });
-
-    detailTableBodyEl.innerHTML = rows.map(r => `
-      <tr>
-        <td>${r.step}</td>
-        <td>${r.name}</td>
-        <td class="code">${r.var}</td>
-        <td>${r.value}</td>
-      </tr>
-    `).join("");
+  const mix = convertAsReceived(selectedFuels);
+  if (!mix || !Number.isFinite(mix.GCV_ar) || mix.GCV_ar <= 0) {
+    alert("GCV_ar của hỗn hợp không hợp lệ. Vui lòng kiểm tra dữ liệu nhiên liệu.");
+    return;
   }
 
-  function calculateAll() {
-    const inputs = collectInputs();
+  const air = calculateAir(mix, op);
+  const fg = calculateFlueGas(mix, op, air);
+  const losses = calculateLosses(mix, op, air, fg);
+  const efficiency = calculateEfficiency(mix, op, losses);
 
-    if (!state.fuelRows || state.fuelRows.length === 0) {
-      alert("Vui lòng thêm ít nhất 1 loại nhiên liệu.");
-      return;
-    }
+  // Cập nhật kết quả chính
+  document.getElementById("valEta").textContent =
+    Number.isFinite(efficiency.eta) ? efficiency.eta.toFixed(2) : "–";
+  document.getElementById("valFuelPerTon").textContent =
+    Number.isFinite(efficiency.fuel_per_ton_steam) ? efficiency.fuel_per_ton_steam.toFixed(1) : "–";
+  document.getElementById("valSteamCost").textContent =
+    Number.isFinite(efficiency.steam_cost) ? efficiency.steam_cost.toFixed(0) : "–";
 
-    const mix = computeFuelMixture(state.fuelRows);
-    if (!mix.valid) {
-      alert("Dữ liệu phối trộn nhiên liệu chưa hợp lệ.");
-      return;
-    }
+  renderLosses(losses);
 
-    const air = calculateAir(mix, inputs);
-    const flue = calculateFlueGas(mix, air, inputs);
-    const losses = calculateLosses(mix, air, flue, inputs);
-    const extra = calculateFuelAndCost(mix, losses);
+  const warnings = buildWarnings(mix, op);
+  renderWarnings(warnings);
 
-    // Render main cards
-    renderLossGrid(losses);
-    renderEfficiencyCard(mix, losses, inputs);
+  const adviceList = buildRuleBasedAdvice(mix, op, losses, efficiency);
+  renderAdvice(adviceList);
 
-    fuelPerTonValueEl.textContent = Number.isFinite(extra.fuelPerTon)
-      ? formatNumber(extra.fuelPerTon, 2)
-      : "–";
-    steamCostValueEl.textContent = Number.isFinite(extra.steamCost)
-      ? formatNumber(extra.steamCost, 0)
-      : "–";
+  const knowledgeItems = displayKnowledgeSection(mix, op, losses, efficiency);
+  renderKnowledge(knowledgeItems);
 
-    // Build & render advice
-    const advices = buildRuleBasedAdvice(inputs, losses, losses.eta);
-    adviceListEl.innerHTML = advices.length
-      ? advices.map(a => {
-        const severityClass =
-          a.severity === "critical" ? "severity-critical"
-            : a.severity === "high" ? "severity-high"
-              : a.severity === "medium" ? "severity-medium"
-                : "severity-low";
-        return `
-          <div class="advice-item">
-            <div class="advice-header">
-              <div class="advice-title">${a.id} – ${a.name}</div>
-              <div class="severity-pill ${severityClass}">
-                ${a.severity.toUpperCase()}
-              </div>
-            </div>
-            <div class="advice-body">
-              <div><strong>Giá trị hiện tại:</strong> ${formatNumber(a.value, 2)} %</div>
-              ${a.symptoms && a.symptoms.length ? `
-                <div><strong>Dấu hiệu nhận biết:</strong></div>
-                <ul>${a.symptoms.slice(0, 3).map(s => `<li>${s}</li>`).join("")}</ul>
-              ` : ""}
-              ${a.actions && a.actions.length ? `
-                <div><strong>Khuyến nghị vận hành:</strong></div>
-                <ul>${a.actions.slice(0, 4).map(s => `<li>${s}</li>`).join("")}</ul>
-              ` : ""}
-            </div>
-          </div>
-        `;
-      }).join("")
-      : `<div style="font-size:11px; color:#607d8b;">Chưa có tổn thất nào vượt ngưỡng để sinh rule. Hãy kiểm tra lại dữ liệu đo hoặc tăng độ chính xác cảm biến O₂, CO.</div>`;
+  renderStepsSummary(mix, op, air, fg, losses, efficiency);
 
-    hotTopicsEl.innerHTML = buildHotTopicsHTML(advices);
-    displayKnowledgeSection(knowledgeSectionEl, losses);
-    renderDetailTable(mix, air, flue, losses, extra);
+  // Lưu tạm để slot kịch bản có thể sử dụng
+  window.__lastCalculation = { mix, op, losses, efficiency };
+}
 
-    state.lastResult = { inputs, mix, air, flue, losses, extra };
-    renderScenarioCards();
-  }
+/* ==========================================================
+   9. KHỞI TẠO UI & SỰ KIỆN
+   ========================================================== */
 
-  /* ==============================
-   * 8. SCENARIO SAVE / COMPARE
-   * ============================== */
+function init() {
+  const fuelContainer = document.getElementById("fuelRows");
+  fuelContainer.appendChild(createFuelRow(0));
 
-  function saveScenario(slotIndex) {
-    if (!state.lastResult) {
-      alert("Chưa có kết quả để lưu. Vui lòng chạy tính toán trước.");
-      return;
-    }
-    state.scenarios[slotIndex] = JSON.parse(JSON.stringify(state.lastResult));
-    renderScenarioCards();
-  }
+  document.getElementById("btnAddFuel").addEventListener("click", () => {
+    fuelContainer.appendChild(createFuelRow(0));
+  });
 
-  function renderScenarioCards() {
-    const labels = ["Thẻ A", "Thẻ B", "Thẻ C"];
-    scenarioCardsEl.innerHTML = state.scenarios.map((sc, i) => {
-      if (!sc) {
-        return `
-          <div class="scenario-card">
-            <div class="scenario-card-title">
-              <span>${labels[i]}</span>
-              <span style="font-size:9px; color:#b0bec5;">Chưa lưu</span>
-            </div>
-            <div style="font-size:10px; color:#90a4ae;">
-              Chọn “Lưu vào ${labels[i]}” sau khi tính toán để lưu snapshot vận hành (η, L1–L8, nhiên liệu/tấn hơi, chi phí).
-            </div>
-          </div>
-        `;
+  document.getElementById("btnCalculate").addEventListener("click", calculateAll);
+
+  document.querySelectorAll("[data-save-scenario]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const slot = btn.getAttribute("data-save-scenario");
+      if (!window.__lastCalculation) {
+        alert("Chưa có kết quả để lưu. Vui lòng tính toán trước.");
+        return;
       }
-      const { mix, losses, extra, inputs } = sc;
-      const eta = losses.eta;
-      const fuelPerTon = extra.fuelPerTon;
-      const steamCost = extra.steamCost;
-      const loadRatio = (inputs.Q_design > 0) ? (inputs.Q_actual / inputs.Q_design) : NaN;
-
-      const lossPairs = [
-        { id: "L1", v: losses.L1 },
-        { id: "L2", v: losses.L2 },
-        { id: "L3", v: losses.L3 },
-        { id: "L4", v: losses.L4 },
-        { id: "L5", v: losses.L5 },
-        { id: "L6", v: losses.L6 },
-        { id: "L7", v: losses.L7 },
-        { id: "L8", v: losses.L8 }
-      ];
-
-      return `
-        <div class="scenario-card">
-          <div class="scenario-card-title">
-            <span>${labels[i]}</span>
-            <span style="font-size:9px; color:#455a64;">GCV_ar=${formatNumber(mix.GCV_ar,0)} kcal/kg</span>
-          </div>
-          <div class="scenario-card-main">
-            <span>${formatNumber(eta, 1)}</span>
-            <span class="unit">% η</span>
-          </div>
-          <div class="scenario-meta">
-            Nhiên liệu/tấn hơi: <strong>${formatNumber(fuelPerTon, 2)}</strong> kg ·
-            Chi phí: <strong>${formatNumber(steamCost, 0)}</strong> VND/tấn ·
-            ${Number.isFinite(loadRatio) ? "Tải: " + formatNumber(loadRatio * 100, 1) + "% thiết kế" : ""}
-          </div>
-          <div class="scenario-list-loss">
-            ${lossPairs.map(lp => `<span>${lp.id}:${formatNumber(lp.v, 1)}%</span>`).join("")}
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  /* ==============================
-   * 9. INIT
-   * ============================== */
-
-  function init() {
-    // Tạo ít nhất 1 dòng nhiên liệu
-    createFuelRow(0, nhienLieuJSON.fuels[0]?.name);
-    // Loss grid placeholders
-    lossGridEl.innerHTML = `
-      <div><div class="loss-item-label">L1 – Khói khô</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L2 – H₂</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L3 – Ẩm fuel</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L4 – Ẩm air</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L5 – CO</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L6 – Bức xạ</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L7 – C chưa cháy</div><div class="loss-item-value">–</div></div>
-      <div><div class="loss-item-label">L8 – Khác</div><div class="loss-item-value">–</div></div>
-    `;
-
-    addFuelBtn.addEventListener("click", () => {
-      const idx = state.fuelRows.length;
-      createFuelRow(idx, nhienLieuJSON.fuels[Math.min(idx, nhienLieuJSON.fuels.length - 1)]?.name);
+      const { mix, op, losses, efficiency } = window.__lastCalculation;
+      saveScenario(slot, mix, op, losses, efficiency);
     });
+  });
 
-    calculateBtn.addEventListener("click", calculateAll);
+  renderScenarios();
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const tag = document.activeElement.tagName.toLowerCase();
-        if (tag === "textarea") return;
-        e.preventDefault();
-        calculateAll();
-      }
-    });
+  // Enter = tính toán (trừ khi đang focus button)
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" && ev.target.tagName !== "BUTTON") {
+      ev.preventDefault();
+      calculateAll();
+    }
+  });
+}
 
-    scenarioButtons.forEach(btn => {
-      const slot = Number(btn.dataset.slot);
-      btn.addEventListener("click", () => saveScenario(slot));
-    });
-
-    renderScenarioCards();
-  }
-
-  init();
+document.addEventListener("DOMContentLoaded", init);
 </script>
 </body>
 </html>
